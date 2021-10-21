@@ -9,10 +9,50 @@ import json
 from pathlib import Path
 
 from smartpasslib.generators import KeyGen
-from smartpasslib.passwords import SmartPassword
 
 
-class PasswordManager:
+class SmartPassword:
+    """
+    Smart password.
+
+    Smart password with the ability to recover and
+    linking to a login and a secret phrase.
+
+    The password itself is not stored either in the open or
+    in encrypted form, but is generated on the fly.
+
+    """
+
+    def __init__(self, login='', key='', length=12):
+        """
+        When creating an object, it should be passed:
+
+        :param login: login.
+        :param key: a public key that needs to be generated before creating a
+        password using a username and a secret phrase.
+        :param length: password length.
+        """
+        self._login = login
+        self._length = length
+        self._key = key
+
+    @property
+    def login(self):
+        """Get login"""
+        return self._login
+
+    @property
+    def key(self):
+        """get public key"""
+        return self._key
+
+    @property
+    def length(self):
+        """Get password length"""
+        return self._length
+
+
+class SmartPassMan:
     """
     Password manager.
 
@@ -65,7 +105,7 @@ class PasswordManager:
         :param length: password length.
         :return: SmartPassword object.
         """
-        key = self._key_gen.get_key(login=login, secret=secret)
+        key = self._key_gen.make(login=login, secret=secret)
         smart_password = SmartPassword(login=login, key=key, length=length)
         self.add(smart_password)
         return smart_password

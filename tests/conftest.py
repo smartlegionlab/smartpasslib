@@ -11,29 +11,22 @@ from pathlib import Path
 
 import pytest
 
-from smartpasslib import generators
-from smartpasslib.managers import PasswordManager
-from smartpasslib.passwords import SmartPassword
+from smartpasslib.factories import GeneratorsFactory
+from smartpasslib.generators import UrandomGen, BasePassGen, HashGen, KeyGen, SmartPassGen, NormalPassGen
+from smartpasslib.manager import SmartPassword, SmartPassMan
 
 
-@pytest.fixture(name='pass_gen')
-def pass_gen():
-    return generators.PassGen()
-
-
-@pytest.fixture(name='info')
-def get_info():
+@pytest.fixture(name='context')
+def context():
     key = ('login', 'secret', 'length', 'pub_key', 'normal_pass', 'smart_pass', 'file')
     Info = namedtuple('Info', key)
     login = 'login'
     secret = 'secret'
     length = 15
-    pub_key = 'f85e47627d0361b2795f948e52b23c5ca' \
-              'f815cb4eb2a4e4ed2c4be3ea9cde6e767' \
-              '078dd595a2d0221e33ff42bf7aa3791cd' \
-              'cfc3e3161401512b198aa70869ac4'
-    normal_pass = 'S3zAp8S{b"NIwi^'
-    smart_pass = '@_dH|1F[304lGA3'
+    pub_key = '15795be051670afec910bc980189a6011f9f184dea4bbbe4e005e4ca89f3' \
+              '18bea963b1a362167b4de909a4f57e1895298f79346068487881c8c969dce4fe909f'
+    normal_pass = 'urJ77!IK[9?f6|D'
+    smart_pass = 'fRIe?Ro9rE6a6fB'
     file = Path(Path.home()).joinpath('.cases.json')
     kwargs = dict(
         login=login,
@@ -47,115 +40,59 @@ def get_info():
     return Info(**kwargs)
 
 
-@pytest.fixture(name='hash_login')
-def get_hash_text():
-    return '63d5cbf2a2135866c520f4' \
-           'b47404907891511d1f9a5d' \
-           '74e4326befa94120c92e80' \
-           '5d6a7ce4e00c8fb0ce607d' \
-           '5623b19b5eec17e4b1ce20' \
-           'dbdb169cbb07827b9f'
+@pytest.fixture(name='gen_factory')
+def gen_factories():
+    return GeneratorsFactory()
+
+
+@pytest.fixture(name='urandom')
+def urandom():
+    return UrandomGen()
+
+
+@pytest.fixture(name='default')
+def default():
+    return BasePassGen()
 
 
 @pytest.fixture(name='hash_gen')
 def hash_gen():
-    return generators.HashGen()
+    return HashGen()
 
 
 @pytest.fixture(name='key_gen')
 def key_gen():
-    return generators.KeyGen()
+    return KeyGen()
 
 
-@pytest.fixture(name='smart_pass_generator')
-def smart_pass_generator():
-    return generators.SmartPassGen()
+@pytest.fixture(name='smart')
+def smart():
+    return SmartPassGen()
 
 
-@pytest.fixture(name='normal_pass_gen')
-def normal_pass_gen():
-    return generators.NormalPassGen()
-
-
-@pytest.fixture(name='gen_factory')
-def gen_factory():
-    return generators.GeneratorsFactory()
-
-
-@pytest.fixture(name='passwords_generator')
-def passwords_generator():
-    return generators.PasswordsGenerator()
-
-
-@pytest.fixture(name='func_norm_pass_gen')
-def func_norm_pass_gen():
-    return generators.norm_pass_gen
-
-
-@pytest.fixture(name='func_smart_pass_gen')
-def func_smart_pass_gen():
-    return generators.smart_pass_gen
-
-
-@pytest.fixture(name='func_get_random_data')
-def func_get_random_data():
-    return generators.get_random_data
-
-
-@pytest.fixture(name='func_def_pass_gen')
-def func_def_pass_gen():
-    return generators.def_pass_gen
-
-
-@pytest.fixture(name='func_get_hash')
-def func_get_hash():
-    return generators.get_hash
-
-
-@pytest.fixture(name='func_get_key')
-def func_get_key():
-    return generators.get_key
-
-
-@pytest.fixture(name='func_check_key')
-def func_check_key():
-    return generators.check_key
+@pytest.fixture(name='normal')
+def normal():
+    return NormalPassGen()
 
 
 @pytest.fixture(name='smart_password')
-def smart_password(info):
-    return SmartPassword(login=info.login, key=info.pub_key, length=info.length)
-
-
-@pytest.fixture(name='smart_password2')
-def smart_password2(info):
-    return SmartPassword(login='login2', key=info.pub_key, length=info.length)
+def smart_password(context):
+    return SmartPassword(login=context.login, key=context.pub_key, length=context.length)
 
 
 @pytest.fixture(name='pass_man')
 def pass_man():
-    return PasswordManager()
+    return SmartPassMan()
 
 
 @pytest.fixture(name='data')
-def get_data(info):
+def get_data(context):
     return {
-        info.login: {
-            'login': info.login,
-            'key': info.pub_key,
-            'length': info.length
+        context.login: {
+            'login': context.login,
+            'key': context.pub_key,
+            'length': context.length
         }
-    }
-
-
-@pytest.fixture(name='bad_data')
-def get_bad_data(info):
-    return {
-        info.login: {
-            'login': info.login,
-            'key': info.pub_key,
-            'length': info.length
-        },
     }
 
 
@@ -167,7 +104,23 @@ def get_file(tmpdir, data):
     yield a_file
 
 
+@pytest.fixture(name='bad_data')
+def get_bad_data(context):
+    return {
+        context.login: {
+            'login': context.login,
+            'key': context.pub_key,
+            'length': context.length
+        },
+    }
+
+
 @pytest.fixture(name='bad_file')
 def get_bad_file(file, bad_data):
     file.write(bad_data)
     yield file
+
+
+@pytest.fixture(name='smart_password2')
+def smart_password2(context):
+    return SmartPassword(login='login2', key=context.pub_key, length=context.length)

@@ -41,15 +41,20 @@ secure storage and recovery of complex, cryptographic, smart passwords on the fl
 
 ***
 
-## Requirements:
-
-- [Python](https://python.org) 3.6+
-
-***
-
 ## What's new?:
 
-### ___smartpasslib v0.1.0___
+- Fixed bugs.
+- Improved security. 
+
+#### Внимание:
+
+smartpasslib is still under development, so I can't promise
+backward compatibility with older versions! 
+
+Each new version will likely change passwords when generated. This is due to the very specifics of generation,
+with increasing or decreasing complexity, or fixing and adding new levels of security.
+Therefore, until the package is stable, specify for your applications the exact version of the package, which
+you used during development .
 
 ***
 
@@ -102,7 +107,10 @@ Coverage 100% !!!
 ## Use:
 
 ```python
-from smartpasslib.generators import PasswordsGenerator
+from smartpasslib.generators import PassGen
+from smartpasslib.manager import SmartPassMan, SmartPassword
+from smartpasslib.generators import Tools
+from smartpasslib.factories import GeneratorsFactory
 
 # data to generate
 login = 'login'
@@ -110,20 +118,38 @@ secret = 'secret'
 length = 15
 
 # Passwords generator
-pass_gen = PasswordsGenerator()
+pass_gen = PassGen()
 
 # Passwords will always be different
-def_password = pass_gen.get_def_pass()
-def_password2 = pass_gen.get_def_pass()
+def_password = pass_gen.base.generate()
+def_password2 = pass_gen.base.generate()
 assert def_password != def_password2
 
 # Passwords will always be the same when using the same passphrase:
-norm_password = pass_gen.get_norm_pass(secret='secret', length=15)
-norm_password2 = pass_gen.get_norm_pass(secret='secret', length=15)
-smart_password = pass_gen.get_smart_pass(login='login', secret='secret')
-smart_password2 = pass_gen.get_smart_pass(login='login', secret='secret')
+norm_password = pass_gen.normal.generate(secret='secret', length=15)
+norm_password2 = pass_gen.normal.generate(secret='secret', length=15)
 assert norm_password == norm_password2
+
+smart_password = pass_gen.smart.generate(login='login', secret='secret')
+smart_password2 = pass_gen.smart.generate(login='login', secret='secret')
+
 assert smart_password == smart_password2
+
+tools = Tools()
+
+key = tools.key_gen.make(login=login, secret=secret)
+
+smart_pass = SmartPassword(login=login, key=key, length=length)
+password_manager = SmartPassMan()
+password_manager.add(smart_pass)
+
+factory = GeneratorsFactory()
+base_pass_gen = factory.get_base_pass_gen()
+norm_pass_gen = factory.get_norm_pass_gen()
+smart_pass_gen = factory.get_smart_pass_gen()
+key_gen = factory.get_key_gen()
+hash_gen = factory.get_hash_gen()
+urandom_gen = factory.get_urandom_gen()
 
 ```
 
@@ -141,3 +167,13 @@ assert smart_password == smart_password2
     CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
     OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+***
+
+## Copyright:
+    --------------------------------------------------------
+    Licensed under the terms of the BSD 3-Clause License
+    (see LICENSE for details).
+    Copyright © 2018-2021, A.A Suvorov
+    All rights reserved.
+    --------------------------------------------------------

@@ -7,9 +7,20 @@
 # --------------------------------------------------------
 
 
-class TestPasswordManager:
-    def test_file(self, pass_man, info):
-        assert pass_man.file == info.file
+class TestSmartPassword:
+    def test_login(self, smart_password, context):
+        assert smart_password.login == context.login
+
+    def test_key(self, smart_password, context):
+        assert smart_password.key == context.pub_key
+
+    def test_length(self, smart_password, context):
+        assert smart_password.length == context.length
+
+
+class TestSmartPassMan:
+    def test_file(self, pass_man, context):
+        assert pass_man.file == context.file
 
     def test_passwords(self, pass_man):
         assert isinstance(pass_man.passwords, dict)
@@ -23,8 +34,8 @@ class TestPasswordManager:
         pass_man.add(smart_password)
         assert pass_man.count == 1
 
-    def test_add_smart_pass(self, pass_man, info):
-        password = pass_man.add_smart_pass(login=info.login, secret=info.secret, length=info.length)
+    def test_add_smart_pass(self, pass_man, context):
+        password = pass_man.add_smart_pass(login=context.login, secret=context.secret, length=context.length)
         assert password.login in pass_man.passwords
 
     def test_add_passwords(self, pass_man, smart_password, smart_password2):
@@ -55,11 +66,11 @@ class TestPasswordManager:
         pass_man.file = ''
         assert pass_man.load_file() == {}
 
-    def test_save_file(self, pass_man, smart_password, file):
+    def test_save_file(self, pass_man, smart_password, context):
         pass_man.add(smart_password)
-        pass_man.file = file
+        pass_man.file = context.file
         pass_man.save_file()
-        file = open(file)
+        file = open(context.file)
         lines = file.read()
         file.close()
         assert smart_password.login in lines
@@ -70,11 +81,11 @@ class TestPasswordManager:
         pass_man.clear()
         assert pass_man.count == 0
 
-    def test__save_file(self, pass_man, smart_password, file):
+    def test__save_file(self, pass_man, smart_password, context):
         pass_man.add(smart_password)
-        pass_man.file = file
+        pass_man.file = context.file
         pass_man.save_file()
-        file = open(file)
+        file = open(context.file)
         lines = file.read()
         file.close()
         assert smart_password.login in lines

@@ -8,4 +8,4 @@
 """A cross-platform package of modules for generating,
 secure storage and recovery of complex, cryptographic,
 smart passwords on the fly."""
-__version__ = '0.1.1'
+__version__ = '0.2.0'
