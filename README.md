@@ -2,6 +2,10 @@
 
 ***
 
+I recommend using [my new library smartpassgen](https://github.com/smartlegionlab/smartpassgen). 
+
+***
+
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/smartpasslib?label=pypi%20downloads)](https://pypi.org/project/smartpasslib/)
 ![GitHub top language](https://img.shields.io/github/languages/top/smartlegionlab/smartpasslib)
