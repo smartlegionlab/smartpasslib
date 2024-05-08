@@ -26,7 +26,7 @@ ___smartpasslib___ - Cross-platform library for generating smart passwords.
 
 ## What's new?
 
-### ___smartpasslib v0.1.0___
+### ___smartpasslib v0.3.0___
 
 ***
 
