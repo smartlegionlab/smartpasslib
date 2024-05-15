@@ -4,73 +4,11 @@
 # Copyright © 2018-2024, A.A Suvorov
 # All rights reserved.
 # --------------------------------------------------------
-"""Generators"""
-import hashlib
+"""Smart Random Generators"""
 import os
 import random
-import string
 
-
-class RandomStringMaster:
-    letters = string.ascii_letters
-
-    @classmethod
-    def get(cls, length=10):
-        return ''.join((random.choice(cls.letters) for _ in range(length)))
-
-
-class RandomNumberMaster:
-    numbers = string.digits
-
-    @classmethod
-    def get(cls, length=10):
-        return ''.join((random.choice(cls.numbers) for _ in range(length)))
-
-
-class RandomSymbolMaster:
-    symbols = '@$!%*#?&-'
-
-    @classmethod
-    def get(cls, length=10):
-        return ''.join((random.choice(cls.symbols) for _ in range(length)))
-
-
-class RandomPasswordMaster:
-    letters = string.ascii_letters
-    numbers = string.digits
-    symbols = '@$!%*#?&-'
-
-    @classmethod
-    def get(cls, length=10):
-        return ''.join((random.choice(cls.letters + cls.numbers + cls.symbols) for _ in range(length)))
-
-
-class RandomHashMaster:
-    @classmethod
-    def get(cls, text):
-        text = str(text)
-        sha = hashlib.sha3_512(text.encode('utf-8'))
-        new_hash = sha.hexdigest()
-        return new_hash
-
-
-class RandomMaster:
-    string = RandomStringMaster()
-    number = RandomNumberMaster()
-    symbol = RandomSymbolMaster()
-    password = RandomPasswordMaster()
-    hash = RandomHashMaster()
-
-    @classmethod
-    def get_code(cls, length=10, number_flag=False, string_flag=False, symbol_flag=False):
-        data = ''
-        if string_flag:
-            data += cls.string.letters
-        if number_flag:
-            data += cls.number.numbers
-        if symbol_flag:
-            data += cls.symbol.symbols
-        return ''.join((random.choice(data) for _ in range(length)))
+from smartrandom.random_master import RandomStringMaster, HashMaster
 
 
 class UrandomGen:
@@ -79,18 +17,8 @@ class UrandomGen:
         return os.urandom(size)
 
 
-class HashGen:
-    _method = hashlib.sha3_512
-
-    @classmethod
-    def generate(cls, text=''):
-        text = str(text)
-        sha = cls._method(text.encode('utf-8'))
-        return sha.hexdigest()
-
-
 class SmartKeyGen:
-    _hash_gen = HashGen()
+    _hash_master = HashMaster()
 
     @classmethod
     def __make_key(cls, login='', secret='', public_step=15):
@@ -117,11 +45,11 @@ class SmartKeyGen:
     @classmethod
     def _get_hash(cls, text=''):
         text = str(text)
-        return cls._hash_gen.generate(str(text.encode('utf-8')))
+        return cls._hash_master.create(str(text.encode('utf-8')))
 
 
 class BaseSmartPassGen:
-    master = RandomMaster()
+    random_master = RandomStringMaster()
     urandom = UrandomGen()
 
     @classmethod
@@ -129,7 +57,7 @@ class BaseSmartPassGen:
         if not seed:
             seed = cls.get_seed(size)
         cls._set_seed(seed)
-        password = cls.master.password.get(length)
+        password = cls.random_master.create_string(length)
         seed = str(cls.get_seed())
         cls._set_seed(seed)
         return password
@@ -146,13 +74,13 @@ class BaseSmartPassGen:
 
 
 class SmartPasswordMaster:
-    random_master = RandomMaster()
+    random_master = RandomStringMaster()
     key_gen = SmartKeyGen()
     smart_pass_gen = BaseSmartPassGen()
 
     @classmethod
     def get_password(cls, length=10):
-        return cls.random_master.password.get(length)
+        return cls.random_master.create_string(length)
 
     @classmethod
     def get_smart_password(cls, login='', secret='', length=10):

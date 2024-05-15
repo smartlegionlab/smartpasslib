@@ -16,6 +16,10 @@ ___smartpasslib___ - Cross-platform library for generating smart passwords.
 
 ***
 
+Author and developer: ___A.A Suvorov.___
+
+***
+
 ## Supported:
 
 - Linux: All.
@@ -26,7 +30,38 @@ ___smartpasslib___ - Cross-platform library for generating smart passwords.
 
 ## What's new?
 
-### ___smartpasslib v0.3.0___
+### ___smartpasslib v0.4.0___
+
+***
+
+## Requirements:
+
+[smartrandom](https://github.com/smartlegionlab/smartrandom/) - Random Data Generators.
+
+***
+
+## Help:
+
+`pip install smartpasslib`
+
+```python
+from smartpasslib.generators import SmartPasswordMaster
+
+login = 'login'
+secret = 'secret'
+length = 15
+
+master = SmartPasswordMaster()
+
+smart_password = master.get_smart_password(login=login, secret=secret, length=length)
+smart_password2 = master.get_smart_password(login=login, secret=secret, length=length)
+check_passwords = smart_password == smart_password2  # True
+
+key = master.get_public_key(login, secret)
+
+check_data = master.check_data(login, secret, key)
+
+```
 
 ***
 
