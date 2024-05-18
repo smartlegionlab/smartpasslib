@@ -1,4 +1,4 @@
-# Smart Passwords Library
+# Smart Passwords Library <sup>v0.4.1</sup>
 
 ***
 
@@ -25,12 +25,6 @@ Author and developer: ___A.A Suvorov.___
 - Linux: All.
 - Windows: 7/8/10.
 - Termux (Android).
-  
-***
-
-## What's new?
-
-### ___smartpasslib v0.4.0___
 
 ***
 

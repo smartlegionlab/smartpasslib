@@ -5,16 +5,9 @@
 # All rights reserved.
 # --------------------------------------------------------
 """Smart Random Generators"""
-import os
 import random
 
-from smartrandom.random_master import RandomStringMaster, HashMaster
-
-
-class UrandomGen:
-    @classmethod
-    def generate(cls, size=32):
-        return os.urandom(size)
+from smartrandom.random_master import RandomStringMaster, HashMaster, UrandomGen
 
 
 class SmartKeyGen:
@@ -81,6 +74,9 @@ class SmartPasswordMaster:
     @classmethod
     def get_password(cls, length=10):
         return cls.random_master.create_string(length)
+
+    def get_default_password(cls, secret='', length=10):
+        return cls.get_smart_password(secret=secret, length=length)
 
     @classmethod
     def get_smart_password(cls, login='', secret='', length=10):

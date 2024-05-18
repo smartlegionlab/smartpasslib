@@ -5,4 +5,4 @@
 # All rights reserved.
 # --------------------------------------------------------
 """Smart Password Library - Cross-platform library for generating smart passwords."""
-__version__ = '0.4.0'
+__version__ = '0.4.1'
