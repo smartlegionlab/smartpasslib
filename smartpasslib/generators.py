@@ -1,7 +1,7 @@
 # --------------------------------------------------------
 # Licensed under the terms of the BSD 3-Clause License
 # (see LICENSE for details).
-# Copyright © 2018-2024, A.A Suvorov
+# Copyright © 2018-2024, A.A. Suvorov
 # All rights reserved.
 # --------------------------------------------------------
 """Smart Random Generators"""
@@ -75,6 +75,7 @@ class SmartPasswordMaster:
     def get_password(cls, length=10):
         return cls.random_master.create_string(length)
 
+    @classmethod
     def get_default_password(cls, secret='', length=10):
         return cls.get_smart_password(secret=secret, length=length)
 

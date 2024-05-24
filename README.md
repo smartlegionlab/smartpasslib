@@ -1,4 +1,4 @@
-# Smart Passwords Library <sup>v0.4.1</sup>
+# Smart Passwords Library <sup>v0.4.2</sup>
 
 ***
 
@@ -16,7 +16,7 @@ ___smartpasslib___ - Cross-platform library for generating smart passwords.
 
 ***
 
-Author and developer: ___A.A Suvorov.___
+Author and developer: ___A.A. Suvorov.___
 
 ***
 
@@ -74,5 +74,5 @@ check_data = master.check_data(login, secret, key)
 
     Licensed under the terms of the BSD 3-Clause License
     (see LICENSE for details).
-    Copyright © 2018-2024, A.A Suvorov
+    Copyright © 2018-2024, A.A. Suvorov
     All rights reserved.
