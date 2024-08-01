@@ -1,4 +1,4 @@
-# Smart Passwords Library <sup>v0.4.2</sup>
+# Smart Passwords Library <sup>v0.5.0</sup>
 
 ***
 
@@ -28,9 +28,16 @@ Author and developer: ___A.A. Suvorov.___
 
 ***
 
-## Requirements:
+## What is news:
 
-[smartrandom](https://github.com/smartlegionlab/smartrandom/) - Random Data Generators.
+smartpasslib 0.5.0 - new improved version of the library.
+
+> WARNING! This version is not backward compatible with previous versions.
+
+- Completely rewritten and improved code.
+- Simplified import.
+- Fixed errors.
+- Added new password generator.
 
 ***
 
@@ -39,21 +46,20 @@ Author and developer: ___A.A. Suvorov.___
 `pip install smartpasslib`
 
 ```python
-from smartpasslib.generators import SmartPasswordMaster
-
+from smartpasslib import SmartPasswordMaster
 login = 'login'
 secret = 'secret'
 length = 15
 
-master = SmartPasswordMaster()
+smart_password_master = SmartPasswordMaster()
 
-smart_password = master.get_smart_password(login=login, secret=secret, length=length)
-smart_password2 = master.get_smart_password(login=login, secret=secret, length=length)
+smart_password = smart_password_master.generate_smart_password(login=login, secret=secret, length=length)
+smart_password2 = smart_password_master.generate_smart_password(login=login, secret=secret, length=length)
 check_passwords = smart_password == smart_password2  # True
 
-key = master.get_public_key(login, secret)
+key = smart_password_master.generate_public_key(login, secret)
 
-check_data = master.check_data(login, secret, key)
+check_data = smart_password_master.check_public_key(login, secret, key)
 
 ```
 
