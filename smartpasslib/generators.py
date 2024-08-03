@@ -140,5 +140,9 @@ class SmartPasswordMaster:
         return SmartKeyGenerator.generate_public_key(login, secret)
 
     @classmethod
+    def generate_private_key(cls, login='', secret=''):
+        return SmartKeyGenerator.generate_public_key(login, secret)
+
+    @classmethod
     def check_public_key(cls, login, secret, public_key):
         return SmartKeyGenerator.check_key(login, secret, public_key)

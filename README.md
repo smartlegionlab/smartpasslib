@@ -1,4 +1,4 @@
-# Smart Passwords Library <sup>v0.5.1</sup>
+# Smart Passwords Library <sup>v0.5.2</sup>
 
 ***
 
@@ -36,15 +36,16 @@ Author and developer: ___A.A. Suvorov.___
 
 ## What is news:
 
-smartpasslib 0.5.1
+smartpasslib 0.5.2
 
-> WARNING! Warning! Due to changes made to improve security, old public keys will no longer work. They must be regenerated. 
-> If you used a password manager such as (...), or any other based on ..., you must regenerate your smart passwords.
+> WARNING! Due to changes made to improve security, old public keys will no longer work. They must be regenerated. 
+> Regenerate your smart passwords. ALL PASSWORDS REMAIN THE SAME, 
+> only the public keys used for verification during generation will change.
 
-- Fixed errors.
-- Improved security.
+- New method for SmartPasswordMaster - for generating private keys.
+- New module for creating SmartPassword, SmartPasswordManager.
 
-***
+*******
 
 ## Help:
 
