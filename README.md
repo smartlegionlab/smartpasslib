@@ -36,7 +36,7 @@ Author and developer: ___A.A. Suvorov.___
 
 ## What is news:
 
-smartpasslib 0.5.1 - new improved version of the library.
+smartpasslib 0.5.1
 
 > WARNING! Warning! Due to changes made to improve security, old public keys will no longer work. They must be regenerated. 
 > If you used a password manager such as (...), or any other based on ..., you must regenerate your smart passwords.
@@ -66,7 +66,8 @@ check_passwords = smart_password == smart_password2  # True
 
 key = smart_password_master.generate_public_key(login, secret)
 
-check_data = smart_password_master.check_public_key(login, secret, key)
+check_data = smart_password_master.check_public_key(login, secret, key) # True
+check_data2 = smart_password_master.check_public_key(login, 'secret2', key) # False
 
 ```
 
