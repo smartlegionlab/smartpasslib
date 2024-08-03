@@ -6,7 +6,7 @@
 # --------------------------------------------------------
 # https://github.com/smartlegionlab/
 # --------------------------------------------------------
-"""Smart Random Generators"""
+"""Smart Random Generators."""
 import hashlib
 import os
 import random
@@ -42,7 +42,7 @@ class SmartKeyGenerator:
 
     @classmethod
     def generate_public_key(cls, login='', secret=''):
-        return cls._create_key(login, secret, 15)
+        return cls._create_key(login, secret, 60)
 
     @classmethod
     def generate_private_key(cls, login='', secret=''):

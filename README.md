@@ -1,4 +1,4 @@
-# Smart Passwords Library <sup>v0.5.0</sup>
+# Smart Passwords Library <sup>v0.5.1</sup>
 
 ***
 
@@ -13,6 +13,12 @@
 
 ## Short Description:
 ___smartpasslib___ - Cross-platform library for generating smart passwords.
+
+This library allows you to generate smart passwords. 
+Smart passwords are passwords that are not stored anywhere, but are generated "on the fly".
+Examples of applications created using this unique technology:
+[clipassgen](https://github.com/smartlegionlab/clipassgen/), 
+[clipassman](https://github.com/smartlegionlab/clipassman/).
 
 ***
 
@@ -30,14 +36,13 @@ Author and developer: ___A.A. Suvorov.___
 
 ## What is news:
 
-smartpasslib 0.5.0 - new improved version of the library.
+smartpasslib 0.5.1 - new improved version of the library.
 
-> WARNING! This version is not backward compatible with previous versions.
+> WARNING! Warning! Due to changes made to improve security, old public keys will no longer work. They must be regenerated. 
+> If you used a password manager such as (...), or any other based on ..., you must regenerate your smart passwords.
 
-- Completely rewritten and improved code.
-- Simplified import.
 - Fixed errors.
-- Added new password generator.
+- Improved security.
 
 ***
 
@@ -47,6 +52,8 @@ smartpasslib 0.5.0 - new improved version of the library.
 
 ```python
 from smartpasslib import SmartPasswordMaster
+
+
 login = 'login'
 secret = 'secret'
 length = 15
