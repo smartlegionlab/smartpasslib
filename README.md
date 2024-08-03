@@ -36,7 +36,9 @@ Author and developer: ___A.A. Suvorov.___
 
 ## What is news:
 
-smartpasslib 0.5.2
+smartpasslib v0.5.2
+
+For versions starting from v0.5.1:
 
 > WARNING! Due to changes made to improve security, old public keys will no longer work. They must be regenerated. 
 > Regenerate your smart passwords. ALL PASSWORDS REMAIN THE SAME, 
