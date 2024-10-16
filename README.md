@@ -21,7 +21,7 @@ Examples of applications created using this unique technology:
 - [Console (Smart Password Generator)](https://github.com/smartlegionlab/clipassgen/) 
 - [Console (Smart Password Manager)](https://github.com/smartlegionlab/clipassman/)
 - [Telegram Bot (Smart Password Manager)](https://t.me/smartpasswordmanagerbot)
-- [Desktop (Smart Password Manager)](https://github.com/smartlegionlab/smartpassman/)
+- [Desktop (Smart Password Manager)](https://github.com/smartlegionlab/smart_password_manager_desktop/)
 
 ***
 
