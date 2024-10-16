@@ -17,8 +17,11 @@ ___smartpasslib___ - Cross-platform library for generating smart passwords.
 This library allows you to generate smart passwords. 
 Smart passwords are passwords that are not stored anywhere, but are generated "on the fly".
 Examples of applications created using this unique technology:
-[clipassgen](https://github.com/smartlegionlab/clipassgen/), 
-[clipassman](https://github.com/smartlegionlab/clipassman/).
+
+- [Console (Smart Password Generator)](https://github.com/smartlegionlab/clipassgen/) 
+- [Console (Smart Password Manager)](https://github.com/smartlegionlab/clipassman/)
+- [Telegram Bot (Smart Password Manager)](https://t.me/smartpasswordmanagerbot)
+- [Desktop (Smart Password Manager)](https://github.com/smartlegionlab/smartpassman/)
 
 ***
 
