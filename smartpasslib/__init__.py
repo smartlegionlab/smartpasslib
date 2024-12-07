@@ -17,4 +17,4 @@ from .generators import (
     SmartPasswordGenerator,
 )
 from .managers import SmartPassword, SmartPasswordManager, SmartPasswordFactory
-__version__ = '0.5.3'
+__version__ = '0.6.2'

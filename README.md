@@ -1,4 +1,4 @@
-# Smart Passwords Library <sup>v0.5.3</sup>
+# Smart Passwords Library <sup>v0.6.2</sup>
 
 ***
 
@@ -37,13 +37,15 @@ Author and developer: ___A.A. Suvorov.___
 
 ***
 
-## What is news:
+## What's new? <sup>v0.6.2</sup>
 
-smartpasslib v0.5.3
+- Code refactoring.
+- New methods added.
+- Some methods marked as deprecated.
 
-- Moving the library to the old "historical" repository
-- Minor improvements
-- Minor fixes
+> WARNING!!! Some methods are marked as deprecated and will be removed in future versions.
+  
+---
 
 *******
 
@@ -53,6 +55,7 @@ smartpasslib v0.5.3
 
 ```python
 from smartpasslib import SmartPasswordMaster
+from smartpasslib import SmartPasswordManager
 
 
 login = 'login'
@@ -71,11 +74,16 @@ key = smart_password_master.generate_public_key(login, secret)
 check_data = smart_password_master.check_public_key(login, secret, key) # True
 check_data2 = smart_password_master.check_public_key(login, 'secret2', key) # False
 
+smart_password_manager = SmartPasswordManager()
+smart_password_manager.add_smart_password(smart_password)
+
+smart_password = smart_password_manager.get_smart_password(smart_password.login)
+
 ```
 
 ### Information for developers:
 
-- `python setup.py sdist bdist_wheel`
+- `python -m build` or `python setup.py sdist bdist_wheel`
 - `twine upload dist/*`
 
 ```
