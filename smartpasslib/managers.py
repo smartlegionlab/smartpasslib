@@ -7,14 +7,28 @@
 # https://github.com/smartlegionlab/
 # --------------------------------------------------------
 import json
-from pathlib import Path
+import os
+import warnings
 
 from smartpasslib import SmartPasswordMaster
 
 
-class SmartPassword:
+def deprecated(new_method_name):
+    def decorator(old_method):
+        def wrapper(self, *args, **kwargs):
+            warnings.warn(
+                f"Method '{old_method.__name__}' is deprecated. Use '{new_method_name}' instead.",
+                DeprecationWarning,
+                stacklevel=2
+            )
+            new_method = getattr(self, new_method_name)
+            return new_method(*args, **kwargs)
+        return wrapper
+    return decorator
 
-    def __init__(self, login='', key='', length=12):
+
+class SmartPassword:
+    def __init__(self, login: str, key: str, length=12):
         self._login = login
         self._length = length
         self._key = key
@@ -23,25 +37,24 @@ class SmartPassword:
     def login(self):
         return self._login
 
-    @login.setter
-    def login(self, login):
-        self._login = login
-
     @property
     def key(self):
         return self._key
-
-    @key.setter
-    def key(self, key):
-        self._key = key
 
     @property
     def length(self):
         return self._length
 
-    @length.setter
-    def length(self, length):
-        self._length = length
+    def to_dict(self):
+        return {
+            "login": self._login,
+            "key": self._key,
+            "length": self._length
+        }
+
+    @staticmethod
+    def from_dict(data):
+        return SmartPassword(login=data['login'], key=data['key'], length=data['length'])
 
 
 class SmartPasswordFactory:
@@ -52,11 +65,23 @@ class SmartPasswordFactory:
 
 
 class SmartPasswordManager:
-    file_path = Path(Path.home()).joinpath('.cases.json')
-    smart_pass_factory = SmartPasswordFactory()
+    def __init__(self, filename='~/.cases.json'):
+        self.filename = os.path.expanduser(filename)
+        self.smart_passwords = self._load_data()
+        self.smart_pass_factory = SmartPasswordFactory()
 
-    def __init__(self):
-        self._passwords = {}
+    @property
+    def file_path(self):
+        warnings.warn(
+            "The 'file_path' attribute is deprecated. Use 'filename' instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.filename
+
+    @property
+    def passwords(self):
+        return self.smart_passwords
 
     @staticmethod
     def generate_base_password(length=10):
@@ -71,75 +96,62 @@ class SmartPasswordManager:
         return SmartPasswordMaster.generate_smart_password(login, secret, length)
 
     @classmethod
+    def generate_public_key(cls, login, secret):
+        return SmartPasswordMaster.generate_public_key(login, secret)
+
+    @classmethod
     def check_public_key(cls, login, secret, public_key):
         return SmartPasswordMaster.check_public_key(login, secret, public_key)
 
-    @property
-    def passwords(self):
-        return self._passwords
+    @deprecated('add_smart_password')
+    def add(self, password):
+        self.add_smart_password(password)
+
+    @deprecated('get_smart_password')
+    def get_password(self, login: str):
+        return self.get_smart_password(login)
+
+    @deprecated('delete_smart_password')
+    def remove(self, login: str):
+        self.delete_smart_password(login)
+
+    def add_smart_password(self, smart_password: SmartPassword):
+        self.smart_passwords[smart_password.login] = smart_password
+        self._write_data()
+
+    def get_smart_password(self, login: str):
+        return self.smart_passwords.get(login)
+
+    def delete_smart_password(self, login: str):
+        if login in self.smart_passwords:
+            del self.smart_passwords[login]
+            self._write_data()
+        else:
+            raise KeyError("Login not found.")
+
+    def clear(self):
+        self.smart_passwords = {}
 
     @property
     def count(self):
-        return len(self._passwords)
+        return len(self.smart_passwords)
 
-    def add(self, password):
-        if password not in self._passwords:
-            self._passwords[password.login] = password
-
-    def add_smart_password(self, login, secret, length):
-        key = SmartPasswordMaster.generate_public_key(login=login, secret=secret)
-        smart_password = self.smart_pass_factory.create_smart_password(
-            login=login,
-            key=key,
-            length=length
-        )
-        self.add(smart_password)
-        return smart_password
-
-    def add_passwords(self, passwords):
-        for password in passwords:
-            if isinstance(password, SmartPassword):
-                self.add(password)
-
-    def get_password(self, login):
-        return self._passwords.get(login)
-
-    def remove(self, login: str) -> None:
-        if login in self._passwords:
-            del self._passwords[login]
-        self.save_file()
-
-    def load_file(self):
-        try:
-            with open(self.file_path, 'r') as f:
-                json_data = json.load(f)
-        except json.decoder.JSONDecodeError:
-            return {}
-        except FileNotFoundError:
-            self.file_path = Path(Path.home()).joinpath('.cases.json')
-            self.save_file()
-            return {}
+    def _load_data(self):
+        if os.path.isfile(self.filename):
+            with open(self.filename, 'r') as f:
+                data = json.load(f)
+                return {login: SmartPassword.from_dict(item) for login, item in data.items()}
         else:
-            passwords = [
-                SmartPassword(
-                    login=json_data[obj]['login'],
-                    key=json_data[obj]['key'],
-                    length=max(10, min(json_data[obj]['length'], 1000))
-                ) for obj in json_data]
-            self.add_passwords(passwords)
-            return passwords
+            return {}
 
+    def _write_data(self):
+        with open(self.filename, 'w') as f:
+            json.dump({login: sp.to_dict() for login, sp in self.smart_passwords.items()}, f, indent=4)
+
+    @deprecated('_load_data')
+    def load_file(self):
+        self._load_data()
+
+    @deprecated('_write_data')
     def save_file(self):
-        passwords_dict = {name: {'login': password.login,
-                                 'length': password.length,
-                                 'key': password.key}
-                          for name, password in self._passwords.items()}
-        self._save_file(passwords_dict)
-
-    def clear(self):
-        self._passwords = {}
-
-    def _save_file(self, passwords: dict):
-        """Writes json data to a file."""
-        with open(self.file_path, 'w') as f:
-            json.dump(passwords, f, indent=4)
+        self._write_data()
