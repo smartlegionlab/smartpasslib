@@ -14,7 +14,7 @@
 
 ***
 
-## Short Description:
+## 🔥 Description:
 ___smartpasslib___ - Cross-platform library for generating smart passwords.
 
 This library allows you to generate smart passwords. 
@@ -57,8 +57,7 @@ Author and developer: ___A.A. Suvorov.___
 `pip install smartpasslib`
 
 ```python
-from smartpasslib import SmartPasswordMaster
-from smartpasslib import SmartPasswordManager
+from smartpasslib import SmartPasswordMaster, SmartPasswordManager, SmartPassword
 
 
 login = 'login'
@@ -78,6 +77,7 @@ check_data = smart_password_master.check_public_key(login, secret, key) # True
 check_data2 = smart_password_master.check_public_key(login, 'secret2', key) # False
 
 smart_password_manager = SmartPasswordManager()
+smart_password = SmartPassword(login=login, key=key, length=length)
 smart_password_manager.add_smart_password(smart_password)
 
 smart_password = smart_password_manager.get_smart_password(smart_password.login)
