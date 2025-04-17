@@ -1,14 +1,16 @@
-# Smart Passwords Library <sup>v0.6.2</sup>
+# Smart Passwords Library <sup>v0.7.1</sup>
 
 ***
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/smartpasslib?label=pypi%20downloads)](https://pypi.org/project/smartpasslib/)
 ![GitHub top language](https://img.shields.io/github/languages/top/smartlegionlab/smartpasslib)
 [![PyPI](https://img.shields.io/pypi/v/smartpasslib)](https://pypi.org/project/smartpasslib)
 [![GitHub](https://img.shields.io/github/license/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/blob/master/LICENSE)
 [![PyPI - Format](https://img.shields.io/pypi/format/smartpasslib)](https://pypi.org/project/smartpasslib)
+
 [![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib)](https://pepy.tech/projects/smartpasslib)
+[![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib/month)](https://pepy.tech/projects/smartpasslib)
+[![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib/week)](https://pepy.tech/projects/smartpasslib)
 
 ***
 
@@ -38,7 +40,7 @@ Author and developer: ___A.A. Suvorov.___
 
 ***
 
-## What's new? <sup>v0.6.2</sup>
+## What's new? <sup>v0.7.1</sup>
 
 - Code refactoring.
 - New methods added.
@@ -106,5 +108,5 @@ smart_password = smart_password_manager.get_smart_password(smart_password.login)
 
     Licensed under the terms of the BSD 3-Clause License
     (see LICENSE for details).
-    Copyright © 2018-2024, A.A. Suvorov
+    Copyright © 2018-2025, A.A. Suvorov
     All rights reserved.
