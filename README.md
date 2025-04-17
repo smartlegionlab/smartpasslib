@@ -1,6 +1,4 @@
-# Smart Passwords Library <sup>v0.7.1</sup>
-
-***
+# Smart Passwords Library (smartpasslib) <sup>v0.7.1</sup>
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
 ![GitHub top language](https://img.shields.io/github/languages/top/smartlegionlab/smartpasslib)
@@ -12,84 +10,161 @@
 [![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib/month)](https://pepy.tech/projects/smartpasslib)
 [![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib/week)](https://pepy.tech/projects/smartpasslib)
 
-***
+A cross-platform Python library for generating deterministic, secure passwords that never need to be stored.
 
-## 🔥 Description:
-___smartpasslib___ - Cross-platform library for generating smart passwords.
+## 🔥 Key Features
 
-This library allows you to generate smart passwords. 
-Smart passwords are passwords that are not stored anywhere, but are generated "on the fly".
-Examples of applications created using this unique technology:
+- 🚀 **On-the-fly generation** - Passwords are generated when needed, not stored
+- 🔒 **Cryptographically secure** - Uses SHA3-512 and system entropy
+- 🔄 **Deterministic output** - Same input always produces same password
+- 📱 **Cross-platform** - Works on Linux, Windows, macOS, and Android (Termux)
+- 🛠️ **Developer-friendly** - Clean API with full type hints
 
-- [Smart Password Generator (Console)](https://github.com/smartlegionlab/clipassgen/) 
-- [Smart Password Manager (Console)](https://github.com/smartlegionlab/clipassman/)
-- [Smart Password Manager (Telegram Bot)](https://t.me/smartpasswordmanagerbot)
-- [Smart Password Manager (Desktop)](https://github.com/smartlegionlab/smart_password_manager_desktop/)
-
-***
-
-Author and developer: ___A.A. Suvorov.___
-
-***
-
-## Supported:
+## 🤝 Supported:
 
 - Linux: All.
 - Windows: 7/8/10/11?.
 - Termux (Android).
 
-***
+## 📦 Installation
 
-## What's new? <sup>v0.7.1</sup>
-
-- Code refactoring.
-- New methods added.
-- Some methods marked as deprecated.
-
-> WARNING!!! Some methods are marked as deprecated and will be removed in future versions.
-  
----
-
-*******
-
-## Help:
-
-`pip install smartpasslib`
-
-```python
-from smartpasslib import SmartPasswordMaster, SmartPasswordManager, SmartPassword
-
-
-login = 'login'
-secret = 'secret'
-length = 15
-
-smart_password_master = SmartPasswordMaster()
-
-smart_password = smart_password_master.generate_smart_password(login=login, secret=secret, length=length)
-smart_password2 = smart_password_master.generate_smart_password(login=login, secret=secret, length=length)
-
-check_passwords = smart_password == smart_password2  # True
-
-key = smart_password_master.generate_public_key(login, secret)
-
-check_data = smart_password_master.check_public_key(login, secret, key) # True
-check_data2 = smart_password_master.check_public_key(login, 'secret2', key) # False
-
-smart_password_manager = SmartPasswordManager()
-smart_password = SmartPassword(login=login, key=key, length=length)
-smart_password_manager.add_smart_password(smart_password)
-
-smart_password = smart_password_manager.get_smart_password(smart_password.login)
-
+```bash
+pip install smartpasslib
 ```
 
-### Information for developers:
+## 🚀 Quick Start
+
+```python
+from smartpasslib import SmartPasswordMaster
+
+# Initialize generator
+spm = SmartPasswordMaster()
+
+# Generate a smart password
+login = "user@example.com"
+secret = "mySecretPhrase"
+password = spm.generate_smart_password(login=login, secret=secret, length=16)
+
+# Verify later (without storing the password)
+key = spm.generate_public_key(login, secret)
+is_valid = spm.check_public_key(login, secret, key)  # Returns True
+```
+
+## ⚙️ Core Components
+
+### 1. SmartPasswordMaster
+The main class for password generation and verification:
+
+```python
+from smartpasslib import SmartPasswordMaster
+# Generate different types of passwords
+basic_pass = SmartPasswordMaster.generate_base_password(length=12)
+strong_pass = SmartPasswordMaster.generate_strong_password(length=14)
+login = "user@example.com"
+secret = "mySecretPhrase"
+smart_pass = SmartPasswordMaster.generate_smart_password(login, secret, 16)
+
+# Key management
+public_key = SmartPasswordMaster.generate_public_key(login, secret)
+is_valid = SmartPasswordMaster.check_public_key(login, secret, public_key)
+```
+
+### 2. SmartPasswordManager
+For managing password metadata:
+
+```python
+from smartpasslib import SmartPasswordManager, SmartPassword, SmartPasswordMaster
+
+manager = SmartPasswordManager()
+login = "user@example.com"
+secret = "mySecretPhrase"
+public_key = SmartPasswordMaster.generate_public_key(login, secret)
+
+# Create and store password metadata
+password = SmartPassword(login="user@example.com", 
+                        key=public_key, 
+                        length=16)
+manager.add_smart_password(password)
+
+# Retrieve later
+stored_pass = manager.get_smart_password("user@example.com")
+```
+
+## 🔧 Advanced Usage
+
+### Password Generation Options
+| Method                       | Description                             | Recommended Use     |
+|------------------------------|-----------------------------------------|---------------------|
+| `generate_base_password()`   | Simple random password                  | Temporary passwords |
+| `generate_strong_password()` | Password with character requirements    | User accounts       |
+| `generate_smart_password()`  | Deterministic password from credentials | Main use case       |
+
+### Security Notes
+- Always keep your `secret` secure - it's required to regenerate passwords
+- The `public_key` can be safely stored for verification
+- Minimum recommended password length is 12 characters
+
+## 📚 Examples
+
+### CLI Password Generator
+```python
+from smartpasslib import SmartPasswordMaster
+
+login = input("Enter your login: ")
+secret = input("Enter your secret: ")
+password = SmartPasswordMaster.generate_smart_password(login, secret, 14)
+print(f"Your password: {password}")
+```
+
+### Password Manager Integration
+```python
+from smartpasslib import SmartPasswordManager, SmartPassword, SmartPasswordMaster
+manager = SmartPasswordManager()
+
+# Add new account
+new_account = SmartPassword(
+    login="work_email@company.com",
+    key=SmartPasswordMaster.generate_public_key("work_email@company.com", "workSecret123"),
+    length=18
+)
+manager.add_smart_password(new_account)
+
+# Retrieve password later
+account = manager.get_smart_password("work_email@company.com")
+password = SmartPasswordMaster.generate_smart_password(
+    account.login,
+    "workSecret123",
+    account.length
+)
+```
+
+## 📝 Changelog
+
+### v0.7.1
+- Major code refactoring
+- Added new generation methods
+- Marked some legacy methods as deprecated
+- Improved type hints and documentation
+
+> ⚠️ Note: Some deprecated methods will be removed in future versions
+
+## 📜 License
+    BSD 3-Clause License
+    
+    Copyright © 2018-2025, A.A. Suvorov  
+    All rights reserved.
+
+## Related Projects
+- [Console Password Generator](https://github.com/smartlegionlab/clipassgen/)
+- [Console Password Manager](https://github.com/smartlegionlab/clipassman/)
+- [Telegram Bot Manager](https://t.me/smartpasswordmanagerbot)
+- [Desktop Manager](https://github.com/smartlegionlab/smart_password_manager_desktop/)
+
+
+## 💻 Information for developers:
 
 - `python -m build` or `python setup.py sdist bdist_wheel`
 - `twine upload dist/*`
-
-```
 
 ***
 
@@ -103,10 +178,3 @@ smart_password = smart_password_manager.get_smart_password(smart_password.login)
     CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
     OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-***
-
-    Licensed under the terms of the BSD 3-Clause License
-    (see LICENSE for details).
-    Copyright © 2018-2025, A.A. Suvorov
-    All rights reserved.
