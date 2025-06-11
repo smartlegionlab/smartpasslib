@@ -1,4 +1,4 @@
-# Smart Passwords Library (smartpasslib) <sup>v0.7.1</sup>
+# Smart Passwords Library (smartpasslib) <sup>v1.0.1</sup>
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
 ![GitHub top language](https://img.shields.io/github/languages/top/smartlegionlab/smartpasslib)
@@ -140,11 +140,9 @@ password = SmartPasswordMaster.generate_smart_password(
 
 ## 📝 Changelog
 
-### v0.7.1
-- Major code refactoring
-- Added new generation methods
-- Marked some legacy methods as deprecated
-- Improved type hints and documentation
+### v1.0.1
+- Global code refactoring
+- Added tests
 
 > ⚠️ Note: Some deprecated methods will be removed in future versions
 
@@ -163,8 +161,18 @@ password = SmartPasswordMaster.generate_smart_password(
 
 ## 💻 Information for developers:
 
+- `pip install pytest`
+- `pip install pytest-cov`
+- `pip install setuptools`
+- `pip install wheel`
+- `pip install build`
+
+- `pytest tests/ -v`
+- `pytest tests/ -v --cov=smartpasslib --cov-report=html`
 - `python -m build` or `python setup.py sdist bdist_wheel`
 - `twine upload dist/*`
+
+![LOGO](https://github.com/smartlegionlab/smartpasslib/raw/master/data/images/cov.png)
 
 ***
 
