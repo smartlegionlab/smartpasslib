@@ -1,3 +1,12 @@
+# --------------------------------------------------------
+# Licensed under the terms of the BSD 3-Clause License
+# (see LICENSE for details).
+# Copyright © 2018-2025, A.A Suvorov
+# All rights reserved.
+# --------------------------------------------------------
+# https://github.com/smartlegionlab/
+# --------------------------------------------------------
+from smartpasslib import CodeGenerator
 from smartpasslib.generators.base import BasePasswordGenerator
 from smartpasslib.generators.key import SmartKeyGenerator
 from smartpasslib.generators.smart import SmartPasswordGenerator
@@ -6,6 +15,10 @@ from smartpasslib.generators.strong import StrongPasswordGenerator
 
 class SmartPasswordMaster:
     """Main class for password and key generation management."""
+
+    @staticmethod
+    def generate_code(length: int = 8) -> str:
+        return CodeGenerator.generate(length)
 
     @staticmethod
     def generate_base_password(length: int = 10) -> str:

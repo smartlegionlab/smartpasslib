@@ -14,10 +14,11 @@ from smartpasslib.generators.key import SmartKeyGenerator
 from smartpasslib.generators.smart import SmartPasswordGenerator
 from smartpasslib.generators.strong import StrongPasswordGenerator
 from smartpasslib.generators.urandom import UrandomGenerator
+from smartpasslib.generators.code import CodeGenerator
 from smartpasslib.managers.smart_password_manager import SmartPasswordManager
 from smartpasslib.masters.smart_password_master import SmartPasswordMaster
 from smartpasslib.smart_passwords.smart_password import SmartPassword
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __author__ = 'A.A. Suvorov'
 __all__ = [
     "SmartPasswordMaster",
@@ -29,5 +30,6 @@ __all__ = [
     "SmartPasswordGenerator",
     "SmartPasswordFactory",
     "SmartPasswordManager",
-    "SmartPassword"
+    "SmartPassword",
+    "CodeGenerator",
 ]

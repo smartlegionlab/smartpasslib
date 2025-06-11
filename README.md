@@ -1,4 +1,4 @@
-# Smart Passwords Library (smartpasslib) <sup>v1.0.1</sup>
+# Smart Passwords Library (smartpasslib) <sup>v1.0.2</sup>
 
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/smartpasslib?label=pypi%20downloads)](https://pypi.org/project/smartpasslib/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
@@ -139,10 +139,17 @@ password = SmartPasswordMaster.generate_smart_password(
 )
 ```
 
+### Generate codes for two-factor authentication
+```python
+from smartpasslib.generators.code import CodeGenerator
+
+code = CodeGenerator.generate(6) # '4&TkIP'
+```
+
 ## 📝 Changelog
 
-### v1.0.1
-- Global code refactoring
+### v1.0.2
+- Added tools for generating codes for two-factor authentication
 - Added tests
 
 > ⚠️ Note: Some deprecated methods will be removed in future versions
