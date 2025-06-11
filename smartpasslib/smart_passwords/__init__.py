@@ -1,1 +1,0 @@
-from .smart_password import SmartPassword

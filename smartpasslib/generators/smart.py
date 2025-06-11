@@ -1,7 +1,7 @@
 import random
 from typing import Union
 
-from smartpasslib import UrandomGenerator
+from smartpasslib.generators.urandom import UrandomGenerator
 from smartpasslib.generators.base import BasePasswordGenerator
 
 

@@ -11,9 +11,9 @@ import os
 import warnings
 from typing import Dict, Optional
 
-from smartpasslib import SmartPasswordMaster
-from smartpasslib.factories import SmartPasswordFactory
-from smartpasslib.smart_passwords import SmartPassword
+from smartpasslib.masters.smart_password_master import SmartPasswordMaster
+from smartpasslib.factories.smart_password_factory import SmartPasswordFactory
+from smartpasslib.smart_passwords.smart_password import SmartPassword
 from smartpasslib.utils.decorators import deprecated
 
 
