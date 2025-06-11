@@ -1,5 +1,6 @@
 # Smart Passwords Library (smartpasslib) <sup>v1.0.1</sup>
 
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/smart-2fa-secure?label=pypi%20downloads)](https://pypi.org/project/smartpasslib/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
 ![GitHub top language](https://img.shields.io/github/languages/top/smartlegionlab/smartpasslib)
 [![PyPI](https://img.shields.io/pypi/v/smartpasslib)](https://pypi.org/project/smartpasslib)
