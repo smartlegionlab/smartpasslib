@@ -7,8 +7,8 @@
 # https://github.com/smartlegionlab/
 # --------------------------------------------------------
 """Smart Password Library - Cross-platform library for generating smart passwords."""
+from .masters import SmartPasswordMaster
 from .generators import (
-    SmartPasswordMaster,
     HashGenerator,
     UrandomGenerator,
     SmartKeyGenerator,
@@ -16,7 +16,9 @@ from .generators import (
     StrongPasswordGenerator,
     SmartPasswordGenerator,
 )
-from .managers import SmartPassword, SmartPasswordManager, SmartPasswordFactory
+from .factories import SmartPasswordFactory
+from .smart_passwords import SmartPassword
+from .managers import SmartPasswordManager
 __version__ = '0.7.1'
 __author__ = 'A.A. Suvorov'
 __all__ = [
