@@ -18,7 +18,7 @@ from smartpasslib.generators.code import CodeGenerator
 from smartpasslib.managers.smart_password_manager import SmartPasswordManager
 from smartpasslib.masters.smart_password_master import SmartPasswordMaster
 from smartpasslib.smart_passwords.smart_password import SmartPassword
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __author__ = 'A.A. Suvorov'
 __all__ = [
     "SmartPasswordMaster",

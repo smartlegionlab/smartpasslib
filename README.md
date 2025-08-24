@@ -1,4 +1,4 @@
-# Smart Passwords Library (smartpasslib) <sup>v1.0.2</sup>
+# Smart Passwords Library (smartpasslib) <sup>v1.0.3</sup>
 
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/smartpasslib?label=pypi%20downloads)](https://pypi.org/project/smartpasslib/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
@@ -148,17 +148,27 @@ code = CodeGenerator.generate(6) # '4&TkIP'
 
 ## 📝 Changelog
 
-### v1.0.2
+### v1.0.3
 - Added tools for generating codes for two-factor authentication
 - Added tests
 
 > ⚠️ Note: Some deprecated methods will be removed in future versions
 
-## 📜 License
-    BSD 3-Clause License
-    
-    Copyright © 2018-2025, A.A. Suvorov  
-    All rights reserved.
+## 📜 Licensing
+
+This project uses a dual licensing system:
+
+### 🆓 BSD 3-Clause License
+- For non-commercial use
+- For academic and research purposes
+- For open-source projects
+
+### 💼 Commercial License
+- For commercial products and services
+- For enterprises using the code in proprietary solutions
+- For additional features and support
+
+**To obtain a commercial license:** [smartlegiondev@gmail.com](mailto:smartlegiondev@gmail.com)
 
 ## Related Projects
 - [Console Password Generator](https://github.com/smartlegionlab/clipassgen/)
