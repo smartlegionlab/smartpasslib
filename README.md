@@ -1,4 +1,4 @@
-# Smart Passwords Library (smartpasslib) <sup>v1.0.3</sup>
+# Smart Passwords Library (smartpasslib) <sup>v1.0.4</sup>
 
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/smartpasslib?label=pypi%20downloads)](https://pypi.org/project/smartpasslib/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
@@ -146,29 +146,28 @@ from smartpasslib.generators.code import CodeGenerator
 code = CodeGenerator.generate(6) # '4&TkIP'
 ```
 
-## 📝 Changelog
-
-### v1.0.3
-- Added tools for generating codes for two-factor authentication
-- Added tests
-
-> ⚠️ Note: Some deprecated methods will be removed in future versions
-
 ## 📜 Licensing
 
-This project uses a dual licensing system:
+This project is offered under a dual-licensing model.
 
-### 🆓 BSD 3-Clause License
-- For non-commercial use
-- For academic and research purposes
-- For open-source projects
+### 🆓 Option 1: BSD 3-Clause License (for Non-Commercial Use)
+This license is **free of charge** and allows you to use the software for:
+- Personal and educational purposes
+- Academic research and open-source projects
+- Evaluation and testing
 
-### 💼 Commercial License
-- For commercial products and services
-- For enterprises using the code in proprietary solutions
-- For additional features and support
+**Important:** Any use by a commercial organization or for commercial purposes (including internal development and prototyping) requires a commercial license.
 
-**To obtain a commercial license:** [smartlegiondev@gmail.com](mailto:smartlegiondev@gmail.com)
+### 💼 Option 2: Commercial License (for Commercial Use)
+A commercial license is **required** for:
+- Integrating this software into proprietary products
+- Using it in internal operations within a company
+- SaaS and hosted services that incorporate this software
+
+**Important:** The commercial license provides usage rights but **does not include any indemnification or liability**. The software is provided "AS IS" without any warranties as described in the full license agreement.
+
+**To obtain a commercial license,** please contact us directly at:  
+📧 **smartlegiondev@gmail.com**
 
 ## Related Projects
 - [Console Password Generator](https://github.com/smartlegionlab/clipassgen/)
@@ -191,16 +190,3 @@ This project uses a dual licensing system:
 - `twine upload dist/*`
 
 ![LOGO](https://github.com/smartlegionlab/smartpasslib/raw/master/data/images/cov.png)
-
-***
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
