@@ -1,4 +1,4 @@
-# Smart Passwords Library (smartpasslib) <sup>v1.1.0</sup>
+# Smart Passwords Library (smartpasslib) <sup>v1.1.1</sup>
 
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/smartpasslib?label=pypi%20downloads)](https://pypi.org/project/smartpasslib/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
@@ -146,22 +146,6 @@ from smartpasslib.generators.code import CodeGenerator
 code = CodeGenerator.generate(6) # '4&TkIP'
 ```
 
-## 📜 License & Disclaimer
-
-This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
-
-- You are free to use, modify, and distribute this software.
-- **However, if you modify this software and run it as a hosted service (e.g., a web app), you MUST make the full source code of your modified version available to your users under the same license.**
-- The full license text can be found in the [LICENSE](https://github.com/smartlegionlab/smartpasslib/blob/master/LICENSE) file.
-
-### ⚠️ Important Disclaimer
-
-> **THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.**
->
-> *(This is a summary of the full disclaimer, which is legally binding and located in sections 15 and 16 of the AGPLv3 license).*
-
-For commercial use that is not compatible with the AGPLv3 terms (e.g., including this software in a proprietary product without disclosing the source code), a **commercial license** is required. Please contact me at [smartlegiondev@gmail.com](mailto:smartlegiondev@gmail.com) to discuss terms.
-
 ## Related Projects
 - [Console Password Generator](https://github.com/smartlegionlab/clipassgen/)
 - [Console Password Manager](https://github.com/smartlegionlab/clipassman/)
@@ -183,3 +167,22 @@ For commercial use that is not compatible with the AGPLv3 terms (e.g., including
 - `twine upload dist/*`
 
 ![LOGO](https://github.com/smartlegionlab/smartpasslib/raw/master/data/images/cov.png)
+
+---
+
+## 📜 License & Disclaimer
+
+BSD 3-Clause License
+
+Copyright (c) 2025, Alexander Suvorov
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
