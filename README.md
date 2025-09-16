@@ -162,15 +162,14 @@ Explore my suite of applications that implement the "discovery over storage" par
 
 - [**Desktop Manager**](https://github.com/smartlegionlab/smart-password-manager-desktop) - Cross-platform desktop application
   ![Desktop Manager](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/803aj6vcroj8d927n6wf.png)
+  ![CLM](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cezzly1be7sx6zchskrg.png)
+  ![Telegram Bot](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ertgv2oanj79xalbrlwp.png)  
 
 ### 🤖 Telegram Integration
 - [**Telegram Bot**](https://t.me/smartpasswordmanagerbot) - Discover passwords on Telegram
-  ![Telegram Bot](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ertgv2oanj79xalbrlwp.png)
 
 ### 💡 Revolutionary Communication
 - [**Chrono-Library Messenger**](https://github.com/smartlegionlab/chrono-library-messenger) - Send messages without transmitting data
-  ![CLM](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cezzly1be7sx6zchskrg.png)
-
 ## 📖 Deep Dive: The Philosophy Behind the Code
 
 This library isn't just code - it's a new way of thinking about security. Read my foundational articles:
