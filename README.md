@@ -1,4 +1,4 @@
-# Smart Passwords Library (smartpasslib) <sup>v1.1.1</sup>
+# Smart Passwords Library (smartpasslib) <sup>v1.1.2</sup>
 
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/smartpasslib?label=pypi%20downloads)](https://pypi.org/project/smartpasslib/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
@@ -11,21 +11,21 @@
 [![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib/month)](https://pepy.tech/projects/smartpasslib)
 [![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib/week)](https://pepy.tech/projects/smartpasslib)
 
-A cross-platform Python library for generating deterministic, secure passwords that never need to be stored.
+## 🔐 The Password That Never Was
 
-## 🔥 Key Features
+A cross-platform Python library for generating **deterministic, secure passwords that never need to be stored**. Based on the revolutionary concept that passwords don't need to be created or remembered - they already exist in a mathematical space, waiting to be discovered.
+
+> **✨ Philosophical Foundation:** This library implements the paradigm-shifting idea explored in my articles: [The Password That Never Was](https://dev.to/smartlegionlab/the-password-that-never-was-how-to-access-secrets-that-were-always-there-5dnf) and [Chrono-Library Messenger](https://dev.to/smartlegionlab/i-created-a-messenger-that-doesnt-send-any-data-heres-how-it-works-4ecp). Your passwords aren't stored anywhere - they're mathematical truths that emerge when needed.
+
+## 🌟 Revolutionary Features
 
 - 🚀 **On-the-fly generation** - Passwords are generated when needed, not stored
 - 🔒 **Cryptographically secure** - Uses SHA3-512 and system entropy
 - 🔄 **Deterministic output** - Same input always produces same password
 - 📱 **Cross-platform** - Works on Linux, Windows, macOS, and Android (Termux)
 - 🛠️ **Developer-friendly** - Clean API with full type hints
-
-## 🤝 Supported:
-
-- Linux: All.
-- Windows: 7/8/10/11?.
-- Termux (Android).
+- ♾️ **Eternal access** - Passwords remain accessible forever with your secret
+- 🎯 **Breach-proof** - Nothing to steal if nothing is stored
 
 ## 📦 Installation
 
@@ -33,142 +33,178 @@ A cross-platform Python library for generating deterministic, secure passwords t
 pip install smartpasslib
 ```
 
-## 🚀 Quick Start
+## 🧙‍♂️ Quick Start: Discover Your First Password
 
 ```python
 from smartpasslib import SmartPasswordMaster
 
-# Initialize generator
-spm = SmartPasswordMaster()
+# Your secret phrase is the key to the infinite password library
+secret = "myQuantumUniverse42$"
 
-# Generate a smart password
-login = "user@example.com"
-secret = "mySecretPhrase"
-password = spm.generate_smart_password(login=login, secret=secret, length=16)
-
-# Verify later (without storing the password)
-key = spm.generate_public_key(login, secret)
-is_valid = spm.check_public_key(login, secret, key)  # Returns True
+# Discover the password that was always yours
+password = SmartPasswordMaster.generate_smart_password(
+    login="alice@quantum.org", 
+    secret=secret, 
+    length=16
+)
+print(f"Your discovered password: {password}")
+# '4_u4k!j^6SdDW$I7' - This was always your password!
 ```
 
-## ⚙️ Core Components
+## 🔑 The Magic of Verification Without Storage
 
-### 1. SmartPasswordMaster
-The main class for password generation and verification:
+```python
+# Generate a public verification key (safe to store anywhere)
+public_key = SmartPasswordMaster.generate_public_key(
+    login="alice@quantum.org", 
+    secret="myQuantumUniverse42$"
+)
+
+# Later, verify you can rediscover the same password
+is_valid = SmartPasswordMaster.check_public_key(
+    login="alice@quantum.org",
+    secret="myQuantumUniverse42$",
+    public_key=public_key
+)  # Returns True - The password is still there!
+```
+
+## 🏗️ Core Components
+
+### 1. SmartPasswordMaster - Your Guide to the Password Library
 
 ```python
 from smartpasslib import SmartPasswordMaster
-# Generate different types of passwords
+
+# Discover different types of passwords
 basic_pass = SmartPasswordMaster.generate_base_password(length=12)
 strong_pass = SmartPasswordMaster.generate_strong_password(length=14)
-login = "user@example.com"
-secret = "mySecretPhrase"
-smart_pass = SmartPasswordMaster.generate_smart_password(login, secret, 16)
+smart_pass = SmartPasswordMaster.generate_smart_password("user", "secret", 16)
 
-# Key management
-public_key = SmartPasswordMaster.generate_public_key(login, secret)
-is_valid = SmartPasswordMaster.check_public_key(login, secret, public_key)
+# Key management for verification
+public_key = SmartPasswordMaster.generate_public_key("user", "secret")
+is_valid = SmartPasswordMaster.check_public_key("user", "secret", public_key)
 ```
 
-### 2. SmartPasswordManager
-For managing password metadata:
+### 2. SmartPasswordManager - Organize Your Discoveries
 
 ```python
 from smartpasslib import SmartPasswordManager, SmartPassword, SmartPasswordMaster
 
 manager = SmartPasswordManager()
-login = "user@example.com"
-secret = "mySecretPhrase"
-public_key = SmartPasswordMaster.generate_public_key(login, secret)
 
-# Create and store password metadata
-password = SmartPassword(login="user@example.com", 
-                        key=public_key, 
-                        length=16)
-manager.add_smart_password(password)
-
-# Retrieve later
-stored_pass = manager.get_smart_password("user@example.com")
-```
-
-## 🔧 Advanced Usage
-
-### Password Generation Options
-| Method                       | Description                             | Recommended Use     |
-|------------------------------|-----------------------------------------|---------------------|
-| `generate_base_password()`   | Simple random password                  | Temporary passwords |
-| `generate_strong_password()` | Password with character requirements    | User accounts       |
-| `generate_smart_password()`  | Deterministic password from credentials | Main use case       |
-
-### Security Notes
-- Always keep your `secret` secure - it's required to regenerate passwords
-- The `public_key` can be safely stored for verification
-- Minimum recommended password length is 12 characters
-
-## 📚 Examples
-
-### CLI Password Generator
-```python
-from smartpasslib import SmartPasswordMaster
-
-login = input("Enter your login: ")
-secret = input("Enter your secret: ")
-password = SmartPasswordMaster.generate_smart_password(login, secret, 14)
-print(f"Your password: {password}")
-```
-
-### Password Manager Integration
-```python
-from smartpasslib import SmartPasswordManager, SmartPassword, SmartPasswordMaster
-manager = SmartPasswordManager()
-
-# Add new account
-new_account = SmartPassword(
-    login="work_email@company.com",
-    key=SmartPasswordMaster.generate_public_key("work_email@company.com", "workSecret123"),
+# "Store" password coordinates (not the password itself!)
+public_key = SmartPasswordMaster.generate_public_key(
+    "bank@account.com", 
+    "financialSecret123"
+)
+password_data = SmartPassword(
+    login="bank@account.com", 
+    key=public_key, 
     length=18
 )
-manager.add_smart_password(new_account)
+manager.add_smart_password(password_data)
 
-# Retrieve password later
-account = manager.get_smart_password("work_email@company.com")
+# "Retrieve" by rediscovering from the secret
+account = manager.get_smart_password("bank@account.com")
 password = SmartPasswordMaster.generate_smart_password(
     account.login,
-    "workSecret123",
+    "financialSecret123",
     account.length
 )
 ```
 
-### Generate codes for two-factor authentication
+## 🚀 Advanced Usage
+
+### Password Generation Options
+
+| Method                       | Description                             | Perfect For          |
+|------------------------------|-----------------------------------------|----------------------|
+| `generate_base_password()`   | Simple random discovery                 | Temporary access     |
+| `generate_strong_password()` | Discovery with character requirements   | User accounts        |
+| `generate_smart_password()`  | Deterministic discovery from credentials | Main use case        |
+| `generate_code()`            | Discover 2FA codes                      | Authentication       |
+
+### Complete Usage Examples
+
+**CLI Password Discovery Tool:**
+```python
+from smartpasslib import SmartPasswordMaster
+
+login = input("Enter your login: ")
+secret = input("Enter your secret phrase: ")
+password = SmartPasswordMaster.generate_smart_password(login, secret, 14)
+print(f"Discovered password: {password}")
+```
+
+**Two-Factor Code Discovery:**
 ```python
 from smartpasslib.generators.code import CodeGenerator
 
-code = CodeGenerator.generate(6) # '4&TkIP'
+# Discover authentication codes that were always waiting
+auth_code = CodeGenerator.generate(6)  # '4&TkIP'
+print(f"Your auth code: {auth_code}")
 ```
 
-## Related Projects
-- [Console Password Generator](https://github.com/smartlegionlab/clipassgen/)
-- [Console Password Manager](https://github.com/smartlegionlab/clipassman/)
-- [Telegram Bot Manager](https://t.me/smartpasswordmanagerbot)
-- [Desktop Manager](https://github.com/smartlegionlab/smart_password_manager_desktop/)
+## 🌐 Ecosystem Applications Built on SmartPassLib
 
+Explore my suite of applications that implement the "discovery over storage" paradigm:
 
-## 💻 Information for developers:
+### 🔧 Console Tools
+- [**CLI PassGen**](https://github.com/smartlegionlab/clipassgen/) - Console password discovery tool
+  ![CLI PassGen](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3w230zt58tp7y5swmqcj.png)
 
-- `pip install pytest`
-- `pip install pytest-cov`
-- `pip install setuptools`
-- `pip install wheel`
-- `pip install build`
+- [**CLI PassMan**](https://github.com/smartlegionlab/clipassman/) - Console password manager
+  ![CLI PassMan](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uwhf6vlpfzdaq02k3lx9.png)
 
-- `pytest tests/ -v`
-- `pytest tests/ -v --cov=smartpasslib --cov-report=html`
-- `python -m build` or `python setup.py sdist bdist_wheel`
-- `twine upload dist/*`
+### 🖥️ Desktop & Web Applications
+- [**Web Password Manager**](https://github.com/smartlegionlab/smart-password-manager) - Web-based discovery interface
+  ![Web Manager](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gqeqkh72kd972g5v6k6l.png)
 
-![LOGO](https://github.com/smartlegionlab/smartpasslib/raw/master/data/images/cov.png)
+- [**Desktop Manager**](https://github.com/smartlegionlab/smart-password-manager-desktop) - Cross-platform desktop application
+  ![Desktop Manager](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/803aj6vcroj8d927n6wf.png)
 
----
+### 🤖 Telegram Integration
+- [**Telegram Bot**](https://t.me/smartpasswordmanagerbot) - Discover passwords on Telegram
+  ![Telegram Bot](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ertgv2oanj79xalbrlwp.png)
+
+### 💡 Revolutionary Communication
+- [**Chrono-Library Messenger**](https://github.com/smartlegionlab/chrono-library-messenger) - Send messages without transmitting data
+  ![CLM](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cezzly1be7sx6zchskrg.png)
+
+## 📖 Deep Dive: The Philosophy Behind the Code
+
+This library isn't just code - it's a new way of thinking about security. Read my foundational articles:
+
+1. [**The Password That Never Was: How to Access Secrets That Were Always There. Smart Password Library**](https://dev.to/smartlegionlab/the-password-that-never-was-how-to-access-secrets-that-were-always-there-smart-password-library-4h16) - How we access secrets that were always there
+2. [**Chrono-Library Messenger**](https://dev.to/smartlegionlab/i-created-a-messenger-that-doesnt-send-any-data-heres-how-it-works-4ecp) - Sending messages without transmitting data
+3. [**Messages That Have Always Been With Us**](https://dev.to/smartlegionlab/the-magic-of-messages-that-have-always-been-with-us-48gp) - The philosophical foundation
+
+## 🛡️ Security Architecture
+
+### Cryptographic Foundations
+- **SHA3-512** for irreversible hashing
+- **System entropy** from `os.urandom()`
+- **Deterministic but unpredictable** output
+- **Zero storage** of actual passwords
+
+### The Beautiful Paradox
+The system is both:
+- **Perfectly reproducible** (same inputs always give same output)
+- **Completely unpredictable** (cannot guess output without inputs)
+
+## 💻 For Developers
+
+### Development Setup
+```bash
+pip install pytest pytest-cov setuptools wheel build
+pytest tests/ -v
+pytest tests/ -v --cov=smartpasslib --cov-report=html
+python -m build
+twine upload dist/*
+```
+
+### Testing Coverage
+![Test Coverage](https://github.com/smartlegionlab/smartpasslib/raw/master/data/images/cov.png)
 
 ## 📜 License & Disclaimer
 
@@ -176,13 +212,25 @@ BSD 3-Clause License
 
 Copyright (c) 2025, Alexander Suvorov
 
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```
+
+## 🌟 Join the Revolution
+
+This isn't just another password library - it's a fundamental shift from **storing information** to **discovering mathematical truths**. Your passwords were always there. Now you know how to find them.
+
+**What do you think? Is this the future of security? Or just beautiful mathematical poetry?** Let's discuss on [Dev.to](https://dev.to/smartlegionlab) or [GitHub](https://github.com/smartlegionlab/smartpasslib)!
+
+---
+
+*Discover more revolutionary projects at [Smart Legion Lab](https://github.com/smartlegionlab)*
