@@ -11,39 +11,7 @@
 [![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib/month)](https://pepy.tech/projects/smartpasslib)
 [![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib/week)](https://pepy.tech/projects/smartpasslib)
 
-## 🔐 The Password That Never Was
-
-A cross-platform Python library for generating **deterministic, secure passwords that never need to be stored**. Based on the revolutionary concept that passwords don't need to be created or remembered - they already exist in a mathematical space, waiting to be discovered.
-
-> **✨ Philosophical Foundation:** This library implements the paradigm-shifting idea explored in my articles: [The Password That Never Was](https://dev.to/smartlegionlab/the-password-that-never-was-how-to-access-secrets-that-were-always-there-5dnf) and [Chrono-Library Messenger](https://dev.to/smartlegionlab/i-created-a-messenger-that-doesnt-send-any-data-heres-how-it-works-4ecp). Your passwords aren't stored anywhere - they're mathematical truths that emerge when needed.
-
-## 🌟 Revolutionary Features
-
-- 🚀 **On-the-fly generation** - Passwords are generated when needed, not stored
-- 🔒 **Cryptographically secure** - Uses SHA3-512 and system entropy
-- 🔄 **Deterministic output** - Same input always produces same password
-- 📱 **Cross-platform** - Works on Linux, Windows, macOS, and Android (Termux)
-- 🛠️ **Developer-friendly** - Clean API with full type hints
-- ♾️ **Eternal access** - Passwords remain accessible forever with your secret
-- 🎯 **Breach-proof** - Nothing to steal if nothing is stored
-
----
-
-## 🌌 The Paradox at the Core
-
-This tool embodies a beautiful cryptographic paradox: **perfect reproducibility meets complete unpredictability**. 
-
-The system is both:
-- **Perfectly reproducible** - Identical inputs (login + secret phrase) will always generate the exact same password, every time, on any device
-- **Completely unpredictable** - Without the exact inputs, the output is computationally impossible to guess or reverse-engineer
-
-This paradox is powered by deterministic cryptography - the same revolutionary concept explored in our foundational articles:
-- [**The Password That Never Was**](https://dev.to/smartlegionlab/the-password-that-never-was-how-to-access-secrets-that-were-always-there-smart-password-library-4h16) - How passwords emerge from mathematical space rather than being created
-- [**Chrono-Library Messenger**](https://dev.to/smartlegionlab/i-created-a-messenger-that-doesnt-send-any-data-heres-how-it-works-4ecp) - The cryptographic framework enabling this paradigm
-- [**Messages That Have Always Been With Us**](https://dev.to/smartlegionlab/the-magic-of-messages-that-have-always-been-with-us-48gp) - Philosophical foundation of pre-existing information
-
 Your passwords don't need to be stored because they were never created - they already exist as mathematical certainties, waiting to be discovered through the correct combination of login and secret phrase.
-
 
 ---
 
@@ -171,45 +139,13 @@ Explore my suite of applications that implement the "discovery over storage" par
 
 ### 🔧 Console Tools
 - [**CLI PassGen**](https://github.com/smartlegionlab/clipassgen/) - Console password discovery tool
-  ![CLI PassGen](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3w230zt58tp7y5swmqcj.png)
 
 - [**CLI PassMan**](https://github.com/smartlegionlab/clipassman/) - Console password manager
-  ![CLI PassMan](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uwhf6vlpfzdaq02k3lx9.png)
 
 ### 🖥️ Desktop & Web Applications
 - [**Web Password Manager**](https://github.com/smartlegionlab/smart-password-manager) - Web-based discovery interface
-  ![Web Manager](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gqeqkh72kd972g5v6k6l.png)
 
 - [**Desktop Manager**](https://github.com/smartlegionlab/smart-password-manager-desktop) - Cross-platform desktop application
-  ![Desktop Manager](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/803aj6vcroj8d927n6wf.png)
-  ![CLM](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cezzly1be7sx6zchskrg.png)
-  ![Telegram Bot](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ertgv2oanj79xalbrlwp.png)  
-
-### 🤖 Telegram Integration
-- [**Telegram Bot**](https://t.me/smartpasswordmanagerbot) - Discover passwords on Telegram
-
-### 💡 Revolutionary Communication
-- [**Chrono-Library Messenger**](https://github.com/smartlegionlab/chrono-library-messenger) - Send messages without transmitting data
-## 📖 Deep Dive: The Philosophy Behind the Code
-
-This library isn't just code - it's a new way of thinking about security. Read my foundational articles:
-
-1. [**The Password That Never Was: How to Access Secrets That Were Always There. Smart Password Library**](https://dev.to/smartlegionlab/the-password-that-never-was-how-to-access-secrets-that-were-always-there-smart-password-library-4h16) - How we access secrets that were always there
-2. [**Chrono-Library Messenger**](https://dev.to/smartlegionlab/i-created-a-messenger-that-doesnt-send-any-data-heres-how-it-works-4ecp) - Sending messages without transmitting data
-3. [**Messages That Have Always Been With Us**](https://dev.to/smartlegionlab/the-magic-of-messages-that-have-always-been-with-us-48gp) - The philosophical foundation
-
-## 🛡️ Security Architecture
-
-### Cryptographic Foundations
-- **SHA3-512** for irreversible hashing
-- **System entropy** from `os.urandom()`
-- **Deterministic but unpredictable** output
-- **Zero storage** of actual passwords
-
-### The Beautiful Paradox
-The system is both:
-- **Perfectly reproducible** (same inputs always give same output)
-- **Completely unpredictable** (cannot guess output without inputs)
 
 ## 💻 For Developers
 
@@ -243,12 +179,6 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
-
-## 🌟 Join the Revolution
-
-This isn't just another password library - it's a fundamental shift from **storing information** to **discovering mathematical truths**. Your passwords were always there. Now you know how to find them.
-
-**What do you think? Is this the future of security? Or just beautiful mathematical poetry?** Let's discuss on [Dev.to](https://dev.to/smartlegionlab) or [GitHub](https://github.com/smartlegionlab/smartpasslib)!
 
 ---
 
