@@ -1,4 +1,4 @@
-# Smart Passwords Library (smartpasslib) <sup>v1.2.0</sup>
+# Smart Passwords Library (smartpasslib) <sup>v1.2.1</sup>
 
 ---
 
