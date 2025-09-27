@@ -2,7 +2,12 @@
 
 ---
 
-> Note: This is a production-ready password manager. For academic research on the underlying security paradigm, see [The Pointer-Based Security Paradigm](https://doi.org/10.5281/zenodo.17204738).
+> Note: The core library for deterministic password generation. 
+> For academic research on the underlying security paradigm, see [The Pointer-Based Security Paradigm](https://doi.org/10.5281/zenodo.17204738).
+
+---
+
+Cross-platform library for generating smart passwords.
 
 ---
 
