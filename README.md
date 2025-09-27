@@ -1,4 +1,10 @@
-# Smart Passwords Library (smartpasslib) <sup>v1.1.2</sup>
+# Smart Passwords Library (smartpasslib) <sup>v1.2.0</sup>
+
+---
+
+> Note: This is a production-ready password manager. For academic research on the underlying security paradigm, see [The Pointer-Based Security Paradigm](https://doi.org/10.5281/zenodo.17204738).
+
+---
 
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/smartpasslib?label=pypi%20downloads)](https://pypi.org/project/smartpasslib/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
@@ -27,31 +33,33 @@ pip install smartpasslib
 from smartpasslib import SmartPasswordMaster
 
 # Your secret phrase is the key to the infinite password library
-secret = "myQuantumUniverse42$"
+secret = "secret"
 
 # Discover the password that was always yours
 password = SmartPasswordMaster.generate_smart_password(
-    login="alice@quantum.org", 
+    login="login", 
     secret=secret, 
     length=16
 )
 print(f"Your discovered password: {password}")
-# '4_u4k!j^6SdDW$I7' - This was always your password!
+# 'rJoiB%Q1mKT_@e2D'
 ```
 
 ## 🔑 The Magic of Verification Without Storage
 
 ```python
+from smartpasslib import SmartPasswordMaster
+
 # Generate a public verification key (safe to store anywhere)
 public_key = SmartPasswordMaster.generate_public_key(
-    login="alice@quantum.org", 
-    secret="myQuantumUniverse42$"
+    login="login", 
+    secret="secret"
 )
 
 # Later, verify you can rediscover the same password
 is_valid = SmartPasswordMaster.check_public_key(
-    login="alice@quantum.org",
-    secret="myQuantumUniverse42$",
+    login="login",
+    secret="secret",
     public_key=public_key
 )  # Returns True - The password is still there!
 ```
@@ -66,11 +74,11 @@ from smartpasslib import SmartPasswordMaster
 # Discover different types of passwords
 basic_pass = SmartPasswordMaster.generate_base_password(length=12)
 strong_pass = SmartPasswordMaster.generate_strong_password(length=14)
-smart_pass = SmartPasswordMaster.generate_smart_password("user", "secret", 16)
+smart_pass = SmartPasswordMaster.generate_smart_password("login", "secret", 16)
 
 # Key management for verification
-public_key = SmartPasswordMaster.generate_public_key("user", "secret")
-is_valid = SmartPasswordMaster.check_public_key("user", "secret", public_key)
+public_key = SmartPasswordMaster.generate_public_key("login", "secret")
+is_valid = SmartPasswordMaster.check_public_key("login", "secret", public_key)
 ```
 
 ### 2. SmartPasswordManager - Organize Your Discoveries
@@ -82,35 +90,26 @@ manager = SmartPasswordManager()
 
 # "Store" password coordinates (not the password itself!)
 public_key = SmartPasswordMaster.generate_public_key(
-    "bank@account.com", 
-    "financialSecret123"
+    "login", 
+    "secret"
 )
 password_data = SmartPassword(
-    login="bank@account.com", 
+    login="login", 
     key=public_key, 
     length=18
 )
 manager.add_smart_password(password_data)
 
 # "Retrieve" by rediscovering from the secret
-account = manager.get_smart_password("bank@account.com")
+smart_password = manager.get_smart_password("login")
 password = SmartPasswordMaster.generate_smart_password(
-    account.login,
-    "financialSecret123",
-    account.length
+    smart_password.login,
+    "secret",
+    smart_password.length
 )
 ```
 
 ## 🚀 Advanced Usage
-
-### Password Generation Options
-
-| Method                       | Description                             | Perfect For          |
-|------------------------------|-----------------------------------------|----------------------|
-| `generate_base_password()`   | Simple random discovery                 | Temporary access     |
-| `generate_strong_password()` | Discovery with character requirements   | User accounts        |
-| `generate_smart_password()`  | Deterministic discovery from credentials | Main use case        |
-| `generate_code()`            | Discover 2FA codes                      | Authentication       |
 
 ### Complete Usage Examples
 
@@ -154,8 +153,6 @@ Explore my suite of applications that implement the "discovery over storage" par
 pip install pytest pytest-cov setuptools wheel build
 pytest tests/ -v
 pytest tests/ -v --cov=smartpasslib --cov-report=html
-python -m build
-twine upload dist/*
 ```
 
 ### Testing Coverage
@@ -179,7 +176,3 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
-
----
-
-*Discover more revolutionary projects at [Smart Legion Lab](https://github.com/smartlegionlab)*
