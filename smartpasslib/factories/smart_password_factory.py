@@ -3,19 +3,21 @@ from smartpasslib.smart_passwords.smart_password import SmartPassword
 
 
 class SmartPasswordFactory:
-    """Factory class for creating SmartPassword instances."""
+    """
+    Factory class for creating SmartPassword objects.
+    """
 
     @classmethod
-    def create_smart_password(cls, login: str, key: str, length: int) -> SmartPassword:
+    def create_smart_password(cls, public_key: str, description: str, length: int = 12) -> SmartPassword:
         """
         Create a new SmartPassword instance.
 
         Args:
-            login (str): User login.
-            key (str): Generation key.
-            length (int): Password length.
+            public_key: Public key for verifying secret phrase knowledge
+            description: Service/account description
+            length: Password length (default: 12)
 
         Returns:
-            SmartPassword: New SmartPassword instance.
+            SmartPassword: Configured smart password object
         """
-        return SmartPassword(login=login, key=key, length=length)
+        return SmartPassword(public_key=public_key, description=description, length=length)

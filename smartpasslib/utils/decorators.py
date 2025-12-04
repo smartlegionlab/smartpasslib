@@ -4,13 +4,13 @@ import warnings
 
 def deprecated(new_method_name: str):
     """
-    Decorator factory for marking methods as deprecated.
+    Decorator to mark methods as deprecated.
 
     Args:
-        new_method_name (str): Name of the new method to use instead.
+        new_method_name: Name of the replacement method
 
     Returns:
-        function: Decorator that warns about deprecated usage.
+        function: Decorator function
     """
 
     def decorator(old_method):

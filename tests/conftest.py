@@ -5,7 +5,7 @@ from smartpasslib.smart_passwords.smart_password import SmartPassword
 
 
 @pytest.fixture
-def test_login():
+def test_description():
     return "test_user"
 
 
@@ -15,8 +15,8 @@ def test_secret():
 
 
 @pytest.fixture
-def test_key():
-    return "test_key"
+def test_public_key():
+    return "test_public_key"
 
 
 @pytest.fixture
@@ -25,8 +25,8 @@ def test_length():
 
 
 @pytest.fixture
-def test_password(test_login, test_key, test_length):
-    return SmartPassword(login=test_login, key=test_key, length=test_length)
+def test_password(test_description, test_public_key, test_length):
+    return SmartPassword(description=test_description, public_key=test_public_key, length=test_length)
 
 
 @pytest.fixture

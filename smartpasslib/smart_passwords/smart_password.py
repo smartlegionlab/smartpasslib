@@ -4,64 +4,80 @@ from typing import Dict
 
 class SmartPassword:
     """
-    Class representing a smart password with associated metadata.
+    Metadata container for smart password verification and generation.
 
-    Attributes:
-        _login (str): User login associated with the password.
-        _key (str): Key used for password generation.
-        _length (int): Length of the generated password.
+    Stores only verification data, not actual passwords or secrets.
     """
 
-    def __init__(self, login: str, key: str, length: int = 12):
+    def __init__(self, public_key: str, description: str, length: int = 12):
         """
-        Initialize a SmartPassword instance.
+        Initialize smart password metadata.
 
         Args:
-            login (str): User login.
-            key (str): Key used for password generation.
-            length (int, optional): Password length. Defaults to 12.
+            public_key: Public verification key for secret phrase
+            description: Service/account description
+            length: Password length to generate (default: 12)
         """
-        self._login = login
+        self._public_key = public_key
+        self._description = description
         self._length = length
-        self._key = key
 
     @property
-    def login(self) -> str:
-        """str: Get the associated login."""
-        return self._login
+    def public_key(self) -> str:
+        """
+        Public verification key.
+
+        Returns:
+            str: Key for verifying secret phrase knowledge
+        """
+        return self._public_key
 
     @property
-    def key(self) -> str:
-        """str: Get the generation key."""
-        return self._key
+    def description(self) -> str:
+        """
+        Service/account description.
+
+        Returns:
+            str: Human-readable description
+        """
+        return self._description
 
     @property
     def length(self) -> int:
-        """int: Get the password length."""
+        """
+        Password length.
+
+        Returns:
+            int: Length of password to generate
+        """
         return self._length
 
     def to_dict(self) -> Dict[str, str | int]:
         """
-        Convert the SmartPassword to a dictionary.
+        Convert to dictionary for serialization.
 
         Returns:
-            dict: Dictionary representation of the SmartPassword.
+            Dict[str, str | int]: Dictionary representation
         """
         return {
-            "login": self._login,
-            "key": self._key,
+            "public_key": self._public_key,
+            "description": self._description,
             "length": self._length
         }
 
     @staticmethod
     def from_dict(data: Dict[str, str | int]) -> 'SmartPassword':
         """
-        Create a SmartPassword from a dictionary.
+        Create instance from dictionary.
 
         Args:
-            data (dict): Dictionary containing login, key, and length.
+            data: Dictionary with public_key, description, and length
 
         Returns:
-            SmartPassword: New SmartPassword instance.
+            SmartPassword: Reconstructed instance
         """
-        return SmartPassword(login=data['login'], key=data['key'], length=data['length'])
+        return SmartPassword(
+            public_key=data['public_key'],
+            description=data['description'],
+            length=data['length']
+        )

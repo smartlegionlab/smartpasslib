@@ -4,22 +4,24 @@ import string
 
 
 class BasePasswordGenerator:
-    """Basic password generator with letters, digits, and symbols."""
+    """
+    Generator for basic random passwords.
+    """
 
     letters = string.ascii_letters
     digits = string.digits
     symbols = '!@#$%&^_'
 
     @classmethod
-    def generate(cls, length: int = 10) -> str:
+    def generate(cls, length: int = 12) -> str:
         """
-        Generates a password of the specified length.
+        Generate a random password of specified length.
 
         Args:
-            length (int): Password length (default: 10).
+            length: Length of password to generate (default: 12)
 
         Returns:
-            str: Generated password.
+            str: Randomly generated password
         """
         symbols_string = cls.letters + cls.digits + cls.symbols
         return ''.join((random.choice(symbols_string) for _ in range(length)))

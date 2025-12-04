@@ -1,217 +1,166 @@
 # Copyright (©) 2025, Alexander Suvorov. All rights reserved.
 import json
 import os
-import warnings
 from typing import Dict, Optional
 
 from smartpasslib.masters.smart_password_master import SmartPasswordMaster
 from smartpasslib.factories.smart_password_factory import SmartPasswordFactory
 from smartpasslib.smart_passwords.smart_password import SmartPassword
-from smartpasslib.utils.decorators import deprecated
 
 
 class SmartPasswordManager:
     """
-    Manager class for storing and retrieving SmartPassword instances.
+    Manager for smart password metadata storage and operations.
 
-    Attributes:
-        filename (str): Path to the storage file.
-        smart_passwords (dict): Dictionary of stored passwords.
-        smart_pass_factory (SmartPasswordFactory): Factory for password creation.
+    Stores only verification data, not actual passwords or secrets.
     """
 
     def __init__(self, filename: str = '~/.cases.json'):
         """
-        Initialize the SmartPasswordManager.
+        Initialize manager with storage file.
 
         Args:
-            filename (str, optional): Path to storage file. Defaults to '~/.cases.json'.
+            filename: Path to JSON storage file (default: ~/.cases.json)
         """
         self.filename = os.path.expanduser(filename)
         self.smart_passwords = self._load_data()
         self.smart_pass_factory = SmartPasswordFactory()
 
     @property
-    def file_path(self) -> str:
+    def passwords(self) -> Dict[str, SmartPassword]:
         """
-        str: Deprecated property for filename (use filename instead).
+        Get all stored smart password metadata.
 
         Returns:
-            str: The filename path.
-
-        Warns:
-            DeprecationWarning: Indicates this property is deprecated.
+            Dict[str, SmartPassword]: Dictionary mapping public keys to password metadata
         """
-        warnings.warn(
-            "The 'file_path' attribute is deprecated. Use 'filename' instead.",
-            DeprecationWarning,
-            stacklevel=2
-        )
-        return self.filename
-
-    @property
-    def passwords(self) -> Dict[str, SmartPassword]:
-        """dict: Get all stored smart passwords."""
         return self.smart_passwords
 
     @staticmethod
-    def generate_base_password(length: int = 10) -> str:
+    def generate_base_password(length: int = 12) -> str:
         """
-        Generate a base password.
+        Generate random base password.
 
         Args:
-            length (int, optional): Password length. Defaults to 10.
+            length: Password length (default: 12)
 
         Returns:
-            str: Generated password.
+            str: Generated password
         """
         return SmartPasswordMaster.generate_strong_password(length)
 
     @classmethod
-    def generate_default_smart_password(cls, secret: str = '', length: int = 10) -> str:
+    def generate_smart_password(cls, secret: str, length: int = 12) -> str:
         """
-        Generate a default smart password.
+        Generate deterministic smart password from secret.
 
         Args:
-            secret (str, optional): Secret for generation. Defaults to ''.
-            length (int, optional): Password length. Defaults to 10.
+            secret: Secret phrase
+            length: Password length (default: 12)
 
         Returns:
-            str: Generated password.
+            str: Generated password
         """
-        return SmartPasswordMaster.generate_default_smart_password(secret, length)
+        return SmartPasswordMaster.generate_smart_password(secret, length)
 
     @classmethod
-    def generate_smart_password(cls, login: str = '', secret: str = '', length: int = 10) -> str:
+    def generate_public_key(cls, secret: str) -> str:
         """
-        Generate a smart password.
+        Generate public verification key from secret.
 
         Args:
-            login (str, optional): User login. Defaults to ''.
-            secret (str, optional): Secret for generation. Defaults to ''.
-            length (int, optional): Password length. Defaults to 10.
+            secret: Secret phrase
 
         Returns:
-            str: Generated password.
+            str: Public verification key
         """
-        return SmartPasswordMaster.generate_smart_password(login, secret, length)
+        return SmartPasswordMaster.generate_public_key(secret)
 
     @classmethod
-    def generate_public_key(cls, login: str, secret: str) -> str:
+    def check_public_key(cls, secret: str, public_key: str) -> bool:
         """
-        Generate a public key.
+        Verify if public key matches secret phrase.
 
         Args:
-            login (str): User login.
-            secret (str): Secret for generation.
+            secret: Secret phrase to verify
+            public_key: Public key to check
 
         Returns:
-            str: Generated public key.
+            bool: True if key was generated from this secret
         """
-        return SmartPasswordMaster.generate_public_key(login, secret)
-
-    @classmethod
-    def check_public_key(cls, login: str, secret: str, public_key: str) -> bool:
-        """
-        Verify a public key.
-
-        Args:
-            login (str): User login.
-            secret (str): Secret for verification.
-            public_key (str): Key to verify.
-
-        Returns:
-            bool: True if the key is valid, False otherwise.
-        """
-        return SmartPasswordMaster.check_public_key(login, secret, public_key)
-
-    @deprecated('add_smart_password')
-    def add(self, password: SmartPassword):
-        """Deprecated method for adding a password."""
-        self.add_smart_password(password)
-
-    @deprecated('get_smart_password')
-    def get_password(self, login: str) -> Optional[SmartPassword]:
-        """Deprecated method for getting a password."""
-        return self.get_smart_password(login)
-
-    @deprecated('delete_smart_password')
-    def remove(self, login: str):
-        """Deprecated method for removing a password."""
-        self.delete_smart_password(login)
+        return SmartPasswordMaster.check_public_key(secret, public_key)
 
     def add_smart_password(self, smart_password: SmartPassword):
         """
-        Add a smart password to storage.
+        Add smart password metadata to storage.
 
         Args:
-            smart_password (SmartPassword): Password to add.
+            smart_password: SmartPassword object with verification data
         """
-        self.smart_passwords[smart_password.login] = smart_password
+        self.smart_passwords[smart_password.public_key] = smart_password
         self._write_data()
 
-    def get_smart_password(self, login: str) -> Optional[SmartPassword]:
+    def get_smart_password(self, public_key: str) -> Optional[SmartPassword]:
         """
-        Get a smart password by login.
+        Retrieve smart password metadata by public key.
 
         Args:
-            login (str): Login to look up.
+            public_key: Public verification key
 
         Returns:
-            SmartPassword or None: The found password or None if not found.
+            Optional[SmartPassword]: Password metadata or None if not found
         """
-        return self.smart_passwords.get(login)
+        return self.smart_passwords.get(public_key)
 
-    def delete_smart_password(self, login: str):
+    def delete_smart_password(self, public_key: str):
         """
-        Delete a smart password by login.
+        Delete smart password metadata by public key.
 
         Args:
-            login (str): Login of password to delete.
+            public_key: Public verification key
 
         Raises:
-            KeyError: If login is not found.
+            KeyError: If public key not found
         """
-        if login in self.smart_passwords:
-            del self.smart_passwords[login]
+        if public_key in self.smart_passwords:
+            del self.smart_passwords[public_key]
             self._write_data()
         else:
-            raise KeyError("Login not found.")
+            raise KeyError("Public Key not found.")
 
     def clear(self):
-        """Clear all stored passwords."""
+        """
+        Clear all stored password metadata.
+        """
         self.smart_passwords = {}
 
     @property
-    def count(self) -> int:
-        """int: Get the count of stored passwords."""
+    def password_count(self) -> int:
+        """
+        Get number of stored password metadata entries.
+
+        Returns:
+            int: Number of entries
+        """
         return len(self.smart_passwords)
 
     def _load_data(self) -> Dict[str, SmartPassword]:
         """
-        Load password data from file.
+        Load passwords metadata from storage file.
 
         Returns:
-            dict: Dictionary of loaded passwords.
+            Dict[str, SmartPassword]: Loaded password metadata
         """
         if os.path.isfile(self.filename):
             with open(self.filename, 'r') as f:
                 data = json.load(f)
-                return {login: SmartPassword.from_dict(item) for login, item in data.items()}
+                return {public_key: SmartPassword.from_dict(item) for public_key, item in data.items()}
         else:
             return {}
 
     def _write_data(self):
-        """Write password data to file."""
+        """
+        Write passwords metadata to storage file.
+        """
         with open(self.filename, 'w') as f:
-            json.dump({login: sp.to_dict() for login, sp in self.smart_passwords.items()}, f, indent=4)
-
-    @deprecated('_load_data')
-    def load_file(self):
-        """Deprecated method for loading data."""
-        self._load_data()
-
-    @deprecated('_write_data')
-    def save_file(self):
-        """Deprecated method for saving data."""
-        self._write_data()
+            json.dump({public_key: sp.to_dict() for public_key, sp in self.smart_passwords.items()}, f, indent=4)

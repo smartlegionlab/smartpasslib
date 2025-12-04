@@ -3,18 +3,20 @@ import hashlib
 
 
 class HashGenerator:
-    """SHA3-512 hash generator."""
+    """
+    Generator for cryptographic hash values.
+    """
 
     @classmethod
     def generate(cls, text: str) -> str:
         """
-        Generates a SHA3-512 hash for the given text.
+        Generate SHA3-512 hash for the given text.
 
         Args:
-            text (str): Input string to hash.
+            text: Input text to hash
 
         Returns:
-            str: Hexadecimal representation of the hash.
+            str: Hexadecimal SHA3-512 hash
         """
         text = str(text)
         sha = hashlib.sha3_512(text.encode('utf-8'))

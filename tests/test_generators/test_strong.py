@@ -7,7 +7,7 @@ from smartpasslib.generators.strong import StrongPasswordGenerator
 class TestStrongPasswordGenerator:
     def test_generate_strong_password(self):
         password = StrongPasswordGenerator.generate()
-        assert len(password) == 10
+        assert len(password) == 12
         assert any(c in string.ascii_uppercase for c in password)
         assert any(c in string.ascii_lowercase for c in password)
         assert any(c in string.digits for c in password)

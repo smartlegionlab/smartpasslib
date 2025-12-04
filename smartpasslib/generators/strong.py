@@ -4,7 +4,11 @@ import string
 
 
 class StrongPasswordGenerator:
-    """Strong password generator ensuring at least one character from each category."""
+    """
+    Generator for cryptographically strong random passwords.
+
+    Guarantees at least one character from each character class.
+    """
 
     upper_letters = string.ascii_uppercase
     lower_letters = string.ascii_lowercase
@@ -12,18 +16,18 @@ class StrongPasswordGenerator:
     symbols = '!@#$%&^_'
 
     @classmethod
-    def generate(cls, length: int = 10) -> str:
+    def generate(cls, length: int = 12) -> str:
         """
-        Generates a strong password with guaranteed character diversity.
+        Generate strong password with guaranteed character diversity.
 
         Args:
-            length (int): Password length (default: 10).
+            length: Password length, minimum 4
 
         Returns:
-            str: Generated password.
+            str: Cryptographically strong password
 
         Raises:
-            ValueError: If length is less than 4.
+            ValueError: If length is less than 4
         """
         if length < 4:
             raise ValueError("The length cannot be less than 4.")

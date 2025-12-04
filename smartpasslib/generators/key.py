@@ -3,82 +3,71 @@ from smartpasslib.generators.hash import HashGenerator
 
 
 class SmartKeyGenerator:
-    """Key generator based on iterative hashing."""
+    """
+    Generator for cryptographic keys from secret phrases.
+    """
 
     @classmethod
-    def _create_key(cls, login: str = '', secret: str = '', public_step: int = 15) -> str:
+    def _create_key(cls, secret, steps: int = 30) -> str:
         """
-        Internal method for key generation.
-
-        Args:
-            login (str): User login.
-            secret (str): Secret string.
-            public_step (int): Number of hashing iterations.
-
-        Returns:
-            str: Generated key.
+        Internal method to create a key through iterative hashing.
         """
-        login_hash = cls.get_hash(text=login)
-        secret_hash = cls.get_hash(text=secret)
-        all_hash = cls.get_hash(text=login_hash + secret_hash)
-        for _ in range(public_step):
-            temp_hash = cls.get_hash(all_hash)
-            all_hash = cls.get_hash(all_hash + temp_hash + secret_hash)
+        all_hash = cls.get_hash(secret)
+        for i in range(steps):
+            temp_string = f"{all_hash}:{secret}:{i}"
+            all_hash = cls.get_hash(temp_string)
         return cls.get_hash(all_hash)
 
     @classmethod
-    def generate_public_key(cls, login: str = '', secret: str = '') -> str:
+    def generate_public_key(cls, secret) -> str:
         """
-        Generates a public key.
+        Generate a public verification key from secret phrase.
 
         Args:
-            login (str): User login.
-            secret (str): Secret string.
+            secret: Secret phrase
 
         Returns:
-            str: Public key.
+            str: Public key for verification
         """
-        return cls._create_key(login, secret, 60)
+        return cls._create_key(secret=secret, steps=60)
 
     @classmethod
-    def generate_private_key(cls, login: str = '', secret: str = '') -> str:
+    def generate_private_key(cls, secret) -> str:
         """
-        Generates a private key.
+        Generate a private key from secret phrase.
 
         Args:
-            login (str): User login.
-            secret (str): Secret string.
+            secret: Secret phrase
 
         Returns:
-            str: Private key.
+            str: Private key
         """
-        return cls._create_key(login, secret, 30)
+        return cls._create_key(secret=secret, steps=30)
 
     @classmethod
-    def check_key(cls, login: str = '', secret: str = '', key: str = '') -> bool:
+    def check_key(cls, secret: str, key: str) -> bool:
         """
-        Verifies if a key matches the given login and secret.
+        Verify if a key matches the secret phrase.
 
         Args:
-            login (str): User login.
-            secret (str): Secret string.
-            key (str): Key to verify.
+            secret: Secret phrase to check
+            key: Key to verify
 
         Returns:
-            bool: True if the key is valid, False otherwise.
+            bool: True if key was generated from this secret
         """
-        return cls.generate_public_key(login=login, secret=secret) == key
+        return cls.generate_public_key(secret=secret) == key
 
     @classmethod
     def get_hash(cls, text: str = '') -> str:
         """
-        Generates a hash for the given text.
+        Generate SHA3-512 hash of text.
 
         Args:
-            text (str): Input string.
+            text: Input text
 
         Returns:
-            str: Hash of the input string.
+            str: Hexadecimal hash
         """
         text = str(text)
         return HashGenerator.generate(str(text.encode('utf-8')))
