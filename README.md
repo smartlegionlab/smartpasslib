@@ -1,15 +1,8 @@
-# smartpasslib (Smart Passwords Library) <sup>v2.0.0</sup>
+# smartpasslib (Smart Passwords Library) <sup>v2.1.0</sup>
 
 ---
 
-Cross-platform library for generating deterministic smart passwords.
-
-> Your passwords don't need to be stored because they were never created—they already exist as mathematically defined values, waiting to be discovered using your secret phrase.
-
-## 📚 Research Paradigms & Publications
-
-- **[Pointer-Based Security Paradigm](https://doi.org/10.5281/zenodo.17204738)** - Architectural Transition from Data Protection to No Vulnerable Data
-- **[Local Data Regeneration Paradigm](https://doi.org/10.5281/zenodo.17264327)** - Ontological Shift from Data Transmission to Synchronous State Discovery
+**Smart Passwords Library: Cryptographic password generation and management without storage. Generate passwords from secrets, verify knowledge without exposure, manage metadata securely.**
 
 ---
 
@@ -19,6 +12,8 @@ Cross-platform library for generating deterministic smart passwords.
 [![PyPI](https://img.shields.io/pypi/v/smartpasslib)](https://pypi.org/project/smartpasslib)
 [![GitHub](https://img.shields.io/github/license/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/blob/master/LICENSE)
 [![PyPI - Format](https://img.shields.io/pypi/format/smartpasslib)](https://pypi.org/project/smartpasslib)
+[![GitHub stars](https://img.shields.io/github/stars/smartlegionlab/smartpasslib?style=social)](https://github.com/smartlegionlab/smartpasslib/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/smartlegionlab/smartpasslib?style=social)](https://github.com/smartlegionlab/smartpasslib/network/members)
 
 [![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib)](https://pepy.tech/projects/smartpasslib)
 [![PyPI Downloads](https://static.pepy.tech/badge/smartpasslib/month)](https://pepy.tech/projects/smartpasslib)
@@ -26,9 +21,60 @@ Cross-platform library for generating deterministic smart passwords.
 
 ---
 
-## 📚 Technical Foundation
+## **🔐 Core Principles:**
 
-The library implements **deterministic password generation** - passwords are generated reproducibly from secret phrases using cryptographic functions. 
+- 🔐 **Zero-Storage Security**: No passwords or secret phrases are ever stored or transmitted
+- 🔑 **Deterministic Generation**: Identical secret + parameters = identical password (SHA3-512 based)
+- 📝 **Metadata Only**: Store only verification metadata (public keys, descriptions, lengths)
+- 🔄 **On-Demand Regeneration**: Passwords are recalculated when needed, never retrieved from storage
+
+**What You Can Do:**
+1. **Smart Passwords**: Generate deterministic passwords from secret phrases
+2. **Strong Random Passwords**: Cryptographically secure passwords with character diversity
+3. **Authentication Codes**: Generate secure 2FA/MFA codes with guaranteed character sets
+4. **Base Passwords**: Simple random passwords for general use
+5. **Key Generation**: Create public/private verification keys from secrets
+6. **Secret Verification**: Prove knowledge of secrets without revealing them (public key verification)
+7. **Metadata Management**: Store and update password metadata (descriptions, lengths) without storing passwords
+8. **Deterministic & Non-Deterministic**: Both reproducible and random password generation options
+
+**Key Features:**
+- ✅ **No Password Database**: Eliminates the need for password storage
+- ✅ **No Secret Storage**: Secret phrases never leave your control
+- ✅ **Public Key Verification**: Verify secrets without exposing them
+- ✅ **Multiple Generator Types**: Smart, strong, base, and code generators
+- ✅ **Metadata Updates**: Modify descriptions and lengths without affecting cryptographic integrity
+- ✅ **Full Test Coverage**: 100% tested for reliability and security
+- ✅ **Cross-Platform**: Works anywhere Python runs
+
+**Security Model:**
+- **Proof of Knowledge**: Verify you know a secret without storing or transmitting it
+- **Deterministic Security**: Same input = same output, always reproducible
+- **Metadata Separation**: Non-sensitive data (descriptions) stored separately from verification data (public keys)
+- **No Recovery Backdoors**: Lost secret = permanently lost passwords (by design)
+
+---
+
+## ⚠️ Critical Notice
+
+**BEFORE USING THIS SOFTWARE, READ THE COMPLETE LEGAL DISCLAIMER BELOW**
+
+[View Legal Disclaimer & Liability Waiver](#-legal-disclaimer)
+
+*Usage of this software constitutes acceptance of all terms and conditions.*
+
+---
+
+## 📚 Research Paradigms & Publications
+
+- **[Pointer-Based Security Paradigm](https://doi.org/10.5281/zenodo.17204738)** - Architectural Shift from Data Protection to Data Non-Existence
+- **[Local Data Regeneration Paradigm](https://doi.org/10.5281/zenodo.17264327)** - Ontological Shift from Data Transmission to Synchronous State Discovery
+
+---
+
+## 🔬 Technical Foundation
+
+The library implements **deterministic password generation** - passwords are generated reproducibly from secret phrases using cryptographic hash functions.
 
 **Key principle**: Instead of storing passwords, you store verification metadata. The actual password is regenerated on-demand from your secret.
 
@@ -46,9 +92,9 @@ The library implements **deterministic password generation** - passwords are gen
 
 ---
 
-## 🔄 What's New in v2.0.0
+## 🆕 What's New in v2.1.0
 
-⚠️ CRITICAL WARNING!: Upgrading to v2.0.0 will break all existing password generation. All passwords generated with v1.x will become invalid, and public keys will no longer verify. This is not a compatible upgrade - it completely changes the cryptographic foundation.
+⚠️ CRITICAL WARNING: Upgrading to v2.1.0 will break all existing password generation. All passwords generated with v1.x will become invalid, and public keys will no longer verify.
 
 ### Major Changes:
 
@@ -59,8 +105,12 @@ The library implements **deterministic password generation** - passwords are gen
 
 **Data Model Updates:**
 - `SmartPassword` class updated: `login` → `description`, `key` → `public_key`
-- All deprecated methods removed (not just marked as deprecated)
+- All deprecated methods removed
 - Removed deprecated `file_path` property from `SmartPasswordManager`
+
+**New Features:**
+- Added `SmartPassword.update()` method to modify description and length
+- Added `SmartPasswordManager.update_smart_password()` method for stored passwords
 
 **Security Improvements:**
 - Simplified key derivation algorithm in `SmartKeyGenerator`
@@ -76,7 +126,7 @@ The library implements **deterministic password generation** - passwords are gen
 
 **Method Signature Changes:**
 ```python
-# v1.x → v2.0
+# v1.x → v2.1.0
 SmartPasswordMaster.generate_smart_password(login, secret, length)
 SmartPasswordMaster.generate_smart_password(secret, length)
 
@@ -89,7 +139,7 @@ SmartPasswordMaster.check_public_key(secret, public_key)
 
 **Class Structure Changes:**
 ```python
-# v1.x → v2.0
+# v1.x → v2.1.0
 SmartPassword(login, key, length)
 SmartPassword(public_key, description, length)
 
@@ -117,7 +167,7 @@ password = SmartPasswordMaster.generate_smart_password(
     length=12
 )
 
-# v2.0
+# v2.1.0
 password = SmartPasswordMaster.generate_smart_password(
     secret="mysecret", 
     length=12
@@ -133,7 +183,7 @@ sp = SmartPassword(
     length=16
 )
 
-# v2.0
+# v2.1.0
 sp = SmartPassword(
     public_key=public_key,
     description="GitHub", 
@@ -147,9 +197,25 @@ sp = SmartPassword(
 manager.add(password)
 manager.get_password("login")
 
-# v2.0
+# v2.1.0
 manager.add_smart_password(sp)
 manager.get_smart_password(public_key)
+```
+
+**Metadata Updates (New):**
+```python
+# Update existing smart password metadata
+manager.update_smart_password(
+    public_key=stored_key,
+    description="Updated Service Name",
+    length=20
+)
+
+# Or update SmartPassword object directly
+password_metadata.update(
+    description="New Description",
+    length=24
+)
 ```
 
 ### Key Improvements:
@@ -159,8 +225,9 @@ manager.get_smart_password(public_key)
 3. **Better Security** - Streamlined cryptographic operations
 4. **Full Test Coverage** - 100% test coverage ensures reliability
 5. **Clearer Naming** - `public_key` accurately represents verification key
+6. **Metadata Updates** - New `update()` methods for description and length
 
-**Note:** v2.0.0 is not backward compatible with v1.x. Update your code according to the migration guide.
+**Note:** v2.1.0 is not backward compatible with v1.x. Update your code according to the migration guide.
 
 ---
 
@@ -170,7 +237,9 @@ manager.get_smart_password(public_key)
 pip install smartpasslib
 ```
 
-## 🧙‍♂️ Quick Start: Discover Your First Password
+---
+
+## 🚀 Quick Start
 
 ```python
 from smartpasslib import SmartPasswordMaster
@@ -178,16 +247,16 @@ from smartpasslib import SmartPasswordMaster
 # Your secret phrase is the only key needed
 secret = "my secret phrase"
 
-# Discover the password that was always there
+# Discover the password
 password = SmartPasswordMaster.generate_smart_password(
     secret=secret, 
     length=16
 )
 print(f"Your discovered password: {password}")
-# Your discovered password: _4qkVFcC3#pGFvhH
+# Example output: _4qkVFcC3#pGFvhH
 ```
 
-## 🔑 The Magic: Verification Without Storage
+## 🔑 Verification Without Storage
 
 ```python
 from smartpasslib import SmartPasswordMaster
@@ -204,6 +273,8 @@ is_valid = SmartPasswordMaster.check_public_key(
 )  # Returns True - proof of secret knowledge
 print(is_valid)  # True
 ```
+
+---
 
 ## 🏗️ Core Components
 
@@ -248,6 +319,13 @@ smart_pass = SmartPassword(
 )
 manager.add_smart_password(smart_pass)
 
+# Update metadata
+manager.update_smart_password(
+    public_key=public_key,
+    description="GitHub Professional",
+    length=20
+)
+
 # Retrieve and regenerate password when needed
 stored_metadata = manager.get_smart_password(public_key)
 regenerated_password = SmartPasswordMaster.generate_smart_password(
@@ -257,24 +335,27 @@ regenerated_password = SmartPasswordMaster.generate_smart_password(
 # Output: ntm#uhqVDx3GqqQzEL'
 ```
 
-### Password Generators
+### Generators
 
 **Base Generator** - Simple random passwords:
 ```python
 from smartpasslib.generators.base import BasePasswordGenerator
-password = BasePasswordGenerator.generate(12) # oGHZRCv6zaZF
+password = BasePasswordGenerator.generate(12)
+# Output: oGHZRCv6zaZF
 ```
 
 **Strong Generator** - Cryptographically secure with character diversity:
 ```python
 from smartpasslib.generators.strong import StrongPasswordGenerator
-password = StrongPasswordGenerator.generate(14)  # Guarantees one of each character type 3g4nU_4k6!c%rs
+password = StrongPasswordGenerator.generate(14)  # Guarantees one of each character type
+# Output: 3g4nU_4k6!c%rs
 ```
 
 **Code Generator** - Secure codes for authentication:
 ```python
 from smartpasslib.generators.code import CodeGenerator
-code = CodeGenerator.generate(6)  # Minimum 4 characters Q%5ff*
+code = CodeGenerator.generate(6)  # Minimum 4 characters
+# Output: Q%5ff*
 ```
 
 **Smart Generator** - Deterministic passwords from seeds:
@@ -283,12 +364,15 @@ from smartpasslib.generators.smart import SmartPasswordGenerator
 from smartpasslib.generators.key import SmartKeyGenerator
 
 seed = SmartKeyGenerator.generate_private_key("secret")
-password = SmartPasswordGenerator.generate(seed, 15) # wcJjBKIhsgV%!6I
+password = SmartPasswordGenerator.generate(seed, 15)
+# Output: wcJjBKIhsgV%!6I
 ```
 
-## 🚀 Advanced Usage
+---
 
-### Complete Example: Password Management System
+## 💡 Advanced Usage
+
+### Password Management System
 
 ```python
 from smartpasslib import SmartPasswordManager, SmartPassword, SmartPasswordMaster
@@ -321,7 +405,8 @@ class PasswordVault:
 # Usage
 vault = PasswordVault()
 key = vault.add_service("My Account", "my account secret", 20)
-password = vault.get_password(key, "my account secret") # _!DGHSTiE!DQxLojjlT%'
+password = vault.get_password(key, "my account secret")
+# Output: _!DGHSTiE!DQxLojjlT%'
 ```
 
 ### Two-Factor Authentication Codes
@@ -336,9 +421,9 @@ def generate_2fa_code():
 auth_code = generate_2fa_code()  # Example: "lA4P&P!k"
 ```
 
-## 🔧 Ecosystem
+---
 
-Built on smartpasslib applications:
+## 🔧 Ecosystem
 
 ### Command Line Tools
 - **[CLI Smart Password Generator](https://github.com/smartlegionlab/clipassgen/)** - Generate passwords from terminal
@@ -346,9 +431,11 @@ Built on smartpasslib applications:
 
 ### Graphical Applications
 - **[Web Smart Password Manager](https://github.com/smartlegionlab/smart-password-manager)** - Browser-based interface
-- **[Desktop Smart Password Manager](https://github.com/smartlegionlab/smart-password-manager-desktop)** - Cross-platform desktop app
+- **[Desktop Smart Password Manager](https://github.com/smartlegionlab/smartpasslib)** - Cross-platform desktop app
 
-## 💻 For Developers
+---
+
+## 👨‍💻 For Developers
 
 ### Development Setup
 
@@ -397,9 +484,9 @@ coverage.py v7.12.0
 
 ---
 
-## 📜 License & Disclaimer
+## 📜 License
 
-**BSD 3-Clause License**
+**[BSD 3-Clause License](LICENSE)**
 
 Copyright (c) 2025, Alexander Suvorov
 
@@ -418,10 +505,91 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ---
 
-## 🆘 Support & Contribution
+## 🆘 Support
 
 - **Issues**: [GitHub Issues](https://github.com/smartlegionlab/smartpasslib/issues)
 - **Documentation**: Inline code documentation
 - **Tests**: 100% coverage ensures reliability
 
 **Note**: Always test password generation in your specific environment. Implementation security depends on proper usage.
+
+---
+
+## ⚠️ Security Warnings
+
+**Version Incompatibility**: v2.1.0 passwords are incompatible with v1.x.
+Never mix secret phrases across different versions.
+
+### Secret Phrase Security
+
+**Your secret phrase is the cryptographic master key**
+
+1. **Permanent data loss**: Lost secret phrase = irreversible loss of all derived passwords
+2. **No recovery mechanisms**: No password recovery, no secret reset, no administrative override
+3. **Deterministic generation**: Identical input (secret + parameters) = identical output (password)
+4. **Single point of failure**: Secret phrase is the sole authentication factor for all passwords
+5. **Secure storage required**: Digital storage of secret phrases is prohibited
+
+**Critical**: Test password regeneration with non-essential accounts before production use
+
+---
+
+## 📄 Legal Disclaimer
+
+**COMPLETE AND ABSOLUTE RELEASE FROM ALL LIABILITY**
+
+**SOFTWARE PROVIDED "AS IS" WITHOUT ANY WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.**
+
+The copyright holder, contributors, and any associated parties **EXPLICITLY DISCLAIM AND DENY ALL RESPONSIBILITY AND LIABILITY** for:
+
+1. **ANY AND ALL DATA LOSS**: Complete or partial loss of passwords, accounts, credentials, cryptographic keys, or any data whatsoever
+2. **ANY AND ALL SECURITY INCIDENTS**: Unauthorized access, data breaches, account compromises, theft, or exposure of sensitive information
+3. **ANY AND ALL FINANCIAL LOSSES**: Direct, indirect, incidental, special, consequential, or punitive damages of any kind
+4. **ANY AND ALL OPERATIONAL DISRUPTIONS**: Service interruptions, account lockouts, authentication failures, or denial of service
+5. **ANY AND ALL IMPLEMENTATION ISSUES**: Bugs, errors, vulnerabilities, misconfigurations, or incorrect usage
+6. **ANY AND ALL LEGAL OR REGULATORY CONSEQUENCES**: Violations of laws, regulations, compliance requirements, or terms of service
+7. **ANY AND ALL PERSONAL OR BUSINESS DAMAGES**: Reputational harm, business interruption, loss of revenue, or any other damages
+8. **ANY AND ALL THIRD-PARTY CLAIMS**: Claims made by any other parties affected by software usage
+
+**USER ACCEPTS FULL AND UNCONDITIONAL RESPONSIBILITY**
+
+By installing, accessing, or using this software in any manner, you irrevocably agree that:
+
+- You assume **ALL** risks associated with software usage
+- You bear **SOLE** responsibility for secret phrase management and security
+- You accept **COMPLETE** responsibility for all testing and validation
+- You are **EXCLUSIVELY** liable for compliance with all applicable laws
+- You accept **TOTAL** responsibility for any and all consequences
+- You **PERMANENTLY AND IRREVOCABLY** waive, release, and discharge all claims against the copyright holder, contributors, distributors, and any associated entities
+
+**NO WARRANTY OF ANY KIND**
+
+This software comes with **ABSOLUTELY NO GUARANTEES** regarding:
+- Security effectiveness or cryptographic strength
+- Reliability or availability
+- Fitness for any particular purpose
+- Accuracy or correctness
+- Freedom from defects or vulnerabilities
+
+**NOT A SECURITY PRODUCT OR SERVICE**
+
+This is experimental software. It is not:
+- Security consultation or advice
+- A certified cryptographic product
+- A guaranteed security solution
+- Professional security software
+- Endorsed by any security authority
+
+**FINAL AND BINDING AGREEMENT**
+
+Usage of this software constitutes your **FULL AND UNCONDITIONAL ACCEPTANCE** of this disclaimer. If you do not accept **ALL** terms and conditions, **DO NOT USE THE SOFTWARE.**
+
+**BY PROCEEDING, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS DISCLAIMER IN ITS ENTIRETY, UNDERSTAND ITS TERMS COMPLETELY, AND ACCEPT THEM WITHOUT RESERVATION OR EXCEPTION.**
+
+---
+
+**Version**: 2.1.0 | [**Author**](https://smartlegionlab.ru): [Alexander Suvorov](https://alexander-suvorov.ru)
+
+---
+
+**Note**: This is v2.1.0. If migrating from v1.x, all passwords must be regenerated.
