@@ -332,7 +332,7 @@ regenerated_password = SmartPasswordMaster.generate_smart_password(
     "github secret",
     stored_metadata.length
 )
-# Output: ntm#uhqVDx3GqqQzEL'
+# Output: ntm#uhqVDx3GqqQzELOH
 ```
 
 ### Generators
@@ -441,7 +441,7 @@ auth_code = generate_2fa_code()  # Example: "lA4P&P!k"
 
 ```bash
 # Install development dependencies
-pip install pytest pytest-cov
+pip install -r data/requirements-dev.txt
 
 # Run tests
 pytest -v
