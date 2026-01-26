@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "smartpasslib"
-version = "2.1.0"
+version = "2.1.1"
 description = "Smart Passwords Library: Cryptographic password generation and management without storage. Generate passwords from secrets, verify knowledge without exposure, manage metadata securely."
 authors = [
     {name = "Alexander Suvorov", email = "smartlegiondev@gmail.com"}

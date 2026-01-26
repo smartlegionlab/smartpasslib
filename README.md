@@ -1,4 +1,4 @@
-# smartpasslib (Smart Passwords Library) <sup>v2.1.0</sup>
+# smartpasslib (Smart Passwords Library) <sup>v2.1.1</sup>
 
 ---
 
@@ -92,9 +92,9 @@ The library implements **deterministic password generation** - passwords are gen
 
 ---
 
-## 🆕 What's New in v2.1.0
+## 🆕 What's New in v2.1.1
 
-⚠️ CRITICAL WARNING: Upgrading to v2.1.0 will break all existing password generation. All passwords generated with v1.x will become invalid, and public keys will no longer verify.
+⚠️ CRITICAL WARNING: Upgrading to v2.1.1 will break all existing password generation. All passwords generated with v1.x will become invalid, and public keys will no longer verify.
 
 ### Major Changes:
 
@@ -126,7 +126,7 @@ The library implements **deterministic password generation** - passwords are gen
 
 **Method Signature Changes:**
 ```python
-# v1.x → v2.1.0
+# v1.x → v2.1.1
 SmartPasswordMaster.generate_smart_password(login, secret, length)
 SmartPasswordMaster.generate_smart_password(secret, length)
 
@@ -139,7 +139,7 @@ SmartPasswordMaster.check_public_key(secret, public_key)
 
 **Class Structure Changes:**
 ```python
-# v1.x → v2.1.0
+# v1.x → v2.1.1
 SmartPassword(login, key, length)
 SmartPassword(public_key, description, length)
 
@@ -167,7 +167,7 @@ password = SmartPasswordMaster.generate_smart_password(
     length=12
 )
 
-# v2.1.0
+# v2.1.1
 password = SmartPasswordMaster.generate_smart_password(
     secret="mysecret", 
     length=12
@@ -183,7 +183,7 @@ sp = SmartPassword(
     length=16
 )
 
-# v2.1.0
+# v2.1.1
 sp = SmartPassword(
     public_key=public_key,
     description="GitHub", 
@@ -197,7 +197,7 @@ sp = SmartPassword(
 manager.add(password)
 manager.get_password("login")
 
-# v2.1.0
+# v2.1.1
 manager.add_smart_password(sp)
 manager.get_smart_password(public_key)
 ```
@@ -227,7 +227,7 @@ password_metadata.update(
 5. **Clearer Naming** - `public_key` accurately represents verification key
 6. **Metadata Updates** - New `update()` methods for description and length
 
-**Note:** v2.1.0 is not backward compatible with v1.x. Update your code according to the migration guide.
+**Note:** v2.1.1 is not backward compatible with v1.x. Update your code according to the migration guide.
 
 ---
 
@@ -488,7 +488,7 @@ coverage.py v7.12.0
 
 **[BSD 3-Clause License](LICENSE)**
 
-Copyright (c) 2025, Alexander Suvorov
+Copyright (c) 2026, Alexander Suvorov
 
 ```
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -517,7 +517,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## ⚠️ Security Warnings
 
-**Version Incompatibility**: v2.1.0 passwords are incompatible with v1.x.
+**Version Incompatibility**: v2.1.1 passwords are incompatible with v1.x.
 Never mix secret phrases across different versions.
 
 ### Secret Phrase Security
@@ -588,8 +588,8 @@ Usage of this software constitutes your **FULL AND UNCONDITIONAL ACCEPTANCE** of
 
 ---
 
-**Version**: 2.1.0 | [**Author**](https://smartlegionlab.ru): [Alexander Suvorov](https://alexander-suvorov.ru)
+**Version**: 2.1.1 | [**Author**](https://smartlegionlab.ru): [Alexander Suvorov](https://alexander-suvorov.ru)
 
 ---
 
-**Note**: This is v2.1.0. If migrating from v1.x, all passwords must be regenerated.
+**Note**: This is v2.1.1. If migrating from v1.x, all passwords must be regenerated.
