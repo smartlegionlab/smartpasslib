@@ -1,4 +1,7 @@
 # Copyright (©) 2026, Alexander Suvorov. All rights reserved.
+import json
+from pathlib import Path
+
 import pytest
 
 from smartpasslib import SmartPassword
@@ -36,7 +39,7 @@ class TestSmartPasswordManager:
 
     def test_delete_nonexistent_password(self, temp_file):
         manager = SmartPasswordManager(filename=temp_file)
-        with pytest.raises(KeyError, match="Public Key not found."):
+        with pytest.raises(KeyError, match="Public key not found: nonexistent_key"):
             manager.delete_smart_password("nonexistent_key")
 
     def test_get_nonexistent_password(self, temp_file):
@@ -98,11 +101,11 @@ class TestSmartPasswordManager:
         assert manager.update_smart_password(test_password.public_key, description="Updated Description") is True
         updated = manager.get_smart_password(test_password.public_key)
         assert updated.description == "Updated Description"
-        assert updated.length == test_password.length  # Length unchanged
+        assert updated.length == test_password.length
 
         assert manager.update_smart_password(test_password.public_key, length=20) is True
         updated = manager.get_smart_password(test_password.public_key)
-        assert updated.description == "Updated Description"  # Description unchanged
+        assert updated.description == "Updated Description"
         assert updated.length == 20
 
         assert manager.update_smart_password(
@@ -178,4 +181,149 @@ class TestSmartPasswordManager:
         )
 
         updated = manager.get_smart_password(test_password.public_key)
-        assert updated.public_key == original_public_key  # Public key unchanged
+        assert updated.public_key == original_public_key
+
+    def test_file_path_property(self, temp_file):
+        manager = SmartPasswordManager(filename=temp_file)
+        assert manager.file_path == temp_file
+
+    def test_generate_base_password_static(self):
+        pwd1 = SmartPasswordManager.generate_base_password()
+        pwd2 = SmartPasswordManager.generate_base_password(20)
+        assert len(pwd1) == 12
+        assert len(pwd2) == 20
+        assert isinstance(pwd1, str)
+        assert isinstance(pwd2, str)
+
+    def test_generate_smart_password_class_method(self, test_secret):
+        pwd1 = SmartPasswordManager.generate_smart_password(test_secret)
+        pwd2 = SmartPasswordManager.generate_smart_password(test_secret, 20)
+        assert len(pwd1) == 12
+        assert len(pwd2) == 20
+        assert isinstance(pwd1, str)
+        assert isinstance(pwd2, str)
+
+    def test_generate_public_key_class_method(self, test_secret):
+        key = SmartPasswordManager.generate_public_key(test_secret)
+        assert isinstance(key, str)
+        assert len(key) > 0
+
+    def test_check_public_key_class_method(self, test_secret):
+        key = SmartPasswordManager.generate_public_key(test_secret)
+        assert SmartPasswordManager.check_public_key(test_secret, key) is True
+        assert SmartPasswordManager.check_public_key("wrong", key) is False
+
+    def test_passwords_property_returns_dict(self, temp_file, test_password):
+        manager = SmartPasswordManager(filename=temp_file)
+        manager.add_smart_password(test_password)
+        assert isinstance(manager.passwords, dict)
+        assert len(manager.passwords) == 1
+
+    def test_load_data_corrupted_file(self, temp_file):
+        with open(temp_file, 'w') as f:
+            f.write("this is not json")
+
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            manager = SmartPasswordManager(filename=temp_file)
+
+        assert manager.password_count == 0
+        assert isinstance(manager.smart_passwords, dict)
+
+    def test_write_data_permission_error(self, temp_file, monkeypatch, test_password):
+
+        def mock_open(*args, **kwargs):
+            raise IOError("Permission denied")
+
+        monkeypatch.setattr("builtins.open", mock_open)
+
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            manager = SmartPasswordManager(filename=temp_file)
+            manager.add_smart_password(test_password)
+
+        assert test_password.public_key in manager.smart_passwords
+        assert manager.get_smart_password(test_password.public_key) == test_password
+
+    def test_default_config_path_creation(self, mock_home):
+        manager = SmartPasswordManager()
+        expected_path = str(mock_home / '.config' / 'smart_password_manager' / 'passwords.json')
+        assert manager.file_path == expected_path
+        assert Path(expected_path).parent.exists()
+
+    def test_migration_from_old_file(self, mock_home):
+        old_file = mock_home / '.cases.json'
+        test_data = {
+            "test_key": {
+                "public_key": "test_key",
+                "description": "test_service",
+                "length": 12
+            }
+        }
+        old_file.write_text(json.dumps(test_data))
+
+        manager = SmartPasswordManager()
+
+        new_file = Path(manager.file_path)
+        assert new_file.exists()
+
+        assert (mock_home / '.cases.json.bak').exists()
+        assert not old_file.exists()
+
+        assert len(manager.smart_passwords) == 1
+        assert "test_key" in manager.smart_passwords
+
+    def test_no_migration_if_new_exists(self, mock_home):
+        new_file = mock_home / '.config' / 'smart_password_manager' / 'passwords.json'
+        new_file.parent.mkdir(parents=True, exist_ok=True)
+        new_data = {
+            "new_key": {
+                "public_key": "new_key",
+                "description": "new_service",
+                "length": 16
+            }
+        }
+        new_file.write_text(json.dumps(new_data))
+
+        old_file = mock_home / '.cases.json'
+        old_file.write_text(json.dumps({"old": "data"}))
+
+        manager = SmartPasswordManager()
+
+        assert len(manager.smart_passwords) == 1
+        assert "new_key" in manager.smart_passwords
+        assert manager.smart_passwords["new_key"].description == "new_service"
+
+        assert old_file.exists()
+        assert not (mock_home / '.cases.json.bak').exists()
+
+    def test_migration_exception_handling(self, mock_home, monkeypatch):
+        old_file = mock_home / '.cases.json'
+        old_file.touch()
+
+        def mock_copy(*args, **kwargs):
+            raise Exception("Mock copy error")
+
+        monkeypatch.setattr("shutil.copy2", mock_copy)
+
+        import io
+        import sys
+        captured = io.StringIO()
+        sys.stderr = captured
+
+        manager = SmartPasswordManager()
+
+        sys.stderr = sys.__stderr__
+
+        assert manager.file_path == str(mock_home / '.config' / 'smart_password_manager' / 'passwords.json')
+        assert old_file.exists()
+
+    def test_default_path_with_existing_dir(self, mock_home):
+        config_dir = mock_home / '.config' / 'smart_password_manager'
+        config_dir.mkdir(parents=True, exist_ok=True)
+
+        manager = SmartPasswordManager()
+        assert manager.file_path == str(config_dir / 'passwords.json')
+        assert config_dir.exists()

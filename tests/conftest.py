@@ -1,4 +1,6 @@
 # Copyright (©) 2026, Alexander Suvorov. All rights reserved.
+from pathlib import Path
+
 import pytest
 import os
 from smartpasslib.smart_passwords.smart_password import SmartPassword
@@ -35,3 +37,10 @@ def temp_file(tmp_path):
     yield str(test_file)
     if os.path.exists(test_file):
         os.remove(test_file)
+
+@pytest.fixture
+def mock_home(monkeypatch, tmp_path):
+    mock_home_dir = tmp_path / "fake_home"
+    mock_home_dir.mkdir(parents=True, exist_ok=True)
+    monkeypatch.setattr(Path, "home", lambda: mock_home_dir)
+    return mock_home_dir
