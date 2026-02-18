@@ -1,8 +1,8 @@
-# smartpasslib (Smart Passwords Library) <sup>v2.1.1</sup>
+# smartpasslib (Smart Passwords Library) <sup>v2.2.0</sup>
 
 ---
 
-**Smart Passwords Library: Cryptographic password generation and management without storage. Generate passwords from secrets, verify knowledge without exposure, manage metadata securely.**
+**Smart Passwords Library**: Cryptographic password generation and management without storage. Generate passwords from secrets, verify knowledge without exposure, manage metadata securely.
 
 ---
 
@@ -92,142 +92,17 @@ The library implements **deterministic password generation** - passwords are gen
 
 ---
 
-## 🆕 What's New in v2.1.1
+## 🆕 What's New in v2.2.0
 
-⚠️ CRITICAL WARNING: Upgrading to v2.1.1 will break all existing password generation. All passwords generated with v1.x will become invalid, and public keys will no longer verify.
-
-### Major Changes:
-
-**API Simplification:**
-- Removed `login` parameter from all methods - now uses only `secret` phrase
-- Simplified `SmartKeyGenerator` to work with single `secret` parameter
-- Removed `SmartPasswordMaster.generate_default_smart_password()` method
-
-**Data Model Updates:**
-- `SmartPassword` class updated: `login` → `description`, `key` → `public_key`
-- All deprecated methods removed
-- Removed deprecated `file_path` property from `SmartPasswordManager`
-
-**New Features:**
-- Added `SmartPassword.update()` method to modify description and length
-- Added `SmartPasswordManager.update_smart_password()` method for stored passwords
-
-**Security Improvements:**
-- Simplified key derivation algorithm in `SmartKeyGenerator`
-- Cleaner seed management in `SmartPasswordGenerator`
-- Removed complex hash mixing from v1.x
-
-**Testing & Quality:**
-- 100% test coverage achieved
-- Comprehensive exception testing added
-- Improved test fixtures and data management
+### Storage Improvements:
+- **New config location**: `~/.config/smart_password_manager/passwords.json`
+- **Automatic migration**: Legacy `~/.cases.json` files are auto-migrated on first use
+- **Cross-platform paths**: Uses `Path.home()` for all OS support
+- **Safe backup**: Original file preserved as `.cases.json.bak`
+- **Backward compatibility**: Old files are automatically migrated, not deleted
 
 ### Breaking Changes:
-
-**Method Signature Changes:**
-```python
-# v1.x → v2.1.1
-SmartPasswordMaster.generate_smart_password(login, secret, length)
-SmartPasswordMaster.generate_smart_password(secret, length)
-
-SmartPasswordMaster.generate_public_key(login, secret)
-SmartPasswordMaster.generate_public_key(secret)
-
-SmartPasswordMaster.check_public_key(login, secret, public_key)
-SmartPasswordMaster.check_public_key(secret, public_key)
-```
-
-**Class Structure Changes:**
-```python
-# v1.x → v2.1.1
-SmartPassword(login, key, length)
-SmartPassword(public_key, description, length)
-
-SmartKeyGenerator._create_key(login, secret, steps)
-SmartKeyGenerator._create_key(secret, steps)
-```
-
-**Removed Methods:**
-- `SmartPasswordManager.add()` → use `add_smart_password()`
-- `SmartPasswordManager.get_password()` → use `get_smart_password()`
-- `SmartPasswordManager.remove()` → use `delete_smart_password()`
-- `SmartPasswordManager.load_file()` → internal `_load_data()`
-- `SmartPasswordManager.save_file()` → internal `_write_data()`
-- `SmartPasswordManager.file_path` → use `filename`
-- `SmartPasswordMaster.generate_default_smart_password()`
-
-### Migration Guide:
-
-**Password Generation:**
-```python
-# v1.x
-password = SmartPasswordMaster.generate_smart_password(
-    login="service", 
-    secret="mysecret", 
-    length=12
-)
-
-# v2.1.1
-password = SmartPasswordMaster.generate_smart_password(
-    secret="mysecret", 
-    length=12
-)
-```
-
-**SmartPassword Creation:**
-```python
-# v1.x
-sp = SmartPassword(
-    login="GitHub", 
-    key=public_key, 
-    length=16
-)
-
-# v2.1.1
-sp = SmartPassword(
-    public_key=public_key,
-    description="GitHub", 
-    length=16
-)
-```
-
-**Manager Operations:**
-```python
-# v1.x (deprecated methods)
-manager.add(password)
-manager.get_password("login")
-
-# v2.1.1
-manager.add_smart_password(sp)
-manager.get_smart_password(public_key)
-```
-
-**Metadata Updates (New):**
-```python
-# Update existing smart password metadata
-manager.update_smart_password(
-    public_key=stored_key,
-    description="Updated Service Name",
-    length=20
-)
-
-# Or update SmartPassword object directly
-password_metadata.update(
-    description="New Description",
-    length=24
-)
-```
-
-### Key Improvements:
-
-1. **Simplified API** - Single `secret` parameter instead of `login` + `secret`
-2. **Cleaner Code** - Removed all deprecated methods and legacy code
-3. **Better Security** - Streamlined cryptographic operations
-4. **Full Test Coverage** - 100% test coverage ensures reliability
-5. **Clearer Naming** - `public_key` accurately represents verification key
-6. **Metadata Updates** - New `update()` methods for description and length
-
-**Note:** v2.1.1 is not backward compatible with v1.x. Update your code according to the migration guide.
+- None! Full backward compatibility maintained
 
 ---
 
@@ -235,6 +110,32 @@ password_metadata.update(
 
 ```bash
 pip install smartpasslib
+```
+
+---
+
+## 📁 File Locations
+
+Starting from v2.2.0, configuration files are stored in:
+
+| Platform | Configuration Path |
+|----------|-------------------|
+| Linux | `~/.config/smart_password_manager/passwords.json` |
+| macOS | `~/.config/smart_password_manager/passwords.json` |
+| Windows | `C:\Users\Username\.config\smart_password_manager\passwords.json` |
+
+**Legacy Migration**: 
+- Old `~/.cases.json` files are automatically migrated on first use
+- Original file is backed up as `~/.cases.json.bak`
+- Migration is one-time and non-destructive
+
+**Custom Path**:
+```python
+# Use default platform-specific path
+manager = SmartPasswordManager()
+
+# Or specify custom path
+manager = SmartPasswordManager('/path/to/my/config.json')
 ```
 
 ---
@@ -308,7 +209,7 @@ auth_code = SmartPasswordMaster.generate_code(8)
 ```python
 from smartpasslib import SmartPasswordManager, SmartPassword, SmartPasswordMaster
 
-manager = SmartPasswordManager()
+manager = SmartPasswordManager()  # Automatically uses ~/.config/smart_password_manager/passwords.json
 
 # Store verification metadata (not the password and not secret phrase!)
 public_key = SmartPasswordMaster.generate_public_key("github secret")
@@ -431,7 +332,7 @@ auth_code = generate_2fa_code()  # Example: "lA4P&P!k"
 
 ### Graphical Applications
 - **[Web Smart Password Manager](https://github.com/smartlegionlab/smart-password-manager)** - Browser-based interface
-- **[Desktop Smart Password Manager](https://github.com/smartlegionlab/smartpasslib)** - Cross-platform desktop app
+- **[Desktop Smart Password Manager](https://github.com/smartlegionlab/smart-password-manager-desktop)** - Cross-platform desktop app
 
 ---
 
@@ -517,7 +418,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## ⚠️ Security Warnings
 
-**Version Incompatibility**: v2.1.1 passwords are incompatible with v1.x.
+**Version Incompatibility**: v2.2.0 passwords are incompatible with v1.x.
 Never mix secret phrases across different versions.
 
 ### Secret Phrase Security
@@ -588,8 +489,8 @@ Usage of this software constitutes your **FULL AND UNCONDITIONAL ACCEPTANCE** of
 
 ---
 
-**Version**: 2.1.1 | [**Author**](https://smartlegionlab.ru): [Alexander Suvorov](https://alexander-suvorov.ru)
+**Version**: 2.2.0 | [**Author**](https://smartlegionlab.ru): [Alexander Suvorov](https://alexander-suvorov.ru)
 
 ---
 
-**Note**: This is v2.1.1. If migrating from v1.x, all passwords must be regenerated.
+**Note**: This is v2.2.0. If migrating from v1.x, all passwords must be regenerated.
