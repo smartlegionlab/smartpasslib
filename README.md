@@ -10,6 +10,7 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/)
 ![GitHub top language](https://img.shields.io/github/languages/top/smartlegionlab/smartpasslib)
 [![PyPI](https://img.shields.io/pypi/v/smartpasslib)](https://pypi.org/project/smartpasslib)
+![Platform](https://img.shields.io/badge/🪟%20Windows%20%7C%20🐧%20Linux%20%7C%20🍎%20macOS-666?style=flat-square)
 [![GitHub](https://img.shields.io/github/license/smartlegionlab/smartpasslib)](https://github.com/smartlegionlab/smartpasslib/blob/master/LICENSE)
 [![PyPI - Format](https://img.shields.io/pypi/format/smartpasslib)](https://pypi.org/project/smartpasslib)
 [![GitHub stars](https://img.shields.io/github/stars/smartlegionlab/smartpasslib?style=social)](https://github.com/smartlegionlab/smartpasslib/stargazers)
@@ -365,11 +366,6 @@ python -m build
 
 ![Test Coverage](https://github.com/smartlegionlab/smartpasslib/raw/master/data/images/cov.png)
 
-```
-Coverage report: 100%
-coverage.py v7.12.0
-```
-
 ### API Stability
 
 **Public API** (stable):
@@ -389,7 +385,7 @@ coverage.py v7.12.0
 
 **[BSD 3-Clause License](LICENSE)**
 
-Copyright (c) 2026, Alexander Suvorov
+Copyright (©) 2026, Alexander Suvorov
 
 ```
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -417,9 +413,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ---
 
 ## ⚠️ Security Warnings
-
-**Version Incompatibility**: v2.2.0 passwords are incompatible with v1.x.
-Never mix secret phrases across different versions.
 
 ### Secret Phrase Security
 
@@ -490,7 +483,3 @@ Usage of this software constitutes your **FULL AND UNCONDITIONAL ACCEPTANCE** of
 ---
 
 **Version**: 2.2.0 | [**Author**](https://smartlegionlab.ru): [Alexander Suvorov](https://alexander-suvorov.ru)
-
----
-
-**Note**: This is v2.2.0. If migrating from v1.x, all passwords must be regenerated.
