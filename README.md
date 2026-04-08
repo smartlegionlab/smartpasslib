@@ -1,4 +1,4 @@
-# smartpasslib (Smart Passwords Library) <sup>v2.2.1</sup>
+# smartpasslib (Smart Passwords Library) <sup>v2.2.2</sup>
 
 ---
 
@@ -32,12 +32,12 @@
 
 ---
 
-## **🔐 Core Principles:**
+## **Core Principles:**
 
-- 🔐 **Zero-Storage Security**: No passwords or secret phrases are ever stored or transmitted
-- 🔑 **Deterministic Generation**: Identical secret + parameters = identical password (SHA3-512 based)
-- 📝 **Metadata Only**: Store only verification metadata (public keys, descriptions, lengths)
-- 🔄 **On-Demand Regeneration**: Passwords are recalculated when needed, never retrieved from storage
+- **Zero-Storage Security**: No passwords or secret phrases are ever stored or transmitted
+- **Deterministic Generation**: Identical secret + parameters = identical password (SHA3-512 based)
+- **Metadata Only**: Store only verification metadata (public keys, descriptions, lengths)
+- **On-Demand Regeneration**: Passwords are recalculated when needed, never retrieved from storage
 
 **What You Can Do:**
 1. **Smart Passwords**: Generate deterministic passwords from secret phrases
@@ -50,13 +50,13 @@
 8. **Deterministic & Non-Deterministic**: Both reproducible and random password generation options
 
 **Key Features:**
-- ✅ **No Password Database**: Eliminates the need for password storage
-- ✅ **No Secret Storage**: Secret phrases never leave your control
-- ✅ **Public Key Verification**: Verify secrets without exposing them
-- ✅ **Multiple Generator Types**: Smart, strong, base, and code generators
-- ✅ **Metadata Updates**: Modify descriptions and lengths without affecting cryptographic integrity
-- ✅ **Full Test Coverage**: 100% tested for reliability and security
-- ✅ **Cross-Platform**: Works anywhere Python runs
+- **No Password Database**: Eliminates the need for password storage
+- **No Secret Storage**: Secret phrases never leave your control
+- **Public Key Verification**: Verify secrets without exposing them
+- **Multiple Generator Types**: Smart, strong, base, and code generators
+- **Metadata Updates**: Modify descriptions and lengths without affecting cryptographic integrity
+- **Full Test Coverage**: 100% tested for reliability and security
+- **Cross-Platform**: Works anywhere Python runs
 
 **Security Model:**
 - **Proof of Knowledge**: Verify you know a secret without storing or transmitting it
@@ -66,24 +66,14 @@
 
 ---
 
-## ⚠️ Critical Notice
-
-**BEFORE USING THIS SOFTWARE, READ THE COMPLETE LEGAL DISCLAIMER BELOW**
-
-[View Legal Disclaimer & Liability Waiver](#-legal-disclaimer)
-
-*Usage of this software constitutes acceptance of all terms and conditions.*
-
----
-
-## 📚 Research Paradigms & Publications
+## Research Paradigms & Publications
 
 - **[Pointer-Based Security Paradigm](https://doi.org/10.5281/zenodo.17204738)** - Architectural Shift from Data Protection to Data Non-Existence
 - **[Local Data Regeneration Paradigm](https://doi.org/10.5281/zenodo.17264327)** - Ontological Shift from Data Transmission to Synchronous State Discovery
 
 ---
 
-## 🔬 Technical Foundation
+## Technical Foundation
 
 The library implements **deterministic password generation** - passwords are generated reproducibly from secret phrases using cryptographic hash functions.
 
@@ -103,7 +93,7 @@ The library implements **deterministic password generation** - passwords are gen
 
 ---
 
-## 🆕 What's New in v2.2.1
+## What's New in v2.2.2
 
 ### Storage Improvements:
 - **New config location**: `~/.config/smart_password_manager/passwords.json`
@@ -117,7 +107,7 @@ The library implements **deterministic password generation** - passwords are gen
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 pip install smartpasslib
@@ -125,9 +115,9 @@ pip install smartpasslib
 
 ---
 
-## 📁 File Locations
+## File Locations
 
-Starting from v2.2.1, configuration files are stored in:
+Starting from v2.2.2, configuration files are stored in:
 
 | Platform | Configuration Path |
 |----------|-------------------|
@@ -151,7 +141,7 @@ manager = SmartPasswordManager('/path/to/my/config.json')
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```python
 from smartpasslib import SmartPasswordMaster
@@ -168,7 +158,7 @@ print(f"Your discovered password: {password}")
 # Example output: _4qkVFcC3#pGFvhH
 ```
 
-## 🔑 Verification Without Storage
+## Verification Without Storage
 
 ```python
 from smartpasslib import SmartPasswordMaster
@@ -188,7 +178,7 @@ print(is_valid)  # True
 
 ---
 
-## 🏗️ Core Components
+## Core Components
 
 ### SmartPasswordMaster - Main Interface
 
@@ -282,7 +272,7 @@ password = SmartPasswordGenerator.generate(seed, 15)
 
 ---
 
-## 💡 Advanced Usage
+## Advanced Usage
 
 ### Password Management System
 
@@ -335,7 +325,7 @@ auth_code = generate_2fa_code()  # Example: "lA4P&P!k"
 
 ---
 
-## 🔧 Ecosystem
+## Ecosystem
 
 ### Command Line Tools
 - **[CLI Smart Password Generator](https://github.com/smartlegionlab/clipassgen/)** - Generate passwords from terminal
@@ -347,7 +337,7 @@ auth_code = generate_2fa_code()  # Example: "lA4P&P!k"
 
 ---
 
-## 👨‍💻 For Developers
+## For Developers
 
 ### Development Setup
 
@@ -391,7 +381,7 @@ python -m build
 
 ---
 
-## 📜 License
+## License
 
 **[BSD 3-Clause License](LICENSE)**
 
@@ -399,7 +389,7 @@ Copyright (©) 2026, Alexander Suvorov
 
 ---
 
-## 🆘 Support
+## Support
 
 - **Issues**: [GitHub Issues](https://github.com/smartlegionlab/smartpasslib/issues)
 - **Documentation**: Inline code documentation
@@ -409,7 +399,7 @@ Copyright (©) 2026, Alexander Suvorov
 
 ---
 
-## ⚠️ Security Warnings
+## Security Warnings
 
 ### Secret Phrase Security
 
@@ -425,4 +415,4 @@ Copyright (©) 2026, Alexander Suvorov
 
 ---
 
-**Version**: 2.2.1 | [**Author**](https://smartlegionlab.ru): [Alexander Suvorov](https://alexander-suvorov.ru)
+**Version**: 2.2.2 | [**Author**](https://smartlegionlab.ru): [Alexander Suvorov](https://alexander-suvorov.ru)
