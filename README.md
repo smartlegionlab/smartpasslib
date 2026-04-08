@@ -22,6 +22,16 @@
 
 ---
 
+## ⚠️ Disclaimer
+
+**By using this software, you agree to the full disclaimer terms.**
+
+**Summary:** Software provided "AS IS" without warranty. You assume all risks.
+
+**Full legal disclaimer:** See [DISCLAIMER.md](https://github.com/smartlegionlab/smartpasslib/blob/master/DISCLAIMER.md)
+
+---
+
 ## **🔐 Core Principles:**
 
 - 🔐 **Zero-Storage Security**: No passwords or secret phrases are ever stored or transmitted
