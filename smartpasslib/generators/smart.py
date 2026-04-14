@@ -1,6 +1,7 @@
 # Copyright (©) 2026, Alexander Suvorov. All rights reserved.
 import hashlib
 
+from smartpasslib import SmartKeyGenerator
 from smartpasslib.core.chars import PasswordChars
 
 
@@ -25,6 +26,7 @@ class SmartPasswordGenerator(PasswordChars):
         Returns:
             str: Deterministically generated smart password
         """
+        seed = SmartKeyGenerator.generate_private_key(secret=seed)
         result = []
         counter = 0
 

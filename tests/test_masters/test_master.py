@@ -17,11 +17,11 @@ class TestSmartPasswordMaster:
 
     def test_generate_public_key(self, test_secret):
         pub_key = SmartPasswordMaster.generate_public_key(test_secret)
-        assert len(pub_key) == 128
+        assert len(pub_key) == 64
 
     def test_generate_private_key(self, test_secret):
         private_key = SmartPasswordMaster.generate_private_key(test_secret)
-        assert len(private_key) == 128
+        assert len(private_key) == 64
 
         private_key2 = SmartPasswordMaster.generate_private_key(test_secret)
         assert private_key == private_key2

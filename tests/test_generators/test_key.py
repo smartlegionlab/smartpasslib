@@ -6,11 +6,11 @@ class TestSmartKeyGenerator:
     def test_generate_public_key(self, test_secret):
         pub_key = SmartKeyGenerator.generate_public_key(test_secret)
         assert isinstance(pub_key, str)
-        assert len(pub_key) == 128
+        assert len(pub_key) == 64
 
     def test_generate_private_key(self, test_secret):
         private_key = SmartKeyGenerator.generate_private_key(test_secret)
-        assert len(private_key) == 128
+        assert len(private_key) == 64
 
     def test_check_key_valid(self, test_secret):
         public_key = SmartKeyGenerator.generate_public_key(test_secret)
