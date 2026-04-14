@@ -11,7 +11,7 @@ class TestBasePasswordGenerator:
         assert len(password) == 6
         assert any(c in string.ascii_letters for c in password)
         assert any(c in string.digits for c in password)
-        assert any(c in CodeGenerator.special_chars for c in password)
+        assert any(c in CodeGenerator.symbols for c in password)
 
     def test_generate_custom_length(self):
         length = 15
@@ -19,14 +19,14 @@ class TestBasePasswordGenerator:
         assert len(password) == length
         assert any(c in string.ascii_letters for c in password)
         assert any(c in string.digits for c in password)
-        assert any(c in CodeGenerator.special_chars for c in password)
+        assert any(c in CodeGenerator.symbols for c in password)
 
     def test_generate_minimum_length(self):
         password = CodeGenerator.generate(4)
         assert len(password) == 4
         assert any(c in string.ascii_letters for c in password)
         assert any(c in string.digits for c in password)
-        assert any(c in CodeGenerator.special_chars for c in password)
+        assert any(c in CodeGenerator.symbols for c in password)
 
     def test_generate_raises_error_for_short_length(self):
         with pytest.raises(ValueError, match="The code length must be at least 4 characters"):
