@@ -1,10 +1,10 @@
-# smartpasslib (Smart Passwords Library) <sup>v3.0.0</sup>
+# smartpasslib (Smart Passwords Library) <sup>v3.0.1</sup>
 
 ---
 
 **Smart Passwords Library**: Cryptographic password generation and management without storage. Generate passwords from secrets, verify knowledge without exposure, manage metadata securely.
 
-**Now with Cross-Platform Determinism**: Same secret + same parameters = identical password on **Python, Go, Kotlin, JavaScript, C#** and any language with SHA-256.
+**Now with Cross-Platform Determinism**: Same secret + same parameters = identical password on **Python, Go, Kotlin, JavaScript** and any language with SHA-256.
 
 ---
 
@@ -34,15 +34,15 @@
 
 ---
 
-## ⚠️ Breaking Changes (v3.0.0)
+## ⚠️ Breaking Changes (v3.0.1)
 
 **This version is NOT backward compatible with v1.x.x and v2.x.x**
 
-| Version | Status | Why                                              |
-|---------|--------|--------------------------------------------------|
-| v1.x.x | Deprecated | Used `random.choice()`, `login` - insecure, excessively     |
-| v2.x.x | Deprecated | Used `random.seed()` - Python-only deterministic |
-| **v3.x.x** | **Current** | Uses **SHA-256** - cross-platform deterministic  |
+| Version    | Status      | Why                                                     |
+|------------|-------------|---------------------------------------------------------|
+| v1.x.x     | Deprecated  | Used `random.choice()`, `login` - insecure, excessively |
+| v2.x.x     | Deprecated  | Used `random.seed()` - Python-only deterministic        |
+| **v3.x.x** | **Current** | Uses **SHA-256** - cross-platform deterministic         |
 
 **What changed:**
 - `SmartPasswordGenerator` now uses **SHA-256** instead of `random.seed()` and SHA3-512
@@ -56,7 +56,7 @@
 - Re-generate passwords for all services using old versions
 
 **Why this is better:**
-- Same secret + same length = **identical password** on Python, Go, Kotlin, JS, C#
+- Same secret + same length = **identical password** on Python, Go, Kotlin, JS
 - Based on **SHA-256** (NIST standard) — not Python-specific
 - Cryptographically secure by default
 
@@ -85,7 +85,7 @@
 **Key Features:**
 - **No Password Database**: Eliminates the need for password storage
 - **No Secret Storage**: Secret phrases never leave your control
-- **Cross-Platform Determinism**: Same results on Python, Go, Kotlin, JavaScript, C#
+- **Cross-Platform Determinism**: Same results on Python, Go, Kotlin, JavaScript
 - **Public Key Verification**: Verify secrets without exposing them
 - **Multiple Generator Types**: Smart, strong, base, and code generators
 - **Store Only Public Metadata**: Descriptions and public keys can be stored; private keys and secrets are NEVER persisted
@@ -125,7 +125,7 @@ The library implements **cross-platform deterministic password generation** - pa
 
 **Cross-Platform Guarantee**:
 - Same secret phrase + same length = **identical password** on any platform
-- Implemented in Python, Go, Kotlin, JavaScript, C#
+- Implemented in Python, Go, Kotlin, JavaScript
 - Based on SHA-256 (NIST standard) — not language-specific
 
 **What's NOT stored**:
@@ -142,7 +142,7 @@ The library implements **cross-platform deterministic password generation** - pa
 
 ---
 
-## What's New in v3.0.0
+## What's New in v3.0.1
 
 ### Breaking Changes (Migration Required):
 - **SmartPasswordGenerator now uses SHA-256** — passwords differ from v1.x and v2.x
@@ -151,7 +151,7 @@ The library implements **cross-platform deterministic password generation** - pa
 - **No backward compatibility** with versions 1.x.x and 2.x.x
 
 ### Cross-Platform Determinism (NEW):
-- **Same secret → same password** on Python, Go, Kotlin, JavaScript, C#
+- **Same secret → same password** on Python, Go, Kotlin, JavaScript
 - **SHA-256 based** — NIST standard, not Python-specific
 - **Test vectors** available for all languages
 
@@ -182,7 +182,7 @@ The library implements **cross-platform deterministic password generation** - pa
 from smartpasslib.generators.smart import SmartPasswordGenerator
 password = SmartPasswordGenerator.generate("my_secret", 16)
 # Output: 560wjO-w3Kcl&Tc0 (DIFFERENT from v2.x!)
-# Same secret gives SAME password on Python, Go, Kotlin, JS, C#!
+# Same secret gives SAME password on Python, Go, Kotlin, JS!
 ```
 
 **Action required:**
@@ -209,11 +209,11 @@ pip install smartpasslib
 
 Configuration files are stored in:
 
-| Platform | Configuration Path |
-|----------|-------------------|
-| Linux | `~/.config/smart_password_manager/passwords.json` |
-| macOS | `~/.config/smart_password_manager/passwords.json` |
-| Windows | `C:\Users\Username\.config\smart_password_manager\passwords.json` |
+| Platform | Configuration Path                                                |
+|----------|-------------------------------------------------------------------|
+| Linux    | `~/.config/smart_password_manager/passwords.json`                 |
+| macOS    | `~/.config/smart_password_manager/passwords.json`                 |
+| Windows  | `C:\Users\Username\.config\smart_password_manager\passwords.json` |
 
 **Legacy Migration**: 
 - Old `~/.cases.json` files are automatically migrated on first use
@@ -259,335 +259,20 @@ print(is_valid)  # True
 
 ---
 
-## Cross-Platform Example
-
-**Same secret → same password on any language:**
-
-### Python:
-
-```python
-from smartpasslib.masters.smart_password_master import SmartPasswordMaster
-
-secrets = ["my_secret_key", "test123", "hello_world"]
-for secret in secrets:
-    password = SmartPasswordMaster.generate_smart_password(secret, 12)
-    print(f"secret: {secret:<20} -> password: {password}")
-
-print("\n--- Testing determinism ---")
-p1 = SmartPasswordMaster.generate_smart_password("secret", 12)
-p2 = SmartPasswordMaster.generate_smart_password("secret", 12)
-print(f"First call:  {p1}")
-print(f"Second call: {p2}")
-print(f"Match: {p1 == p2}")
-```
-
-**Output:**
-```text
-secret: my_secret_key        -> password: i&h!lLy&ONxC
-secret: test123              -> password: 5AM*aF9MqEai
-secret: hello_world          -> password: NQK8w$MdbFn8
-
---- Testing determinism ---
-First call:  wQq-0&Qzl0GT
-Second call: wQq-0&Qzl0GT
-Match: True
-```
-
-### Go:
-
-```go
-package main
-
-import (
-    "crypto/sha256"
-    "encoding/hex"
-    "fmt"
-)
-
-var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$&*-_"
-
-func getHash(text string) string {
-    hash := sha256.Sum256([]byte(text))
-    return hex.EncodeToString(hash[:])
-}
-
-func generatePrivateKey(secret string) string {
-    steps := 30
-    allHash := getHash(secret)
-
-    for i := 0; i < steps; i++ {
-        tempString := fmt.Sprintf("%s:%s:%d", allHash, secret, i)
-        allHash = getHash(tempString)
-    }
-
-    return allHash
-}
-
-func generateSmartPassword(secret string, length int) string {
-    if length <= 0 {
-        length = 12
-    }
-
-    seed := generatePrivateKey(secret)
-
-    result := make([]byte, 0, length)
-    counter := 0
-
-    for len(result) < length {
-        data := fmt.Sprintf("%s:%d", seed, counter)
-        hash := sha256.Sum256([]byte(data))
-
-        for _, b := range hash {
-            if len(result) < length {
-                result = append(result, chars[b%byte(len(chars))])
-            }
-        }
-        counter++
-    }
-
-    return string(result)
-}
-
-func main() {
-    secrets := []string{"my_secret_key", "test123", "hello_world"}
-
-    for _, secret := range secrets {
-        password := generateSmartPassword(secret, 12)
-        fmt.Printf("secret: %-20s -> password: %s\n", secret, password)
-    }
-
-    fmt.Println("\n--- Testing determinism ---")
-    p1 := generateSmartPassword("secret", 12)
-    p2 := generateSmartPassword("secret", 12)
-    fmt.Printf("First call:  %s\n", p1)
-    fmt.Printf("Second call: %s\n", p2)
-    fmt.Printf("Match: %v\n", p1 == p2)
-}
-```
-
-**Output:**
-```text
-secret: my_secret_key        -> password: i&h!lLy&ONxC
-secret: test123              -> password: 5AM*aF9MqEai
-secret: hello_world          -> password: NQK8w$MdbFn8
-
---- Testing determinism ---
-First call:  wQq-0&Qzl0GT
-Second call: wQq-0&Qzl0GT
-Match: true
-```
-
-### Kotlin:
-
-```kotlin
-#!/usr/bin/env kotlin
-
-import java.security.MessageDigest
-import java.math.BigInteger
-
-val chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$&*-_"
-
-fun getHash(text: String): String {
-    val digest = MessageDigest.getInstance("SHA-256")
-    val hash = digest.digest(text.toByteArray())
-    return BigInteger(1, hash).toString(16).padStart(64, '0')
-}
-
-fun generatePrivateKey(secret: String): String {
-    val steps = 30
-    var allHash = getHash(secret)
-
-    for (i in 0 until steps) {
-        val tempString = "$allHash:$secret:$i"
-        allHash = getHash(tempString)
-    }
-
-    return allHash
-}
-
-fun generateSmartPassword(secret: String, length: Int): String {
-    var counter = 0
-    val result = StringBuilder()
-
-    val seed = generatePrivateKey(secret)
-
-    while (result.length < length) {
-        val data = "$seed:$counter"
-        val hash = MessageDigest.getInstance("SHA-256").digest(data.toByteArray())
-
-        for (byte in hash) {
-            if (result.length < length) {
-                val index = byte.toInt() and 0xFF
-                result.append(chars[index % chars.length])
-            }
-        }
-        counter++
-    }
-
-    return result.toString()
-}
-
-val secrets = listOf("my_secret_key", "test123", "hello_world")
-
-for (secret in secrets) {
-    val password = generateSmartPassword(secret, 12)
-    println("secret: ${secret.padEnd(20)} -> password: $password")
-}
-
-println("\n--- Testing determinism ---")
-val p1 = generateSmartPassword("secret", 12)
-val p2 = generateSmartPassword("secret", 12)
-println("First call:  $p1")
-println("Second call: $p2")
-println("Match: ${p1 == p2}")
-```
-
-**Output:**
-```text
-secret: my_secret_key        -> password: i&h!lLy&ONxC
-secret: test123              -> password: 5AM*aF9MqEai
-secret: hello_world          -> password: NQK8w$MdbFn8
-
---- Testing determinism ---
-First call:  wQq-0&Qzl0GT
-Second call: wQq-0&Qzl0GT
-Match: true
-```
-
-### JavaScript (Browser):
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Smart Password Generator - Cross-Platform Test</title>
-</head>
-<body>
-    <h1>Smart Password Generator (SHA-256 + SmartKeyGenerator)</h1>
-    <p>Same secret → same password as Python, Go, Kotlin</p>
-
-    <label>Secret:</label>
-    <input type="text" id="secret" value="my_secret_key" size="30">
-
-    <label>Length:</label>
-    <input type="number" id="length" value="12" min="1" max="64">
-
-    <button onclick="generate()">Generate Password</button>
-
-    <h2>Result:</h2>
-    <input type="text" id="result" readonly size="40" style="font-family: monospace; font-size: 16px;">
-
-    <hr>
-    <h3>Test Vectors:</h3>
-    <button onclick="testVectors()">Run Tests</button>
-    <pre id="testOutput"></pre>
-
-    <script>
-        const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$&*-_";
-
-        async function sha256(text) {
-            const encoder = new TextEncoder();
-            const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(text));
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        async function getHash(text) {
-            return await sha256(text);
-        }
-
-        async function generatePrivateKey(secret) {
-            const steps = 30;
-            let allHash = await getHash(secret);
-
-            for (let i = 0; i < steps; i++) {
-                const tempString = `${allHash}:${secret}:${i}`;
-                allHash = await getHash(tempString);
-            }
-
-            return allHash;
-        }
-
-        async function generateSmartPassword(secret, length) {
-            const seed = await generatePrivateKey(secret);
-
-            let result = [];
-            let counter = 0;
-
-            while (result.length < length) {
-                const data = `${seed}:${counter}`;
-                const hashHex = await sha256(data);
-                const hashBytes = hexToBytes(hashHex);
-
-                for (let i = 0; i < hashBytes.length; i++) {
-                    if (result.length < length) {
-                        result.push(chars[hashBytes[i] % chars.length]);
-                    }
-                }
-                counter++;
-            }
-
-            return result.join('');
-        }
-
-        function hexToBytes(hex) {
-            const bytes = [];
-            for (let i = 0; i < hex.length; i += 2) {
-                bytes.push(parseInt(hex.substr(i, 2), 16));
-            }
-            return bytes;
-        }
-
-        async function generate() {
-            const secret = document.getElementById('secret').value;
-            const length = parseInt(document.getElementById('length').value);
-            const password = await generateSmartPassword(secret, length);
-            document.getElementById('result').value = password;
-        }
-
-        async function testVectors() {
-            const tests = [
-                { secret: "my_secret_key", length: 12 },
-                { secret: "test123", length: 12 },
-                { secret: "hello_world", length: 12 },
-                { secret: "secret", length: 12 }
-            ];
-
-            let output = "";
-
-            for (const test of tests) {
-                const result = await generateSmartPassword(test.secret, test.length);
-                output += `secret: "${test.secret}" (len=${test.length})\n`;
-                output += `   Got: ${result}\n\n`;
-            }
-
-            output += "Compare with Python output manually";
-            document.getElementById('testOutput').textContent = output;
-        }
-
-        window.onload = () => generate();
-    </script>
-</body>
-</html>
-```
-
-**Output:**
-```text
-secret: "my_secret_key" (len=12)
-   Got: i&h!lLy&ONxC
-
-secret: "test123" (len=12)
-   Got: 5AM*aF9MqEai
-
-secret: "hello_world" (len=12)
-   Got: NQK8w$MdbFn8
-
-secret: "secret" (len=12)
-   Got: wQq-0&Qzl0GT
-
-Compare with Python output manually
-```
+## Cross-Platform Compatibility
+
+smartpasslib Python produces **identical passwords** to:
+
+| Platform   | Repository                                                                                                                |
+|------------|:--------------------------------------------------------------------------------------------------------------------------|
+| Python     | [smartpasslib](https://github.com/smartlegionlab/smartpasslib)                                                            |
+| JavaScript | [smartpasslib-js](https://github.com/smartlegionlab/smartpasslib-js)                                                      |
+| Kotlin     | [smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin)                                              |
+| Go         | [smartpasslib-go](https://github.com/smartlegionlab/smartpasslib-go)                                                      |
+| Web        | [Web Manager](https://github.com/smartlegionlab/smart-password-manager-web)                                               |
+| Android    | [Android Manager](https://github.com/smartlegionlab/smart-password-manager-android)                                       |
+| Desktop    | [Desktop Manager](https://github.com/smartlegionlab/smart-password-manager-desktop)                                       |
+| CLI        | [CLI PassMan](https://github.com/smartlegionlab/clipassman) / [CLI PassGen](https://github.com/smartlegionlab/clipassgen) |
 
 ---
 
@@ -671,7 +356,7 @@ code = CodeGenerator.generate(6)
 from smartpasslib.generators.smart import SmartPasswordGenerator
 
 password = SmartPasswordGenerator.generate("my_secret_key", 12)
-# Output: i&h!lLy&ONxC (SAME on Go, Kotlin, JS, C#!)
+# Output: i&h!lLy&ONxC (SAME on Go, Kotlin, JS!)
 ```
 
 ---
@@ -713,13 +398,18 @@ password = vault.get_password(key, "my_account_secret")
 
 ## Ecosystem
 
-### Command Line Tools
-- **[CLI Smart Password Generator](https://github.com/smartlegionlab/clipassgen/)** - Generate passwords from terminal
-- **[CLI Smart Password Manager](https://github.com/smartlegionlab/clipassman/)** - Manage password metadata
+**Core Libraries:**
+- **[smartpasslib](https://github.com/smartlegionlab/smartpasslib)** - Python implementation
+- **[smartpasslib-js](https://github.com/smartlegionlab/smartpasslib-js)** - JavaScript implementation
+- **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin)** - Kotlin implementation
+- **[smartpasslib-go](https://github.com/smartlegionlab/smartpasslib-go)** - Go implementation
 
-### Graphical Applications
-- **[Web Smart Password Manager](https://github.com/smartlegionlab/smart-password-manager-web)** - Browser-based interface
-- **[Desktop Smart Password Manager](https://github.com/smartlegionlab/smart-password-manager-desktop)** - Cross-platform desktop app
+**Applications:**
+- **[Desktop Manager](https://github.com/smartlegionlab/smart-password-manager-desktop)** - Cross-platform desktop app
+- **[CLI PassMan](https://github.com/smartlegionlab/clipassman)** - Console password manager
+- **[CLI PassGen](https://github.com/smartlegionlab/clipassgen)** - Console password generator
+- **[Web Manager](https://github.com/smartlegionlab/smart-password-manager-web)** - Web interface
+- **[Android Manager](https://github.com/smartlegionlab/smart-password-manager-android)** - Mobile Android app
 
 ---
 
@@ -756,7 +446,7 @@ python -m build
 
 ## License
 
-**[BSD 3-Clause License](LICENSE)**
+**[BSD 3-Clause License](https://github.com/smartlegionlab/smartpasslib/blob/master/LICENSE)**
 
 Copyright (©) 2026, [Alexander Suvorov](https://github.com/smartlegionlab)
 
@@ -765,12 +455,38 @@ Copyright (©) 2026, [Alexander Suvorov](https://github.com/smartlegionlab)
 ## Support
 
 - **Issues**: [GitHub Issues](https://github.com/smartlegionlab/smartpasslib/issues)
-- **Documentation**: Inline code documentation
+- **Documentation**: Inline code [documentation](https://github.com/smartlegionlab/smartpasslib/blob/master/README.md)
 - **Tests**: 100% coverage ensures reliability
 
 ---
 
 ## Security Warnings
+
+### Security Requirements
+
+#### Secret Phrase
+- **Minimum 12 characters** (enforced)
+- Case-sensitive
+- Use mix of: uppercase, lowercase, numbers, symbols, emoji, or Cyrillic
+- Never store digitally
+- **NEVER use your password description as secret phrase**
+
+#### Strong Secret Examples
+```
+✅ "MyCatHippo2026"          — mixed case + numbers
+✅ "P@ssw0rd!LongSecret"     — special chars + numbers + length
+✅ "КотБегемот2026НаДиете"   — Cyrillic + numbers
+✅ "GitHubPersonal2026!"     — description + extra chars (but not the description alone)
+```
+
+#### Weak Secret Examples (avoid)
+```
+❌ "GitHub Account"          — using description as secret (weak!)
+❌ "password"                — dictionary word, too short
+❌ "1234567890"              — only digits, too short
+❌ "qwerty123"               — keyboard pattern
+❌ Same as description       — never use the same value as password description
+```
 
 ### Secret Phrase Security
 
@@ -784,6 +500,7 @@ Copyright (©) 2026, [Alexander Suvorov](https://github.com/smartlegionlab)
 
 **Critical**: Test password regeneration with non-essential accounts before production use
 **Note**: Always test password generation in your specific environment. Implementation security depends on proper usage.
+**NEVER use your password description as secret phrase**
 
 ---
 
