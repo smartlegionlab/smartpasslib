@@ -46,7 +46,7 @@ smartpasslib stores nothing. Your secrets never leave your device. Passwords are
 
 Passwords generated with older versions **cannot be regenerated** with v3.x.x.
 
-📖 **Full migration instructions** → see [MIGRATION.md](MIGRATION.md)
+📖 **Full migration instructions** → see [MIGRATION.md](https://github.com/smartlegionlab/smartpasslib/blob/master/MIGRATION.md)
 
 ---
 
