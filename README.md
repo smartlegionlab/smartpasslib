@@ -1,10 +1,16 @@
-# smartpasslib (Smart Passwords Library) <sup>v3.0.1</sup>
+# SmartPassLib <sup>v3.0.2</sup>
 
 ---
 
-**Smart Passwords Library**: Cryptographic password generation and management without storage. Generate passwords from secrets, verify knowledge without exposure, manage metadata securely.
+**Smart Passwords Library**: Cryptographic password generation and management without storage. 
+Generate passwords from secrets, verify knowledge without exposure, manage metadata securely.
 
-**Now with Cross-Platform Determinism**: Same secret + same parameters = identical password on **Python, Go, Kotlin, JavaScript** and any language with SHA-256.
+**Now with Cross-Platform Determinism**: Same secret + same parameters = identical password on 
+**C#, Python, Go, Kotlin, JavaScript** and any language with SHA-256.
+
+**Decentralized by Design**: Unlike traditional password managers that store encrypted vaults on central servers, 
+smartpasslib stores nothing. Your secrets never leave your device. Passwords are regenerated on-demand — 
+**no cloud, no database, no trust required**.
 
 ---
 
@@ -34,37 +40,20 @@
 
 ---
 
-## ⚠️ Breaking Changes (v3.0.1)
+## 🔄 Breaking Change (v3.0.2)
 
-**This version is NOT backward compatible with v1.x.x and v2.x.x**
+> **⚠️ This version is NOT backward compatible with v1.x.x and v2.x.x**
 
-| Version    | Status      | Why                                                     |
-|------------|-------------|---------------------------------------------------------|
-| v1.x.x     | Deprecated  | Used `random.choice()`, `login` - insecure, excessively |
-| v2.x.x     | Deprecated  | Used `random.seed()` - Python-only deterministic        |
-| **v3.x.x** | **Current** | Uses **SHA-256** - cross-platform deterministic         |
+Passwords generated with older versions **cannot be regenerated** with v3.x.x.
 
-**What changed:**
-- `SmartPasswordGenerator` now uses **SHA-256** instead of `random.seed()` and SHA3-512
-- `BasePasswordGenerator` now uses **`secrets.choice()`** instead of `random.choice()`
-- Character set changed: `!@#$%&^_` → `!@#$&*-_` (removed `^` and `%`, added `*` and `-`)
-- Deterministic passwords now work identically across **all programming languages**
-
-**Migration impact:**
-- Old deterministic passwords will **NOT match** new ones
-- Update any tests expecting specific password outputs
-- Re-generate passwords for all services using old versions
-
-**Why this is better:**
-- Same secret + same length = **identical password** on Python, Go, Kotlin, JS
-- Based on **SHA-256** (NIST standard) — not Python-specific
-- Cryptographically secure by default
+📖 **Full migration instructions** → see [MIGRATION.md](MIGRATION.md)
 
 ---
 
 ## Core Principles:
 
 - **Zero-Storage Security**: No passwords or secret phrases are ever stored or transmitted
+- **Decentralized Architecture**: No central servers, no cloud dependency, no third-party trust required
 - **Cross-Platform Deterministic Generation**: Identical secret + parameters = identical password **on any language** (SHA-256 based)
 - **Metadata Only**: Store only verification metadata (public keys, descriptions, lengths)
 - **On-Demand Regeneration**: Passwords are recalculated when needed, never retrieved from storage
@@ -82,10 +71,24 @@
 
 ---
 
+## Decentralized Password Management
+
+Unlike traditional password managers that store your encrypted vault on central servers, smartpasslib is **decentralized by design**:
+
+- **No central storage** — passwords are never stored anywhere
+- **No server dependency** — generation happens on your device
+- **No third-party trust** — your secret is yours alone
+- **No cloud lock-in** — metadata can be synced via any channel (USB, Nextcloud, Signal, paper)
+
+Your passwords exist only when you generate them. Your secrets never leave your device.
+
+---
+
 **Key Features:**
+- **Decentralized & Serverless**: No central database, no cloud lock-in, complete user sovereignty
 - **No Password Database**: Eliminates the need for password storage
 - **No Secret Storage**: Secret phrases never leave your control
-- **Cross-Platform Determinism**: Same results on Python, Go, Kotlin, JavaScript
+- **Cross-Platform Determinism**: Same results on C#, Python, Go, Kotlin, JavaScript
 - **Public Key Verification**: Verify secrets without exposing them
 - **Multiple Generator Types**: Smart, strong, base, and code generators
 - **Store Only Public Metadata**: Descriptions and public keys can be stored; private keys and secrets are NEVER persisted
@@ -96,6 +99,7 @@
 ## Security Model:
 
 - **Proof of Knowledge**: Verify you know a secret without storing or transmitting it
+- **Decentralized Trust**: No third party needed — you control your secrets completely
 - **Deterministic Security**: Same input = same output, always reproducible across platforms
 - **No Vulnerable Metadata Storage**: Only public keys and descriptions can be stored (optional). Private keys and secret phrases are NEVER stored anywhere
 - **Zero Storage of Secrets**: Secret phrases exist only in your memory, private keys are derived on-demand and never persisted
@@ -112,7 +116,8 @@
 
 ## Technical Foundation
 
-The library implements **cross-platform deterministic password generation** - passwords are generated reproducibly from secret phrases using **SHA-256** cryptographic hash function.
+The library implements **cross-platform deterministic password generation** - passwords are generated reproducibly 
+from secret phrases using **SHA-256** cryptographic hash function.
 
 **Why SHA-256 instead of SHA3-512:**
 - **Cross-platform standard** - Available in every programming language by default
@@ -125,8 +130,14 @@ The library implements **cross-platform deterministic password generation** - pa
 
 **Cross-Platform Guarantee**:
 - Same secret phrase + same length = **identical password** on any platform
-- Implemented in Python, Go, Kotlin, JavaScript
+- Implemented in C#, Python, Go, Kotlin, JavaScript
 - Based on SHA-256 (NIST standard) — not language-specific
+
+**Decentralized Architecture**:
+- No central authority required
+- Metadata can be synced via any channel (USB, cloud, even paper)
+- Your security depends only on your secret phrase, not on any service provider
+- Works offline — no internet connection required
 
 **What's NOT stored**:
 - Your secret phrase
@@ -139,61 +150,6 @@ The library implements **cross-platform deterministic password generation** - pa
 - Password length parameter
 
 **Security model**: Proof of secret knowledge without secret storage.
-
----
-
-## What's New in v3.0.1
-
-### Breaking Changes (Migration Required):
-- **SmartPasswordGenerator now uses SHA-256** — passwords differ from v1.x and v2.x
-- **BasePasswordGenerator uses `secrets.choice()`** — cryptographically secure, different output
-- **Character set changed**: `!@#$%&^_` → `!@#$&*-_` (removed `^` and `%`, added `*` and `-`)
-- **No backward compatibility** with versions 1.x.x and 2.x.x
-
-### Cross-Platform Determinism (NEW):
-- **Same secret → same password** on Python, Go, Kotlin, JavaScript
-- **SHA-256 based** — NIST standard, not Python-specific
-- **Test vectors** available for all languages
-
-### Security Improvements:
-- **No more `random` module** in any generator
-- **`secrets.choice()`** for cryptographically secure random passwords
-- **Problematic symbols removed**
-
-### Code Quality:
-- **Unified character sets** via `PasswordChars` mixin
-- **No code duplication** across generators
-- **100% test coverage** maintained
-
-### Storage Improvements:
-- **New config location**: `~/.config/smart_password_manager/passwords.json`
-- **Automatic migration**: Legacy `~/.cases.json` files are auto-migrated on first use
-- **Cross-platform paths**: Uses `Path.home()` for all OS support
-
-### Migration Guide (v2.x → v3.x):
-
-```python
-# OLD (v2.x) - STILL WORKS, BUT GIVES DIFFERENT RESULTS
-# from smartpasslib.generators.smart import SmartPasswordGenerator
-# password = SmartPasswordGenerator.generate("my_secret", 16)
-# Output: m2m#4kb#RO6vAu2e (for example)
-
-# NEW (v3.x) - USE THIS FOR CROSS-PLATFORM DETERMINISM
-from smartpasslib.generators.smart import SmartPasswordGenerator
-password = SmartPasswordGenerator.generate("my_secret", 16)
-# Output: 560wjO-w3Kcl&Tc0 (DIFFERENT from v2.x!)
-# Same secret gives SAME password on Python, Go, Kotlin, JS!
-```
-
-**Action required:**
-1. Old code still works, but produces DIFFERENT passwords than before
-2. If you need the OLD behavior → pin to `smartpasslib==2.2.2`
-3. If you migrate to v3.x → re-generate all passwords for your services
-
-**Why the change:**
-- v2.x used `random.seed()` + SHA3-512 (Python-specific)
-- v3.x uses SHA-256 (cross-platform standard)
-- Same input → different output by design (different algorithm)
 
 ---
 
@@ -236,7 +192,7 @@ password = SmartPasswordMaster.generate_smart_password(
     length=12
 )
 print(f"Your discovered password: {password}")
-# Output: i&h!lLy&ONxC
+# Your discovered password: i&h!lLy&ONxC
 ```
 
 ## Verification Without Storage
@@ -259,23 +215,6 @@ print(is_valid)  # True
 
 ---
 
-## Cross-Platform Compatibility
-
-smartpasslib Python produces **identical passwords** to:
-
-| Platform   | Repository                                                                                                                |
-|------------|:--------------------------------------------------------------------------------------------------------------------------|
-| Python     | [smartpasslib](https://github.com/smartlegionlab/smartpasslib)                                                            |
-| JavaScript | [smartpasslib-js](https://github.com/smartlegionlab/smartpasslib-js)                                                      |
-| Kotlin     | [smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin)                                              |
-| Go         | [smartpasslib-go](https://github.com/smartlegionlab/smartpasslib-go)                                                      |
-| Web        | [Web Manager](https://github.com/smartlegionlab/smart-password-manager-web)                                               |
-| Android    | [Android Manager](https://github.com/smartlegionlab/smart-password-manager-android)                                       |
-| Desktop    | [Desktop Manager](https://github.com/smartlegionlab/smart-password-manager-desktop)                                       |
-| CLI        | [CLI PassMan](https://github.com/smartlegionlab/clipassman) / [CLI PassGen](https://github.com/smartlegionlab/clipassgen) |
-
----
-
 ## Core Components
 
 ### SmartPasswordMaster - Main Interface
@@ -285,10 +224,10 @@ from smartpasslib import SmartPasswordMaster
 
 # Generate different types of passwords
 base_password = SmartPasswordMaster.generate_base_password(length=12)
-# Output example: JcAmAN-QIXHm
+# Output example: MG-QwPHu6a*y
 
 strong_password = SmartPasswordMaster.generate_strong_password(length=14)
-# Output example: YFYCkqg#8W!_pH
+# Output example: 7u-IOW7$#K*FHd
 
 smart_password = SmartPasswordMaster.generate_smart_password("my_secret_key", 12)
 # Output: i&h!lLy&ONxC
@@ -311,7 +250,7 @@ from smartpasslib import SmartPasswordManager, SmartPassword, SmartPasswordMaste
 manager = SmartPasswordManager()
 
 # Store verification metadata (not the password and not secret phrase!)
-public_key = SmartPasswordMaster.generate_public_key("github_secret")
+public_key = SmartPasswordMaster.generate_public_key("MyStrongSecretPhrase2026!")
 smart_pass = SmartPassword(
     public_key=public_key,
     description="GitHub account",
@@ -322,10 +261,10 @@ manager.add_smart_password(smart_pass)
 # Retrieve and regenerate password when needed
 stored_metadata = manager.get_smart_password(public_key)
 regenerated_password = SmartPasswordMaster.generate_smart_password(
-    "github_secret",
+    "MyStrongSecretPhrase2026!",
     stored_metadata.length
 )
-print(regenerated_password) # 3vQW6WHsbTo6YanMLJ
+print(regenerated_password) # im5daDg77!drK7-lan
 ```
 
 ### Generators
@@ -396,71 +335,17 @@ password = vault.get_password(key, "my_account_secret")
 
 ---
 
-## Ecosystem
-
-**Core Libraries:**
-- **[smartpasslib](https://github.com/smartlegionlab/smartpasslib)** - Python implementation
-- **[smartpasslib-js](https://github.com/smartlegionlab/smartpasslib-js)** - JavaScript implementation
-- **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin)** - Kotlin implementation
-- **[smartpasslib-go](https://github.com/smartlegionlab/smartpasslib-go)** - Go implementation
-
-**Applications:**
-- **[Desktop Manager](https://github.com/smartlegionlab/smart-password-manager-desktop)** - Cross-platform desktop app
-- **[CLI PassMan](https://github.com/smartlegionlab/clipassman)** - Console password manager
-- **[CLI PassGen](https://github.com/smartlegionlab/clipassgen)** - Console password generator
-- **[Web Manager](https://github.com/smartlegionlab/smart-password-manager-web)** - Web interface
-- **[Android Manager](https://github.com/smartlegionlab/smart-password-manager-android)** - Mobile Android app
-
----
-
-## For Developers
-
-### Development Setup
-
-```bash
-pip install -r data/requirements-dev.txt
-pytest -v --cov=smartpasslib --cov-report=html
-python -m build
-```
-
-### Testing Coverage
-
-**100% test coverage** - All components thoroughly tested
-
-![Test Coverage](https://github.com/smartlegionlab/smartpasslib/raw/master/data/images/cov.png)
-
-### API Stability
-
-**Public API** (stable):
-- `SmartPasswordMaster` - Main interface class
-- `SmartPasswordManager` - Metadata management
-- `SmartPassword` - Password metadata container
-- `SmartPasswordFactory` - Factory for creating metadata
-
-**Internal API** (subject to change):
-- `smartpasslib.generators.*`
-- `smartpasslib.factories.*`
-- `smartpasslib.utils.*`
-
----
-
-## License
-
-**[BSD 3-Clause License](https://github.com/smartlegionlab/smartpasslib/blob/master/LICENSE)**
-
-Copyright (©) 2026, [Alexander Suvorov](https://github.com/smartlegionlab)
-
----
-
-## Support
-
-- **Issues**: [GitHub Issues](https://github.com/smartlegionlab/smartpasslib/issues)
-- **Documentation**: Inline code [documentation](https://github.com/smartlegionlab/smartpasslib/blob/master/README.md)
-- **Tests**: 100% coverage ensures reliability
-
----
-
 ## Security Warnings
+
+### Decentralized Nature
+
+**There is no "forgot password" button.** This is by design:
+
+- No central server can reset your passwords
+- No support team can recover your access
+- Your secret phrase is the ONLY key
+
+**This is the price of true decentralization** — you are completely in control.
 
 ### Security Requirements
 
@@ -503,4 +388,91 @@ Copyright (©) 2026, [Alexander Suvorov](https://github.com/smartlegionlab)
 **NEVER use your password description as secret phrase**
 
 ---
+
+## Cross-Platform Implementations
+
+The same deterministic algorithm is available in multiple languages.
+smartpasslib Python produces **identical passwords** to:
+
+| Language   | Repository                                                                   |
+|------------|:-----------------------------------------------------------------------------|
+| JavaScript | [smartpasslib-js](https://github.com/smartlegionlab/smartpasslib-js)         |
+| Kotlin     | [smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin) |
+| Go         | [smartpasslib-go](https://github.com/smartlegionlab/smartpasslib-go)         |
+| C#         | [smartpasslib-csharp](https://github.com/smartlegionlab/smartpasslib-csharp) |
+
+---
+
+## Ecosystem
+
+**Core Libraries:**
+- **[smartpasslib](https://github.com/smartlegionlab/smartpasslib)** - Python (this)
+- **[smartpasslib-js](https://github.com/smartlegionlab/smartpasslib-js)** - JavaScript
+- **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin)** - Kotlin
+- **[smartpasslib-go](https://github.com/smartlegionlab/smartpasslib-go)** - Go
+- **[smartpasslib-csharp](https://github.com/smartlegionlab/smartpasslib-csharp)** - C#
+
+**CLI Applications:**
+- **[CLI Smart Password Manager (Python)](https://github.com/smartlegionlab/clipassman)**
+- **[CLI Smart Password Generator (Python)](https://github.com/smartlegionlab/clipassgen)**
+- **[CLI Smart Password Manager (C#)](https://github.com/smartlegionlab/SmartPasswordManagerCsharpCli)**
+- **[CLI Smart Password Generator (C#)](https://github.com/smartlegionlab/SmartPasswordGeneratorCsharpCli)** 
+
+**Desktop Applications:**
+- **[Desktop Smart Password Manager (Python)](https://github.com/smartlegionlab/smart-password-manager-desktop)**
+- **[Desktop Smart Password Manager (C#)](https://github.com/smartlegionlab/SmartPasswordManagerCsharpDesktop)**
+
+**Other:**
+- **[Smart Password Web Manager](https://github.com/smartlegionlab/smart-password-manager-web)**
+- **[Smart Password Android Manager](https://github.com/smartlegionlab/smart-password-manager-android)**
+
+---
+
+## License
+
+**[BSD 3-Clause License](https://github.com/smartlegionlab/smartpasslib/blob/master/LICENSE)**
+
+Copyright (©) 2026, [Alexander Suvorov](https://github.com/smartlegionlab)
+
+---
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/smartlegionlab/smartpasslib/issues)
+- **Documentation**: Inline code [documentation](https://github.com/smartlegionlab/smartpasslib/blob/master/README.md)
+- **Tests**: 100% coverage ensures reliability
+
+---
+
+## For Developers
+
+### Development Setup
+
+```bash
+pip install -r data/requirements-dev.txt
+pytest -v --cov=smartpasslib --cov-report=html
+python -m build
+```
+
+### Testing Coverage
+
+**100% test coverage** - All components thoroughly tested
+
+![Test Coverage](https://github.com/smartlegionlab/smartpasslib/raw/master/data/images/cov.png)
+
+### API Stability
+
+**Public API** (stable):
+- `SmartPasswordMaster` - Main interface class
+- `SmartPasswordManager` - Metadata management
+- `SmartPassword` - Password metadata container
+- `SmartPasswordFactory` - Factory for creating metadata
+
+**Internal API** (subject to change):
+- `smartpasslib.generators.*`
+- `smartpasslib.factories.*`
+- `smartpasslib.utils.*`
+
+---
+
 
