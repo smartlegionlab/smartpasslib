@@ -20,6 +20,13 @@ class BasePasswordGenerator(PasswordChars):
         Returns:
             str: Randomly generated password (different every time)
         """
+
+        if length < 12:
+            raise ValueError("Password length must be at least 12 characters")
+
+        if length > 100:
+            raise ValueError("Password length cannot exceed 100 characters")
+
         return ''.join(secrets.choice(cls.all()) for _ in range(length))
 
     @classmethod
