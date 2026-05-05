@@ -39,7 +39,6 @@ class SmartKeyGenerator:
         hash_value = cls.get_hash(f"{secret}:{salt}")
         hash_int = int(hash_value[:8], 16)
         steps = min_steps + (hash_int % (max_steps - min_steps + 1))
-        print(steps)
         return steps
 
     @classmethod
