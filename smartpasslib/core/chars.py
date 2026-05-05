@@ -12,7 +12,7 @@ class PasswordChars:
     uppercase = string.ascii_uppercase
     letters = lowercase + uppercase
     digits = string.digits
-    symbols = '!@*-_+=.,?;:'
+    symbols = '!@#$%^&*()_+-=[]{};:,.<>?/'
 
     @classmethod
     def all(cls) -> str:
