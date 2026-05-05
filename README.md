@@ -1,4 +1,4 @@
-# SmartPassLib <sup>v3.1.0</sup>
+# SmartPassLib <sup>v4.0.0</sup>
 
 ---
 
@@ -40,11 +40,11 @@ smartpasslib stores nothing. Your secrets never leave your device. Passwords are
 
 ---
 
-## 🔄 Breaking Change (v3.1.0)
+## 🔄 Breaking Change (v4.0.0)
 
-> **⚠️ This version is NOT backward compatible with v1.x.x and v2.x.x**
+> **⚠️ This version is NOT backward compatible with v1.x.x, v2.x.x, or v3.x.x**
 
-Passwords generated with older versions **cannot be regenerated** with v3.x.x.
+Passwords generated with older versions **cannot be regenerated** with v4.0.0.
 
 📖 **Full migration instructions** → see [MIGRATION.md](https://github.com/smartlegionlab/smartpasslib/blob/master/MIGRATION.md)
 
@@ -101,6 +101,7 @@ Your passwords exist only when you generate them. Your secrets never leave your 
 - **Proof of Knowledge**: Verify you know a secret without storing or transmitting it
 - **Decentralized Trust**: No third party needed — you control your secrets completely
 - **Deterministic Security**: Same input = same output, always reproducible across platforms
+- **Dynamic Iteration Counts**: Private key uses 15-30 iterations, public key uses 45-60 iterations (deterministic per secret)
 - **No Vulnerable Metadata Storage**: Only public keys and descriptions can be stored (optional). Private keys and secret phrases are NEVER stored anywhere
 - **Zero Storage of Secrets**: Secret phrases exist only in your memory, private keys are derived on-demand and never persisted
 - **No Recovery Backdoors**: Lost secret = permanently lost passwords (by design)
@@ -183,16 +184,15 @@ Configuration files are stored in:
 ```python
 from smartpasslib import SmartPasswordMaster
 
-# Your secret phrase is the only key needed
-secret = "my_secret_key"
+# Your secret phrase is the only key needed (min 12 characters!)
+secret = "my_strong_secret_key"
 
-# Discover the password (CROSS-PLATFORM!)
+# Generate the password (CROSS-PLATFORM!)
 password = SmartPasswordMaster.generate_smart_password(
     secret=secret, 
     length=12
 )
-print(f"Your discovered password: {password}")
-# Your discovered password: i&h!lLy&ONxC
+print(f"Your generated password: {password}")
 ```
 
 ## Verification Without Storage
@@ -202,12 +202,12 @@ from smartpasslib import SmartPasswordMaster
 
 # Generate a public verification key (store this, not the password)
 public_key = SmartPasswordMaster.generate_public_key(
-    secret="my_secret_key"
+    secret="my_strong_secret_key"
 )
 
 # Later, verify you know the secret without revealing it
 is_valid = SmartPasswordMaster.check_public_key(
-    secret="my_secret_key",
+    secret="my_strong_secret_key",
     public_key=public_key
 )
 print(is_valid)  # True
@@ -229,12 +229,12 @@ base_password = SmartPasswordMaster.generate_base_password(length=12)
 strong_password = SmartPasswordMaster.generate_strong_password(length=14)
 # Output example: 7u-IOW7$#K*FHd
 
-smart_password = SmartPasswordMaster.generate_smart_password("my_secret_key", 12)
-# Output: i&h!lLy&ONxC
+smart_password = SmartPasswordMaster.generate_smart_password("my_strong_secret_key", 12)
+# Output deterministic password (min 12 chars secret required)
 
 # Generate and verify keys
-public_key = SmartPasswordMaster.generate_public_key("my_secret_key")
-is_valid = SmartPasswordMaster.check_public_key("my_secret_key", public_key)
+public_key = SmartPasswordMaster.generate_public_key("my_strong_secret_key")
+is_valid = SmartPasswordMaster.check_public_key("my_strong_secret_key", public_key)
 print(f"Verification: {is_valid}")  # Verification: True
 
 # Generate secure codes
@@ -264,7 +264,7 @@ regenerated_password = SmartPasswordMaster.generate_smart_password(
     "MyStrongSecretPhrase2026!",
     stored_metadata.length
 )
-print(regenerated_password) # im5daDg77!drK7-lan
+print(regenerated_password)
 ```
 
 ### Generators
@@ -294,8 +294,8 @@ code = CodeGenerator.generate(6)
 ```python
 from smartpasslib.generators.smart import SmartPasswordGenerator
 
-password = SmartPasswordGenerator.generate("my_secret_key", 12)
-# Output: i&h!lLy&ONxC (SAME on Go, Kotlin, JS!)
+password = SmartPasswordGenerator.generate("my_strong_secret_key", 12)
+# Same secret + length = identical password on Python, Go, Kotlin, JS, C#
 ```
 
 ---
@@ -312,6 +312,8 @@ class PasswordVault:
         self.manager = SmartPasswordManager()
     
     def add_service(self, service_name: str, secret: str, length: int = 16):
+        if len(secret) < 12:
+            raise ValueError("Secret must be at least 12 characters")
         public_key = SmartPasswordMaster.generate_public_key(secret)
         metadata = SmartPassword(
             public_key=public_key,
@@ -329,8 +331,8 @@ class PasswordVault:
 
 # Usage
 vault = PasswordVault()
-key = vault.add_service("My Account", "my_account_secret", 20)
-password = vault.get_password(key, "my_account_secret")
+key = vault.add_service("My Account", "my_account_secret_2026!", 20)
+password = vault.get_password(key, "my_account_secret_2026!")
 ```
 
 ---
@@ -350,9 +352,10 @@ password = vault.get_password(key, "my_account_secret")
 ### Security Requirements
 
 #### Secret Phrase
-- **Minimum 12 characters** (enforced)
+- **Minimum 12 characters** (enforced by library)
+- **Maximum length**: No enforced limit, but 12-100 recommended
 - Case-sensitive
-- Use mix of: uppercase, lowercase, numbers, symbols, emoji, or Cyrillic
+- Use mix of: uppercase, lowercase, numbers, symbols
 - Never store digitally
 - **NEVER use your password description as secret phrase**
 
@@ -360,18 +363,22 @@ password = vault.get_password(key, "my_account_secret")
 ```
 ✅ "MyCatHippo2026"          — mixed case + numbers
 ✅ "P@ssw0rd!LongSecret"     — special chars + numbers + length
-✅ "КотБегемот2026НаДиете"   — Cyrillic + numbers
 ✅ "GitHubPersonal2026!"     — description + extra chars (but not the description alone)
 ```
 
 #### Weak Secret Examples (avoid)
 ```
+❌ "short"                   — too short, raises ValueError
 ❌ "GitHub Account"          — using description as secret (weak!)
 ❌ "password"                — dictionary word, too short
 ❌ "1234567890"              — only digits, too short
-❌ "qwerty123"               — keyboard pattern
-❌ Same as description       — never use the same value as password description
 ```
+
+### Password Length Requirements
+
+- **Minimum length**: 12 characters (enforced)
+- **Maximum length**: 100 characters (enforced)
+- **Code generator**: 4-100 characters
 
 ### Secret Phrase Security
 
@@ -469,7 +476,6 @@ python -m build
 
 **Internal API** (subject to change):
 - `smartpasslib.generators.*`
-- `smartpasslib.factories.*`
 - `smartpasslib.utils.*`
 
 ---
