@@ -1,54 +1,57 @@
-# Migration Guide: v1.x.x / v2.x.x to v3.x.x
+# Migration Guide: v1.x.x / v2.x.x / v3.x.x to v4.0.0
 
 ## ⚠️ Breaking Change Notice
 
-**smartpasslib v3.x.x is NOT backward compatible with v1.x.x and v2.x.x**
+**smartpasslib v4.0.0 is NOT backward compatible with v1.x.x, v2.x.x, or v3.x.x**
 
-| Version    | Status      | Why                                                     |
-|------------|-------------|---------------------------------------------------------|
-| v1.x.x     | Deprecated  | Used `random.choice()`, `login` - insecure              |
-| v2.x.x     | Deprecated  | Used `random.seed()` - Python-only deterministic        |
-| **v3.x.x** | **Current** | Uses **SHA-256** - cross-platform deterministic         |
+| Version    | Status      | Why                                                         |
+|------------|-------------|-------------------------------------------------------------|
+| v1.x.x     | Deprecated  | Used `random.choice()`, - insecure; used `login`            |
+| v2.x.x     | Deprecated  | Used `random.seed()` - Python-only deterministic            |
+| v3.x.x     | Deprecated  | Fixed steps (30/60), limited character set                  |
+| **v4.0.0** | **Current** | Dynamic steps (15-30/45-60), expanded charset, max security |
 
-Passwords generated with older versions cannot be regenerated using v3.x.x 
+Passwords generated with older versions cannot be regenerated using v4.0.0 
 due to fundamental changes in the deterministic generation algorithm.
 
 ---
 
 ## Why the change?
 
-**smartpasslib v3.x.x introduces fundamental improvements:**
+**smartpasslib v4.0.0 introduces fundamental improvements:**
 
-- **Cross-platform determinism** — same secret → same password on Python, Go, Kotlin, JavaScript, C#
-- **Decentralized by design** — no central servers, no cloud dependency, complete user sovereignty
-- **Stronger cryptographic algorithm** — enhanced deterministic generation with better entropy distribution
-- **Improved performance** — faster password generation, especially for longer passwords
-- **Extended character set support** — wider range of special characters for stronger passwords
-- **Future-ready architecture** — simplified updates and security patching
+- **Dynamic iteration counts** — deterministic steps vary per secret (15-30 for private, 45-60 for public)
+- **Expanded character set** — Google-compatible symbols: `!@#$%^&*()_+-=[]{};:,.<>?/`
+- **Enhanced key derivation** — salt separation for public/private keys
+- **Unified length validation** — password length must be 12-100 characters
+- **Input validation** — secret phrases must be at least 12 characters
+- **Maximum security** — no secret exposure in logs or iterations
 
 ---
 
 ## What changed:
 
-- `SmartPasswordGenerator` now uses **SHA-256** instead of `random.seed()` and SHA3-512
-- `BasePasswordGenerator` now uses **`secrets.choice()`** instead of `random.choice()`
-- Character set changed: `!@#$%&^_` → `!@#$&*-_` (removed `^` and `%`, added `*` and `-`)
-- Deterministic passwords now work identically across **all programming languages**
-- Old metadata (`passwords.json`) will produce **different passwords** if used with v3.x.x
+- Private key steps: dynamic (15-30 instead of fixed 30)
+- Public key steps: dynamic (45-60 instead of fixed 60)
+- Character set: expanded to Google-compatible symbols
+- Password length: min 12, max 100 (was min 4)
+- Secret validation: min 12 characters (enforced)
+- `SmartPasswordFactory` removed (use `SmartPassword` directly)
+- Old metadata (`passwords.json`) will produce **different passwords** if used with v4.0.0
 
 ---
 
-## Migration Steps
+## Migration Steps from v3.x.x to v4.0.0
 
-### Step 1: Install old version
+### Step 1: Install old version (if on v3.x.x)
 
 ```bash
-pip install smartpasslib==2.2.2
+pip install smartpasslib==3.0.2
 ```
 
 ### Step 2: Retrieve existing passwords
 
-For each service, generate the actual password using your secret phrase and the old version:
+For each service, generate the actual password using your secret phrase:
 
 ```python
 from smartpasslib.generators.smart import SmartPasswordGenerator
@@ -58,7 +61,7 @@ old_password = SmartPasswordGenerator.generate("your_secret_phrase", length)
 
 Keep these passwords accessible during migration.
 
-### Step 3: Upgrade to v3.x.x
+### Step 3: Upgrade to v4.0.0
 
 ```bash
 pip install --upgrade smartpasslib
@@ -89,13 +92,20 @@ Replace old passwords with newly generated ones on each website/service.
 
 - **No automatic migration** — manual regeneration required for each password
 - **Your secret phrases remain the same** — only generated passwords change
-- Old version still available: `pip install smartpasslib==2.2.2`
+- **Secret phrases shorter than 12 characters will now raise ValueError**
+- **Password lengths shorter than 12 or longer than 100 will now raise ValueError**
+- Older versions still available: `pip install smartpasslib==3.1.0`
 - Test with non-essential accounts first
+
+---
+
+## Migration from v1.x.x / v2.x.x
+
+First migrate to v3.x.x following the v3 migration guide, then to v4.0.0.
 
 ---
 
 ## Need Help?
 
 - **Issues**: [GitHub Issues](https://github.com/smartlegionlab/smartpasslib/issues)
-- **Core Library Issues**: [smartpasslib Issues](https://github.com/smartlegionlab/smartpasslib/issues)
 
