@@ -13,7 +13,7 @@ def test_description():
 
 @pytest.fixture
 def test_secret():
-    return "secret123"
+    return "secret123secret123"
 
 
 @pytest.fixture

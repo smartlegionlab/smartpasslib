@@ -4,7 +4,7 @@ from smartpasslib.generators.smart import SmartPasswordGenerator
 
 class TestSmartPasswordGenerator:
     def test_generate_with_seed(self):
-        seed = "test_seed"
+        seed = "secret123secret123"
         password1 = SmartPasswordGenerator.generate(seed=seed)
         password2 = SmartPasswordGenerator.generate(seed=seed)
         assert password1 == password2
