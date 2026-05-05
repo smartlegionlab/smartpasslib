@@ -33,17 +33,17 @@ class TestPasswordChars:
 
     def test_symbols(self):
         """Test symbols."""
-        expected_symbols = '!@#$&*-_'
+        expected_symbols = '!@#$%^&*()_+-=[]{};:,.<>?/'
         assert PasswordChars.symbols == expected_symbols
-        assert len(PasswordChars.symbols) == 8
+        assert len(PasswordChars.symbols) == 26
         # Verify no unwanted characters
         assert all(not c.isalnum() for c in PasswordChars.symbols)
 
     def test_all_method(self):
         """Test all() method returns combined character set."""
-        expected = PasswordChars.letters + PasswordChars.digits + PasswordChars.symbols
+        expected = PasswordChars.symbols + PasswordChars.uppercase + PasswordChars.digits + PasswordChars.lowercase
         assert PasswordChars.all() == expected
-        assert len(PasswordChars.all()) == 52 + 10 + 8
+        assert len(PasswordChars.all()) == 52 + 10 + 26
         # Verify contains all expected types
         assert any(c.isalpha() for c in PasswordChars.all())
         assert any(c.isdigit() for c in PasswordChars.all())
@@ -51,9 +51,9 @@ class TestPasswordChars:
 
     def test_without_symbols_method(self):
         """Test without_symbols() method returns letters + digits only."""
-        expected = PasswordChars.letters + PasswordChars.digits
+        expected = PasswordChars.uppercase + PasswordChars.digits + PasswordChars.lowercase
         assert PasswordChars.without_symbols() == expected
-        assert len(PasswordChars.without_symbols()) == 52 + 10  # 62 characters
+        assert len(PasswordChars.without_symbols()) == 62
         # Verify NO symbols present
         assert all(c.isalnum() for c in PasswordChars.without_symbols())
         assert all(c not in PasswordChars.symbols for c in PasswordChars.without_symbols())

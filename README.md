@@ -466,7 +466,6 @@ python -m build
 - `SmartPasswordMaster` - Main interface class
 - `SmartPasswordManager` - Metadata management
 - `SmartPassword` - Password metadata container
-- `SmartPasswordFactory` - Factory for creating metadata
 
 **Internal API** (subject to change):
 - `smartpasslib.generators.*`

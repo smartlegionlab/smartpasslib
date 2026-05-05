@@ -5,7 +5,6 @@ from typing import Dict, Optional, Union
 from pathlib import Path
 
 from smartpasslib.masters.smart_password_master import SmartPasswordMaster
-from smartpasslib.factories.smart_password_factory import SmartPasswordFactory
 from smartpasslib.smart_passwords.smart_password import SmartPassword
 
 
@@ -43,7 +42,6 @@ class SmartPasswordManager:
             self.filename = str(Path(filename).expanduser())
 
         self.smart_passwords = self._load_data()
-        self.smart_pass_factory = SmartPasswordFactory()
 
     @property
     def passwords(self) -> Dict[str, SmartPassword]:

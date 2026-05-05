@@ -47,7 +47,6 @@ Generate passwords from secrets, verify knowledge without exposure, manage metad
 Decentralized by design — no central servers, no cloud dependency, no third-party trust required.
 """
 
-from smartpasslib.factories.smart_password_factory import SmartPasswordFactory
 from smartpasslib.generators.base import BasePasswordGenerator
 from smartpasslib.generators.hash import HashGenerator
 from smartpasslib.generators.key import SmartKeyGenerator
@@ -70,7 +69,6 @@ __all__ = [
     "BasePasswordGenerator",
     "StrongPasswordGenerator",
     "SmartPasswordGenerator",
-    "SmartPasswordFactory",
     "SmartPasswordManager",
     "SmartPassword",
     "CodeGenerator",
