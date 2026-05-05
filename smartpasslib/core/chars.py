@@ -12,14 +12,14 @@ class PasswordChars:
     uppercase = string.ascii_uppercase
     letters = lowercase + uppercase
     digits = string.digits
-    symbols = '!@#$&*-_'
+    symbols = '!@*-_+=.,?;:'
 
     @classmethod
     def all(cls) -> str:
         """All characters combined"""
-        return cls.letters + cls.digits + cls.symbols
+        return cls.symbols + cls.uppercase + cls.digits + cls.lowercase
 
     @classmethod
     def without_symbols(cls) -> str:
         """Letters and digits only"""
-        return cls.letters + cls.digits
+        return cls.uppercase + cls.digits + cls.lowercase
