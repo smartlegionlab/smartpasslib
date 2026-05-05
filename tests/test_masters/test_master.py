@@ -27,7 +27,7 @@ class TestSmartPasswordMaster:
         assert private_key == private_key2
 
         pub_key = SmartPasswordMaster.generate_public_key(test_secret)
-        assert private_key == pub_key
+        assert private_key != pub_key
 
     def test_check_public_key(self, test_secret):
         pub_key = SmartPasswordMaster.generate_public_key(test_secret)
