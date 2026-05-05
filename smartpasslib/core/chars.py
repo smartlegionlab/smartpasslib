@@ -1,17 +1,18 @@
 # Copyright (©) 2026, Alexander Suvorov. All rights reserved.
-import string
 
 
 class PasswordChars:
     """
     Shared character sets for all password generators.
     Centralized to avoid duplication across classes.
+    !!! CROSS-PLATFORM STANDARD !!!
+    All implementations (Python, C#, Go, JS, Kotlin) MUST use this exact string:
+    "!@#$%^&*()_+-=[]{};:,.<>?/ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
     """
-
-    lowercase = string.ascii_lowercase
-    uppercase = string.ascii_uppercase
-    letters = lowercase + uppercase
-    digits = string.digits
+    BASE_STRING = "!@#$%^&*()_+-=[]{};:,.<>?/ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
+    lowercase = "abcdefghijklmnopqrstuvwxyz"
+    uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    digits = "0123456789"
     symbols = '!@#$%^&*()_+-=[]{};:,.<>?/'
 
     @classmethod

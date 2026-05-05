@@ -5,7 +5,7 @@ import pytest
 from smartpasslib.generators.code import CodeGenerator
 
 
-class TestBasePasswordGenerator:
+class TestCodeGenerator:
     def test_generate_default_length(self):
         password = CodeGenerator.generate(6)
         assert len(password) == 6
@@ -28,6 +28,10 @@ class TestBasePasswordGenerator:
         assert any(c in string.digits for c in password)
         assert any(c in CodeGenerator.symbols for c in password)
 
+    def test_generate_max_length(self):
+        password = CodeGenerator.generate(100)
+        assert len(password) == 100
+
     def test_generate_raises_error_for_short_length(self):
         with pytest.raises(ValueError, match="The code length must be at least 4 characters"):
             CodeGenerator.generate(3)
@@ -37,3 +41,7 @@ class TestBasePasswordGenerator:
 
         with pytest.raises(ValueError, match="The code length must be at least 4 characters"):
             CodeGenerator.generate(-1)
+
+    def test_generate_raises_error_for_long_length(self):
+        with pytest.raises(ValueError, match="The code length cannot exceed 100 characters"):
+            CodeGenerator.generate(200)

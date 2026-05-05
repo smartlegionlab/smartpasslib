@@ -169,13 +169,15 @@ Configuration files are stored in:
 | Platform | Configuration Path                                                |
 |----------|-------------------------------------------------------------------|
 | Linux    | `~/.config/smart_password_manager/passwords.json`                 |
-| macOS    | `~/.config/smart_password_manager/passwords.json`                 |
 | Windows  | `C:\Users\Username\.config\smart_password_manager\passwords.json` |
 
-**Legacy Migration**: 
-- Old `~/.cases.json` files are automatically migrated on first use
-- Original file is backed up as `~/.cases.json.bak`
-- Migration is one-time and non-destructive
+**Legacy Migration**:
+- Old `~/.cases.json` files from v1.x.x/v2.x.x/v3.x.x are **NOT compatible** with v4.0.0
+- Public keys in old files use different derivation (fixed iterations, no salt)
+- These files will **not** be migrated automatically
+- If you have existing metadata, you need to recreate entries manually
+- Keep old file as backup: `~/.cases.json.v3.bak`
+- See [MIGRATION.md](MIGRATION.md) for detailed instructions
 
 ---
 
@@ -439,7 +441,7 @@ smartpasslib Python produces **identical passwords** to:
 
 **[BSD 3-Clause License](https://github.com/smartlegionlab/smartpasslib/blob/master/LICENSE)**
 
-Copyright (©) 2026, [Alexander Suvorov](https://github.com/smartlegionlab)
+Copyright (©) 2026, [Alexander Suvorov](https://github.com/smartlegionlab) 
 
 ---
 

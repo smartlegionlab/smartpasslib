@@ -10,15 +10,18 @@
 #
 # Key derivation:
 #
-#  - Private key: 30 iterations of SHA-256 (used for password generation,
-#    never stored anywhere, generated on the fly, upon request)
-#  - Public Key: 60 iterations of SHA-256 (used for verification,
-#    stored locally, does not require secure storage)
+#  - Private key: 15-30 iterations (dynamic, deterministic per secret, never stored)
+#  - Public key: 45-60 iterations (dynamic, deterministic per secret, stored for verification)
 #
 # Secret phrase:
 #   - is not transferred anywhere
 #   - is not stored anywhere
 #   - is required to generate the private key when creating a smart password
+#   - minimum 12 characters (enforced)
+#
+# Password length:
+#   - minimum 12 characters (enforced)
+#   - maximum 100 characters (enforced)
 #
 # ----------------------------------------------------------------------------------------------------------------------
 # Ecosystem:
