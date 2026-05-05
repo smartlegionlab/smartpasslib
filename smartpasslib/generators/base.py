@@ -15,7 +15,7 @@ class BasePasswordGenerator(PasswordChars):
         Generate a cryptographically secure random password.
 
         Args:
-            length: Length of password to generate (default: 12)
+            length: Length of password to generate (default: 12) min 12; max 100;
 
         Returns:
             str: Randomly generated password (different every time)
