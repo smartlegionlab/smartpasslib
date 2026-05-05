@@ -8,6 +8,20 @@ class SmartKeyGenerator:
     Uses SHA-256 for cross-platform compatibility.
     """
 
+    @staticmethod
+    def _validate_secret(secret: str) -> None:
+        """
+        Validate secret phrase length.
+
+        Args:
+            secret: Secret phrase to validate
+
+        Raises:
+            ValueError: If secret is less than 12 characters
+        """
+        if len(str(secret)) < 12:
+            raise ValueError("Secret phrase must be at least 12 characters")
+
     @classmethod
     def _create_key(cls, secret: str, steps: int = 30) -> str:
         """
@@ -15,22 +29,20 @@ class SmartKeyGenerator:
         """
         all_hash = cls.get_hash(secret)
         for i in range(steps):
-            temp_string = f"{all_hash}:{secret}:{i}"
+            temp_string = f"{all_hash}:{i}"
             all_hash = cls.get_hash(temp_string)
         return all_hash
 
     @classmethod
     def generate_public_key(cls, secret: str) -> str:
-        """
-        Generate a public verification key from secret phrase.
-        """
+        """Generate a public verification key from secret phrase."""
+        cls._validate_secret(secret)
         return cls._create_key(secret=secret, steps=60)
 
     @classmethod
     def generate_private_key(cls, secret: str) -> str:
-        """
-        Generate a private key from secret phrase.
-        """
+        """Generate a private key from secret phrase."""
+        cls._validate_secret(secret)
         return cls._create_key(secret=secret, steps=30)
 
     @classmethod
@@ -38,6 +50,7 @@ class SmartKeyGenerator:
         """
         Verify if a key matches the secret phrase.
         """
+        cls._validate_secret(secret)
         return cls.generate_public_key(secret=secret) == key
 
     @classmethod
