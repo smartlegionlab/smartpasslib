@@ -75,6 +75,12 @@ class TestSmartPasswordManager:
         password_custom = SmartPasswordManager.generate_base_password(20)
         assert len(password_custom) == 20
 
+        with pytest.raises(ValueError, match="Password length must be at least 12 characters"):
+            SmartPasswordManager.generate_base_password(8)
+
+        with pytest.raises(ValueError, match="Password length cannot exceed 100 characters"):
+            SmartPasswordManager.generate_base_password(200)
+
     def test_generate_smart_password(self, test_secret):
         password = SmartPasswordManager.generate_smart_password(test_secret)
         assert isinstance(password, str)
@@ -83,16 +89,28 @@ class TestSmartPasswordManager:
         password_custom = SmartPasswordManager.generate_smart_password(test_secret, 16)
         assert len(password_custom) == 16
 
+        with pytest.raises(ValueError, match="Secret phrase must be at least 12 characters"):
+            SmartPasswordManager.generate_smart_password("short", 12)
+
+        with pytest.raises(ValueError, match="Password length must be at least 12 characters"):
+            SmartPasswordManager.generate_smart_password(test_secret, 8)
+
     def test_generate_public_key(self, test_secret):
         public_key = SmartPasswordManager.generate_public_key(test_secret)
         assert isinstance(public_key, str)
         assert len(public_key) > 0
+
+        with pytest.raises(ValueError, match="Secret phrase must be at least 12 characters"):
+            SmartPasswordManager.generate_public_key("short")
 
     def test_check_public_key(self, test_secret):
         public_key = SmartPasswordManager.generate_public_key(test_secret)
         assert SmartPasswordManager.check_public_key(test_secret, public_key) is True
         assert SmartPasswordManager.check_public_key("wrong_secret", public_key) is False
         assert SmartPasswordManager.check_public_key(test_secret, "wrong_key") is False
+
+        with pytest.raises(ValueError, match="Secret phrase must be at least 12 characters"):
+            SmartPasswordManager.check_public_key("short", public_key)
 
     def test_update_smart_password(self, temp_file, test_password):
         manager = SmartPasswordManager(filename=temp_file)
@@ -130,8 +148,11 @@ class TestSmartPasswordManager:
         manager = SmartPasswordManager(filename=temp_file)
         manager.add_smart_password(test_password)
 
-        with pytest.raises(ValueError, match="Password length must be at least 1 character"):
-            manager.update_smart_password(test_password.public_key, length=0)
+        with pytest.raises(ValueError, match="Password length must be at least 12 characters"):
+            manager.update_smart_password(test_password.public_key, length=8)
+
+        with pytest.raises(ValueError, match="Password length cannot exceed 100 characters"):
+            manager.update_smart_password(test_password.public_key, length=200)
 
         original = manager.get_smart_password(test_password.public_key)
         assert original.length == test_password.length
@@ -232,7 +253,6 @@ class TestSmartPasswordManager:
         assert isinstance(manager.smart_passwords, dict)
 
     def test_write_data_permission_error(self, temp_file, monkeypatch, test_password):
-
         def mock_open(*args, **kwargs):
             raise IOError("Permission denied")
 
@@ -308,14 +328,10 @@ class TestSmartPasswordManager:
 
         monkeypatch.setattr("shutil.copy2", mock_copy)
 
-        import io
-        import sys
-        captured = io.StringIO()
-        sys.stderr = captured
-
-        manager = SmartPasswordManager()
-
-        sys.stderr = sys.__stderr__
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            manager = SmartPasswordManager()
 
         assert manager.file_path == str(mock_home / '.config' / 'smart_password_manager' / 'passwords.json')
         assert old_file.exists()
