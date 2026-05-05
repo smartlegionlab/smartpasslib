@@ -95,6 +95,9 @@ class TestSmartPasswordManager:
         with pytest.raises(ValueError, match="Password length must be at least 12 characters"):
             SmartPasswordManager.generate_smart_password(test_secret, 8)
 
+        with pytest.raises(ValueError, match="Password length cannot exceed 100 characters"):
+            SmartPasswordManager.generate_smart_password(test_secret, 200)
+
     def test_generate_public_key(self, test_secret):
         public_key = SmartPasswordManager.generate_public_key(test_secret)
         assert isinstance(public_key, str)
@@ -187,8 +190,11 @@ class TestSmartPasswordManager:
         assert password.description == "Final Description"
         assert password.length == 16
 
-        with pytest.raises(ValueError, match="Password length must be at least 1 character"):
-            password.update(length=0)
+        with pytest.raises(ValueError, match="Password length must be at least 12 characters"):
+            password.update(length=8)
+
+        with pytest.raises(ValueError, match="Password length cannot exceed 100 characters"):
+            password.update(length=200)
 
     def test_smart_password_update_preserves_public_key(self, temp_file, test_password):
         manager = SmartPasswordManager(filename=temp_file)
