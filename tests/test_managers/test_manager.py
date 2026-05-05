@@ -211,7 +211,7 @@ class TestSmartPasswordManager:
     def test_check_public_key_class_method(self, test_secret):
         key = SmartPasswordManager.generate_public_key(test_secret)
         assert SmartPasswordManager.check_public_key(test_secret, key) is True
-        assert SmartPasswordManager.check_public_key("wrong", key) is False
+        assert SmartPasswordManager.check_public_key("wrong_test_secret", key) is False
 
     def test_passwords_property_returns_dict(self, temp_file, test_password):
         manager = SmartPasswordManager(filename=temp_file)

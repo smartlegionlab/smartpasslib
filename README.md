@@ -1,4 +1,4 @@
-# SmartPassLib <sup>v3.0.2</sup>
+# SmartPassLib <sup>v3.1.0</sup>
 
 ---
 
@@ -40,7 +40,7 @@ smartpasslib stores nothing. Your secrets never leave your device. Passwords are
 
 ---
 
-## 🔄 Breaking Change (v3.0.2)
+## 🔄 Breaking Change (v3.1.0)
 
 > **⚠️ This version is NOT backward compatible with v1.x.x and v2.x.x**
 
@@ -474,5 +474,4 @@ python -m build
 - `smartpasslib.utils.*`
 
 ---
-
 
